@@ -4,8 +4,8 @@ from django.http import HttpResponseRedirect
 
 # Create your views here.
 
-def indice(request):
-	return render(request, "truequeapp/indice.html")
+def home(request):
+	return render(request, "truequeapp/home.html")
 
 # La vista de la página de registro
 # El método devuelve el template si es requerido por GET
