@@ -46,7 +46,18 @@
 <hr>
 </div>
 <div id="Categorias">Categorías</div>
-<div id="Mensaje_de_bienvenida">Bienvenidos a ...... la mejor página para realizar tus trueques</div>
-
+<div>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <div class="alert">
+                    {{message}}
+                </div>
+            {% endfor %}
+        </ul>
+    {% else %}
+    <div id="Mensaje_de_bienvenida">Bienvenidos a ...... la mejor página para realizar tus trueques</div>
+    {% endif %}
+</div>
 </body>
 </html> 

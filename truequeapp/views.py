@@ -2,6 +2,7 @@ from django.shortcuts import render
 from truequeapp.models import User
 from django.http import HttpResponseRedirect
 from django.contrib.auth import logout as django_logout
+from django.contrib import messages
 
 # Create your views here.
 
@@ -49,6 +50,7 @@ def registro(request):
 		user = User.objects.create_user(username=nick, nombre=nombre, apellido=apellido, 
 			correo_respaldo=correo, rut=rut, numero=numero, red_social=red_social, region=region, 
 			password=contraseña)
+		messages.success(request, 'Se ha creado el usuario ' + user.username + ', bienvenido al sitio.')
 
 		#redirecciona al indice o home
 		return HttpResponseRedirect('/')
