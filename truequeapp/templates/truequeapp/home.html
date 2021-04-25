@@ -35,7 +35,16 @@
     <li>Contacto</li>
 </ul>
 </div>
-<div id="Redirecciones">Registrarse Entrar a mi cuenta</div>
+<div>
+<hr>
+{% if user.is_authenticated %}
+    <a href="{% url 'logout' %}">Cerrar sesión</a>
+{% else %}
+    <a href="{% url 'registro' %}">Registrarse</a> 
+    <a href="{% url 'login' %}">Entrar a mi cuenta</a>
+{% endif %}
+<hr>
+</div>
 <div id="Categorias">Categorías</div>
 <div id="Mensaje_de_bienvenida">Bienvenidos a ...... la mejor página para realizar tus trueques</div>
 

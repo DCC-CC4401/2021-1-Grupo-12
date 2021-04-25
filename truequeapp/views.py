@@ -1,11 +1,31 @@
 from django.shortcuts import render
 from truequeapp.models import User
 from django.http import HttpResponseRedirect
+from django.contrib.auth import logout as django_logout
 
 # Create your views here.
 
 def home(request):
 	return render(request, "truequeapp/home.html")
+
+def login(request):
+	if request.method == 'GET':
+		return render(request, 'truequeapp/login.html')
+
+	if request.method == "POST":
+		username = request.POST['nick']
+		contraseña = request.POST['contraseña']
+		user = authenticate(username=username, password=contraseña)
+
+		if user is not None:
+			login(request, user)
+			return HttpResponseRedirect('/')
+		else:
+			return HttpResponseRedirect('/registro')
+
+def logout(request):
+	django_logout(request)
+	return HttpResponseRedirect('/')
 
 # La vista de la página de registro
 # El método devuelve el template si es requerido por GET
