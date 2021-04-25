@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+	<title>Registro de Usuario</title>
+</head>
+<body>
+	<h1> Registro de usuario </h1>
+	<form method="post">
+		{% csrf_token %}
+		<div class="form-group">
+			<label for="nombre_usuario">Nombre</label>
+			<input type="text" class="form-control" id=nombre_usuario name="nombre" required>
+		</div>
+		<div class="form-group">
+			<label for="apellido_usuario">Apellido</label>
+			<input type="text" class="form-control" id=apellido_usuario name="apellido" required>
+		</div>
+		<div class="form-group">
+			<label for="nick_usuario">Nick</label>
+			<input type="text" class="form-control" id=nick_usuario name="nick" required>
+		</div>
+		<div class="form-group">
+			<label for="rut_usuario">Rut (sin puntos y con guión)</label>
+			<input type="text" class="form-control" id=rut_usuario name="rut" required>
+		</div>
+		<div class="form-group">
+			<label for="numero_usuario">Número de teléfono</label>
+			<input type="text" class="form-control" id=numero_usuario name="numero" required>
+		</div>
+		<div class="form-group">
+			<label for="red_social_usuario">Red social (Ejemplos: Facebook, Instagram)</label>
+			<input type="url" class="form-control" id=red_social_usuario name="red_social" required>
+		</div>
+		<div class="form-group">
+			<label for="region_usuario">Región (Chile)</label>
+			<select id="region_usuario" class="form-control" name="region" required>
+				<option class="disabled" value="">Seleccione una región</option>
+				<option value="Antofagasta">Antofagasta</option>
+				<option value="Tarapacá">Tarapacá</option>
+				<option value="Atacama">Atacama</option>
+				<option value="Coquimbo">Coquimbo</option>
+				<option value="Valparaíso">Valparaíso</option>
+				<option value="Región del Libertador Gral. Bernardo O’Higgins">Región del Libertador Gral. Bernardo O’Higgins</option>
+				<option value="Región del Maule">Región del Maule</option>
+				<option value="Región del Biobío">Región del Biobío</option>
+				<option value="Región de la Araucanía">Región de la Araucanía</option>
+				<option value="Región de Los Ríos">Región de Los Ríos</option>
+				<option value="Región de Los Lagos">Región de Los Lagos</option>
+				<option value="Región Aisén del Gral. Carlos Ibáñez del Campo">Región Aisén del Gral. Carlos Ibáñez del Campo</option>
+				<option value="Región de Magallanes y de la Antártíca Chilena">Región de Magallanes y de la Antártíca Chilena</option>
+				<option value="Región Metropolitana de Santiago">Región Metropolitana de Santiago</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="correo_usuario">Correo de respaldo</label>
+			<input type="email" class="form-control" id=correo_usuario name="correo" required>
+		</div>
+		<div class="form-group">
+                <label for="contraseña">Contraseña</label>
+                <input type="password" class="form-control" id="contraseña" name="contraseña" required>
+        </div>
+        <button type="submit">Crear usuario</button>
+    </form>
+</body>

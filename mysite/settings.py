@@ -110,7 +110,7 @@ AUTH_USER_MODEL = 'truequeapp.User'
 LANGUAGE_CODE = 'es-us'
 
 #Poner zona horaria de Chile
-TIME_ZONE = 'UTC-4'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 

@@ -1,6 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+# El modelo predeterminado de User en Django ya trae los sgtes atributos:
+# username, first_name, last_name, email, password, groups, user_permissions, 
+# is_staff, is_active, is_superuser, last_login y date_joined.
+# Puede ser que debamos ajustar un poco, quizá pedirle un nick específico al usuario
+# para que pueda crear su username único.
 class User(AbstractUser):
     nombre = models.CharField(max_length=32)
     apellido = models.CharField(max_length=48)
