@@ -1,0 +1,61 @@
+<html>
+    <head>
+        <title>Publicar</title>
+    </head>
+
+    <body>
+        <h1>Publicar Producto</h1>
+        
+        <form action="/publicar/" method="POST"> {% csrf_token %}
+
+            <div id="titulo-div">
+                <label for="titulo">Titulo</label>
+                <input id="titulo" name="titulo" type="text" maxlength="200" required>
+            </div>
+
+            <div id="descripcion-div">
+                <label for="descripcion">Descripcion</label>
+                <textarea id="descripcion" name="descripcion" cols="20" rows="10"></textarea>
+            </div>
+
+            <div id="estado-div">
+                <label for="estado">Estado</label>
+                <select id="estado" name="estado" required>
+                    <option value="" selected>Elija un estado</option>
+                    {% for estado in estados %}
+                    <option value="{{estado.0}}">{{estado.1}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div id="categoria-div">
+                <label for="categoria">Categoria</label>
+                <select id="categoria" name="categoria" required>
+                    <option value="" selected>Elija una categoria</option>
+                    {% for categoria in categorias %}
+                    <option value="{{categoria.0}}">{{categoria.1}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div id="fotos-div">
+                <label for="fotos">Fotos</label>
+                <input id="fotos" name="fotos" type="file" required>
+            </div>
+
+            <div id="cambio-div">
+                <label for="cambio">Cambio</label>
+                <select id="cambio" name="cambio" required>
+                    <option value="" selected>Elija una categoria</option>
+                    {% for categoria in categorias %}
+                    <option value="{{categoria.0}}">{{categoria.1}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div id="enviar-div">
+                <input id="enviar" name="enviar" type="submit" value="Publicar">
+            </div>
+        </form>
+    </body>
+</html>

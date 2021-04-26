@@ -7,6 +7,7 @@ from django.contrib.auth.models import AbstractUser
 # Puede ser que debamos ajustar un poco, quizá pedirle un nick específico al usuario
 # para que pueda crear su username único.
 class User(AbstractUser):
+    id = models.IntegerField(blank=False, primary_key=True)
     nombre = models.CharField(max_length=32)
     apellido = models.CharField(max_length=48)
     rut = models.CharField(max_length=13, default="")
@@ -24,3 +25,71 @@ class User(AbstractUser):
      ('Región Metropolitana de Santiago', 'Región Metropolitana de Santiago')]
     region = models.CharField(max_length=200, choices=regiones)
     correo_respaldo = models.EmailField(max_length=254)
+
+class Publicacion(models.Model):
+
+    ########################################################################################
+
+    # Diferentes Estados de un producto a publicar
+    NUEVO = "N"
+    SEMINUEVO = "SN"
+    USADO = "U"
+    ESTADOS = [
+        (NUEVO, "Nuevo"),
+        (SEMINUEVO, "Semi nuevo"),
+        (USADO, "Usado"),
+    ]
+
+    ########################################################################################
+
+    # Diferentes Categorias a las que puede pertenecer un producto a publicar
+    ACCESORIOS = "Ac"
+    APARATOS_ELECTRONICOS = "AE"
+    AUDIO_FOTO = "AF"
+    ARTESANIAS_JOYERIA = "AJ"
+    CAMPING = "Cm"
+    DEPORTES = "Dp"
+    HERRAMIENTAS = "Hr"
+    HOGAR_MUEBLES = "HM"
+    JUGUETES = "Jg"
+    MATERIA_PRIMA = "MP"
+    MUSICA_INSTRUMENTOS = "MI"
+    LIBROS = "Lb"
+    PELICULAS_SERIES = "PS"
+    ROPA = "Rp"
+    SALUD = "Sl"
+    TECNOLOGIA = "Tc"
+    VEHICULOS = "Vh"
+    OTROS = "Ot"
+    CATEGORIAS = [
+        (ACCESORIOS,"Accesorios"),
+        (APARATOS_ELECTRONICOS, "Aparatos Electronicos"),
+        (AUDIO_FOTO, "Audio/Foto"),
+        (ARTESANIAS_JOYERIA, "Artesania/Joyeria"),
+        (CAMPING, "Camping"),
+        (DEPORTES, "Deportes"),
+        (HERRAMIENTAS, "Herramientas"),
+        (HOGAR_MUEBLES, "Hogar/Muebles"),
+        (JUGUETES, "Juguetes"),
+        (MATERIA_PRIMA, "Materia prima"),
+        (MUSICA_INSTRUMENTOS, "Musica/Instrumentos"),
+        (LIBROS, "Libros"),
+        (PELICULAS_SERIES, "Peliculas/Series"),
+        (ROPA, "Ropa"),
+        (SALUD, "Salud"),
+        (TECNOLOGIA, "Tecnologia"),
+        (VEHICULOS, "Vehiculos"),
+        (OTROS, "Otros"),   
+        ]
+    
+    ########################################################################################
+
+    id = models.IntegerField(blank=False, primary_key=True)
+    titulo = models.CharField(max_length=200)
+    descripcion = models.TextField(blank=False)
+    estado = models.CharField(max_length=2, blank=False, choices=ESTADOS)
+    categoria = models.CharField(max_length=2, blank=False, choices=CATEGORIAS)
+    fotos = models.ImageField(upload_to='uploads/%Y/%m/%d/')
+    cambio = models.CharField(max_length=2, blank=False, choices=CATEGORIAS)
+    publicador = models.ForeignKey('User', on_delete=models.CASCADE)
+    fecha = models.DateField(blank=False, auto_now=True)
