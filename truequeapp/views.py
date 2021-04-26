@@ -3,6 +3,7 @@ from truequeapp.models import User
 from django.http import HttpResponseRedirect
 from django.contrib.auth import logout as django_logout
 from django.contrib import messages
+from truequeapp.models import Publicacion, User
 
 # Create your views here.
 
@@ -28,6 +29,9 @@ def logout(request):
 	django_logout(request)
 	return HttpResponseRedirect('/')
 
+def home(request):
+	return render(request, "truequeapp/home.html")
+
 # La vista de la página de registro
 # El método devuelve el template si es requerido por GET
 # Si es por POST (mandar info de registro), crea usuario
@@ -50,7 +54,20 @@ def registro(request):
 		user = User.objects.create_user(username=nick, nombre=nombre, apellido=apellido, 
 			correo_respaldo=correo, rut=rut, numero=numero, red_social=red_social, region=region, 
 			password=contraseña)
-		messages.success(request, 'Se ha creado el usuario ' + user.username + ', bienvenido al sitio.')
 
 		#redirecciona al indice o home
-		return HttpResponseRedirect('/')
+		return HttpResponseRedirect('/home/')
+
+
+def publicar_producto(request):
+
+	if request.method == "GET":
+		
+		return render(request,"truequeapp/publicar.html", {"estados": Publicacion.ESTADOS, "categorias":Publicacion.CATEGORIAS})
+	
+	if request.method == "POST":
+
+		usuario = User.objects.get(id=3)
+		publicacion = Publicacion.objects.create(titulo=request.POST["titulo"], descripcion=request.POST["descripcion"], estado=request.POST["estado"],
+								categoria=request.POST["categoria"], fotos=request.POST["fotos"], cambio=request.POST["cambio"], publicador=usuario)		
+		return render(request, "truequeapp/post_publicar.html")
