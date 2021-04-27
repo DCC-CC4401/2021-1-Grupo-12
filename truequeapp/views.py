@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from truequeapp.models import User
 from django.http import HttpResponseRedirect
-from django.contrib.auth import logout as django_logout
+from django.contrib.auth import logout as django_logout, authenticate, login as django_login
 from django.contrib import messages
 from truequeapp.models import Publicacion, User
 
@@ -15,19 +15,19 @@ def login(request):
 		return render(request, 'truequeapp/login.html')
 
 	if request.method == "POST":
-		username = request.POST['nick']
+		usuario = request.POST['username']
 		contraseña = request.POST['contraseña']
-		user = authenticate(username=username, password=contraseña)
+		user = authenticate(username=usuario, password=contraseña)
 
 		if user is not None:
-			login(request, user)
-			return HttpResponseRedirect('/')
+			django_login(request, user)
+			return HttpResponseRedirect('/home')
 		else:
 			return HttpResponseRedirect('/registro')
 
 def logout(request):
 	django_logout(request)
-	return HttpResponseRedirect('/')
+	return HttpResponseRedirect('/home')
 
 def home(request):
 	return render(request, "truequeapp/home.html")
