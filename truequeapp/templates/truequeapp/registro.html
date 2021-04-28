@@ -5,37 +5,40 @@
 	<title>Registro de Usuario</title>
 </head>
 <body>
+
+	{% include "barra.html" %}
+
 	<h1> Registro de usuario </h1>
 	<form method="post">
 		{% csrf_token %}
 		<div class="form-group">
-			<label for="nombre_usuario">Nombre</label>
-			<input type="text" class="form-control" id=nombre_usuario name="nombre" required>
+			<label for="nombre">Nombre</label>
+			<input type="text" class="form-control" id=nombre name="nombre" required>
 		</div>
 		<div class="form-group">
-			<label for="apellido_usuario">Apellido</label>
-			<input type="text" class="form-control" id=apellido_usuario name="apellido" required>
+			<label for="apellido">Apellido</label>
+			<input type="text" class="form-control" id=apellido name="apellido" required>
 		</div>
 		<div class="form-group">
-			<label for="nick_usuario">Nick</label>
-			<input type="text" class="form-control" id=nick_usuario name="nick" required>
+			<label for="nombre_usuario">Nick</label>
+			<input type="text" class="form-control" id=nombre_usuario name="nombre_usuario" required>
 		</div>
 		<div class="form-group">
-			<label for="rut_usuario">Rut (sin puntos y con guión)</label>
-			<input type="text" class="form-control" id=rut_usuario name="rut" required>
+			<label for="rut">Rut (sin puntos y con guión)</label>
+			<input type="text" class="form-control" id=rut name="rut">
 		</div>
 		<div class="form-group">
-			<label for="numero_usuario">Número de teléfono</label>
-			<input type="text" class="form-control" id=numero_usuario name="numero" required>
+			<label for="numero">Número de teléfono</label>
+			<input type="text" class="form-control" id=numero name="numero">
 		</div>
 		<div class="form-group">
-			<label for="red_social_usuario">Red social (Ejemplos: Facebook, Instagram)</label>
-			<input type="url" class="form-control" id=red_social_usuario name="red_social" required>
+			<label for="red_social">Red social (Ejemplos: Facebook, Instagram)</label>
+			<input type="url" class="form-control" id=red_social name="red_social">
 		</div>
 		<div class="form-group">
-			<label for="region_usuario">Región (Chile)</label>
-			<select id="region_usuario" class="form-control" name="region" required>
-				<option class="disabled" value="">Seleccione una región</option>
+			<label for="region">Región (Chile)</label>
+			<select id="region" class="form-control" name="region" required>
+				<option selected disabled value="">Seleccione una región</option>
 				<option value="Antofagasta">Antofagasta</option>
 				<option value="Tarapacá">Tarapacá</option>
 				<option value="Atacama">Atacama</option>
@@ -53,8 +56,12 @@
 			</select>
 		</div>
 		<div class="form-group">
-			<label for="correo_usuario">Correo de respaldo</label>
-			<input type="email" class="form-control" id=correo_usuario name="correo" required>
+			<label for="correo">Correo</label>
+			<input type="email" class="form-control" id=correo name="correo" required>
+		</div>
+		<div class="form-group">
+			<label for="correo_respaldo">Correo de respaldo</label>
+			<input type="email" class="form-control" id=correo_respaldo name="correo_respaldo">
 		</div>
 		<div class="form-group">
                 <label for="contraseña">Contraseña</label>

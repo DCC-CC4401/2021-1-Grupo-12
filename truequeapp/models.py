@@ -6,14 +6,13 @@ from django.contrib.auth.models import AbstractUser
 # is_staff, is_active, is_superuser, last_login y date_joined.
 # Puede ser que debamos ajustar un poco, quizá pedirle un nick específico al usuario
 # para que pueda crear su username único.
-class User(AbstractUser):
+class Usuario(AbstractUser):
+    # Identificación
     id = models.IntegerField(blank=False, primary_key=True)
-    nombre = models.CharField(max_length=32)
-    apellido = models.CharField(max_length=48)
-    rut = models.CharField(max_length=13, default="")
-    # foto = models.CharField(default="")
-    numero = models.CharField(max_length=13, default="")
-    red_social = models.URLField()
+    rut = models.CharField(max_length=13, blank=True)
+    # Contacto
+    numero = models.CharField(max_length=13, blank=True)
+    red_social = models.URLField(blank=True)
     regiones = [('Arica y Parinacota', 'Arica y Parinacota'), ('Antofagasta', 'Antofagasta'), ('Tarapacá', 'Tarapacá'),
      ('Atacama', 'Atacama'), ('Coquimbo', 'Coquimbo'), ('Valparaíso', 'Valparaíso'),
      ('Región del Libertador Gral. Bernardo O’Higgins', 'Región del Libertador Gral. Bernardo O’Higgins'),
@@ -24,7 +23,8 @@ class User(AbstractUser):
      ('Región de Magallanes y de la Antártíca Chilena', 'Región de Magallanes y de la Antártíca Chilena'),
      ('Región Metropolitana de Santiago', 'Región Metropolitana de Santiago')]
     region = models.CharField(max_length=200, choices=regiones)
-    correo_respaldo = models.EmailField(max_length=254)
+    # Seguridad
+    correo_respaldo = models.EmailField(max_length=254, blank=True)
 
 class Publicacion(models.Model):
 
@@ -91,5 +91,5 @@ class Publicacion(models.Model):
     categoria = models.CharField(max_length=2, blank=False, choices=CATEGORIAS)
     fotos = models.ImageField(upload_to='uploads/%Y/%m/%d/')
     cambio = models.CharField(max_length=2, blank=False, choices=CATEGORIAS)
-    publicador = models.ForeignKey('User', on_delete=models.CASCADE)
+    publicador = models.ForeignKey('Usuario', on_delete=models.CASCADE)
     fecha = models.DateField(blank=False, auto_now=True)

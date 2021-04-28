@@ -4,6 +4,9 @@
     </head>
 
     <body>
+
+        {% include "barra.html" %}
+
         <h1>Publicar Producto</h1>
         
         <form action="/publicar/" method="POST"> {% csrf_token %}

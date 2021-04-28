@@ -56,7 +56,7 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['./truequeapp/templates/truequeapp'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -101,7 +101,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'truequeapp.User'
+AUTH_USER_MODEL = 'truequeapp.Usuario'
 
 
 # Internationalization
