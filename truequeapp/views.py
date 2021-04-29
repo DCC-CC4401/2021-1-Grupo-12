@@ -104,7 +104,11 @@ def publicar_producto(request):
 				descripcion=request.POST["descripcion"], 
 				estado=request.POST["estado"],
 				categoria=request.POST["categoria"], 
-				fotos=request.FILES.get("fotos"), 
+				foto_principal=request.FILES.get("foto_1") if request.FILES.get("foto_1") else None,
+				foto_2=request.FILES.get("foto_2") if request.FILES.get("foto_2") else None,
+				foto_3=request.FILES.get("foto_3") if request.FILES.get("foto_3") else None,
+				foto_4=request.FILES.get("foto_4") if request.FILES.get("foto_4") else None,
+				foto_5=request.FILES.get("foto_5") if request.FILES.get("foto_5") else None,
 				cambio=request.POST["cambio"], 
 				publicador=usuario)		
 			return render(request, "truequeapp/post_publicar.html")

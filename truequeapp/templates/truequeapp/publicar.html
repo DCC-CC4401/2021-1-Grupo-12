@@ -1,6 +1,23 @@
 <html>
     <head>
         <title>Publicar</title>
+        <script>
+            function addImageButton(i){
+
+                if (i < 6){
+
+                    let input_nuevo = document.createElement("input");
+                    input_nuevo.setAttribute("id","foto_"+i);
+                    input_nuevo.setAttribute("name","foto_"+i);
+                    input_nuevo.setAttribute("type","file");
+                    input_nuevo.setAttribute("required","");
+                    document.getElementById("fotos-div").appendChild(input_nuevo);
+
+                    let agregar_imagen = document.getElementById("agregar-fotos");
+                    agregar_imagen.setAttribute("onclick","addImageButton("+(i+1)+")");
+                }
+            }
+        </script>
     </head>
 
     <body>
@@ -45,7 +62,11 @@
 
                 <div id="fotos-div">
                     <label for="fotos">Fotos</label>
-                    <input id="fotos" name="fotos" type="file" required>
+                    <input id="foto_1" name="foto_1" type="file" required>
+                </div>
+
+                <div id="agregar-fotos-div">
+                    <button id="agregar-fotos" type="button" onclick="addImageButton(2)">Agregar mas fotos</button>
                 </div>
 
                 <div id="cambio-div">

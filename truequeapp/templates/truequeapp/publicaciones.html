@@ -12,7 +12,7 @@
     <table border="solid-black">
     {% for publicacion in publicaciones_totales %}
         <tr onclick="location.href='/publicacion?id={{publicacion.id}}'">
-            <td><img src="{{publicacion.fotos.url}}" width="100px" height="100px"></td>
+            <td><img src="{{publicacion.foto_principal.url}}" width="100px" height="100px"></td>
             <td>{{publicacion.titulo}} <br> {{publicacion.get_estado_display}}</td>
             <td>{{publicacion.get_categoria_display}} <br> {{publicacion.get_cambio_display}} <br> {{publicacion.fecha}}</td>
         </tr>
