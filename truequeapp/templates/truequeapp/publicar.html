@@ -11,7 +11,7 @@
 
         {% if user.is_authenticated %}
         
-            <form action="/publicar/" method="POST"> {% csrf_token %}
+            <form action="/publicar/" method="POST" enctype="multipart/form-data"> {% csrf_token %}
 
                 <div id="titulo-div">
                     <label for="titulo">Titulo</label>

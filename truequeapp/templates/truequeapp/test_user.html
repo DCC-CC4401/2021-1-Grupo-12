@@ -47,6 +47,10 @@
                 <li>{{usuario.correo_respaldo}}</li>
             {% endif %}
             {% endif %}
-            </ul>
+        </ul>
+
+        {% if publicacion %}
+            <img src="{{publicacion.fotos.url}}">
+        {% endif %}
     </body>
 </html>

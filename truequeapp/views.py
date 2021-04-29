@@ -19,7 +19,12 @@ def contacto(request):
 	return render(request, "truequeapp/contacto.html")
 
 def publicaciones(request):
-	return render(request, "truequeapp/publicaciones.html")
+
+	if request.method == "GET":
+
+		publicaciones_totales = Publicacion.objects.all()
+
+		return render(request, "truequeapp/publicaciones.html", {"publicaciones_totales":publicaciones_totales})
 
 
 def login(request):
@@ -99,7 +104,7 @@ def publicar_producto(request):
 				descripcion=request.POST["descripcion"], 
 				estado=request.POST["estado"],
 				categoria=request.POST["categoria"], 
-				fotos=request.POST["fotos"], 
+				fotos=request.FILES.get("fotos"), 
 				cambio=request.POST["cambio"], 
 				publicador=usuario)		
 			return render(request, "truequeapp/post_publicar.html")
@@ -119,6 +124,12 @@ def test_user(request):
 	if request.method == "POST":
 
 		usuario = request.user
-		print(usuario.username)
+		publicacion = Publicacion.objects.get(titulo="Segunda publicacion")
 
-		return render(request,"truequeapp/test_user.html", {"usuario": usuario})
+		return render(request,"truequeapp/test_user.html", {"usuario": usuario, "publicacion":publicacion})
+
+def publicacion_elegida(request):
+
+	if request.method == "GET":
+		publicacion = Publicacion.objects.get(id=request.GET["id"])
+		return render(request, 'truequeapp/publicacion_elegida.html', {"publicacion":publicacion})

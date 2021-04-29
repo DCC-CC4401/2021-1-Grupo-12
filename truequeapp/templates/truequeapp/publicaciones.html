@@ -7,7 +7,16 @@
 
 <body>
     {% include "barra.html" %}
+    <h1>Publicaciones existentes</h1>
 
-    <div>Aqui apareceran las publicaciones.... o no....</div>
+    <table border="solid-black">
+    {% for publicacion in publicaciones_totales %}
+        <tr onclick="location.href='/publicacion?id={{publicacion.id}}'">
+            <td><img src="{{publicacion.fotos.url}}" width="100px" height="100px"></td>
+            <td>{{publicacion.titulo}} <br> {{publicacion.estado}}</td>
+            <td>{{publicacion.categoria}} <br> {{publicacion.cambio}} <br> {{publicacion.fecha}}</td>
+        </tr>
+    {% endfor %}
+    </table>
 </body>
 </html> 

@@ -89,7 +89,7 @@ class Publicacion(models.Model):
     descripcion = models.TextField(blank=False)
     estado = models.CharField(max_length=2, blank=False, choices=ESTADOS)
     categoria = models.CharField(max_length=2, blank=False, choices=CATEGORIAS)
-    fotos = models.ImageField(upload_to='uploads/%Y/%m/%d/')
+    fotos = models.ImageField(upload_to='publicaciones/%Y/%m/%d/')
     cambio = models.CharField(max_length=2, blank=False, choices=CATEGORIAS)
     publicador = models.ForeignKey('Usuario', on_delete=models.CASCADE)
     fecha = models.DateField(blank=False, auto_now=True)
