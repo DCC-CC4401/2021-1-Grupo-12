@@ -13,8 +13,8 @@
     {% for publicacion in publicaciones_totales %}
         <tr onclick="location.href='/publicacion?id={{publicacion.id}}'">
             <td><img src="{{publicacion.fotos.url}}" width="100px" height="100px"></td>
-            <td>{{publicacion.titulo}} <br> {{publicacion.estado}}</td>
-            <td>{{publicacion.categoria}} <br> {{publicacion.cambio}} <br> {{publicacion.fecha}}</td>
+            <td>{{publicacion.titulo}} <br> {{publicacion.get_estado_display}}</td>
+            <td>{{publicacion.get_categoria_display}} <br> {{publicacion.get_cambio_display}} <br> {{publicacion.fecha}}</td>
         </tr>
     {% endfor %}
     </table>

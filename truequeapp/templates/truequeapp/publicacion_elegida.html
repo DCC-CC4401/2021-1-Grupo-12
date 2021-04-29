@@ -17,11 +17,11 @@
 
     <div>
         <h3>{{publicacion.descripcion}}</h3>
-        <h3>{{publicacion.estado}}</h3>
-        <h3>{{publicacion.categoria}}</h3>
+        <h3>{{publicacion.get_estado_display}}</h3>
+        <h3>{{publicacion.get_categoria_display}}</h3>
         <h3>{{publicacion.publicador.username}}</h3>
         <h3>{{publicacion.fecha}}</h3>
-        <h3>{{publicacion.cambio}}</h3>
+        <h3>{{publicacion.get_cambio_display}}</h3>
     </div>
 
     <button type="button" class="btn btn-primary" onclick="location.href='/contactar?{{publicacion.publicador.id}}'">Contactar Publicador</button>

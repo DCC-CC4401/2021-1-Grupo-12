@@ -23,7 +23,7 @@ def publicaciones(request):
 	if request.method == "GET":
 
 		publicaciones_totales = Publicacion.objects.all()
-
+		
 		return render(request, "truequeapp/publicaciones.html", {"publicaciones_totales":publicaciones_totales})
 
 
