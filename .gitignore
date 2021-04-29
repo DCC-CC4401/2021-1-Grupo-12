@@ -59,6 +59,3 @@ target/
 
 # VSCode
 .vscode
-
-# DBSqlite
-db.sqlite3

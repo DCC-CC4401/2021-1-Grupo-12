@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <title>Test User</title>
+    </head>
+    
+    <body>
+        <h1>Test User</h1>
+        <ul>
+        {% if user.is_authenticated %}
+            <li>{{user.last_login}}</li>
+            <li>{{user.is_superuser}}</li>
+            <li>{{user.username}}</li>
+            <li>{{user.first_name}}</li>
+            <li>{{user.last_name}}</li>
+            <li>{{user.email}}</li>
+            <li>{{user.is_staff}}</li>
+            <li>{{user.is_active}}</li>
+            <li>{{user.date_joined}}</li>
+            <li>{{user.rut}}</li>
+            <li>{{user.numero}}</li>
+            <li>{{user.red_social}}</li>
+            <li>{{user.region}}</li>
+            <li>{{user.correo_respaldo}}</li>
+        {% endif %}
+        </ul>
+
+        <form action="/test_user/" method="POST"> {% csrf_token %}
+            <input type="submit">
+        </form>
+        
+        <ul>
+            {% if usuario %}
+            {% if user.is_authenticated %}
+                <li>{{usuario.last_login}}</li>
+                <li>{{usuario.is_superuser}}</li>
+                <li>{{usuario.username}}</li>
+                <li>{{usuario.first_name}}</li>
+                <li>{{usuario.last_name}}</li>
+                <li>{{usuario.email}}</li>
+                <li>{{usuario.is_staff}}</li>
+                <li>{{usuario.is_active}}</li>
+                <li>{{usuario.date_joined}}</li>
+                <li>{{usuario.rut}}</li>
+                <li>{{usuario.numero}}</li>
+                <li>{{usuario.red_social}}</li>
+                <li>{{usuario.region}}</li>
+                <li>{{usuario.correo_respaldo}}</li>
+            {% endif %}
+            {% endif %}
+            </ul>
+    </body>
+</html>

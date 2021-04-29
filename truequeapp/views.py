@@ -82,20 +82,43 @@ def registro(request):
 
 
 def publicar_producto(request):
-
+	"""
+	Metodo encargado de la publicacion de un producto por parte de un usuario.
+	"""
 	if request.method == "GET":
 		
 		return render(request,"truequeapp/publicar.html", {"estados": Publicacion.ESTADOS, "categorias":Publicacion.CATEGORIAS})
 	
 	if request.method == "POST":
 
-		usuario = Usuario.objects.get(id=3)
-		publicacion = Publicacion.objects.create(
-			titulo=request.POST["titulo"], 
-			descripcion=request.POST["descripcion"], 
-			estado=request.POST["estado"],
-			categoria=request.POST["categoria"], 
-			fotos=request.POST["fotos"], 
-			cambio=request.POST["cambio"], 
-			publicador=usuario)		
-		return render(request, "truequeapp/post_publicar.html")
+		if request.user.is_authenticated:
+
+			usuario = Usuario.objects.get(id=request.user.id)
+			publicacion = Publicacion.objects.create(
+				titulo=request.POST["titulo"], 
+				descripcion=request.POST["descripcion"], 
+				estado=request.POST["estado"],
+				categoria=request.POST["categoria"], 
+				fotos=request.POST["fotos"], 
+				cambio=request.POST["cambio"], 
+				publicador=usuario)		
+			return render(request, "truequeapp/post_publicar.html")
+
+		else:
+
+			return render(reques, "truequeapp/post_publicar.html")
+
+def test_user(request):
+	"""
+	Metodo usada para el testeo de diversas funcionalidades de Django, pueden modificarla a conveniencia.
+	"""
+	if request.method == "GET":
+
+		return render(request,"truequeapp/test_user.html")
+	
+	if request.method == "POST":
+
+		usuario = request.user
+		print(usuario.username)
+
+		return render(request,"truequeapp/test_user.html", {"usuario": usuario})
