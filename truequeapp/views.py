@@ -6,6 +6,12 @@ from truequeapp.models import Publicacion, Usuario
 
 # Create your views here.
 
+def redirect_home(request):
+	"""
+	Metodo para redigir al home. Usado principalmente para enlazar la pagina de inicio al home
+	"""
+	return render(request, "truequeapp/home.html")
+
 def home(request):
 	return render(request, "truequeapp/home.html")
 
