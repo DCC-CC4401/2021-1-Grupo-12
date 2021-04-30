@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Mi perfil</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/mi_perfil.css' %}">
+</head>
+
+<body>
+
+    {% include "barra.html" %}
+
+    <div>
+        <h1>Mi perfil</h1>
+
+        <div id="barra_lateral">
+            Mis datos<br>
+            <a href="/mis_publicaciones/">Mis publicaciones </a><br>
+            <a href="">Trueques</a>
+        </div>
+
+        <div id="informacion">
+            <div>Datos</div><br><br>
+            Nombre: {{nombre}}<br>
+            Apellido: {{apellido}}<br>
+            Nombre de usuario: {{usuario}}<br>
+            Teléfono: {{telefono}}<br>
+            Rut: {{rut}}<br>
+            Región: {{region}}
+        </div>
+    </div>
+</body>
+</html>

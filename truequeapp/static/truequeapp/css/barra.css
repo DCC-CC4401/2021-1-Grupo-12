@@ -1,0 +1,22 @@
+ /* Estilo barra.hmtl */
+
+#barra{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+#barra li{
+    display: inline;
+    margin: 0 20px;
+}
+
+#barra li.last{
+    float:right !important;
+}
+
+#barra li.first{
+    float:left !important;
+}

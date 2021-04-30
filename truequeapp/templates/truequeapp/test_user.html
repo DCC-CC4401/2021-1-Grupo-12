@@ -1,11 +1,14 @@
-<html>
-    <head>
-        <title>Test User</title>
-    </head>
-    
-    <body>
-        <h1>Test User</h1>
-        <ul>
+<!DOCTYPE html>
+<html lang="es">
+{% load static %}
+<head>
+    <title>Test User</title>
+</head>
+
+<body>
+    <h1>Test User</h1>
+
+    <ul>
         {% if user.is_authenticated %}
             <li>{{user.last_login}}</li>
             <li>{{user.is_superuser}}</li>
@@ -22,14 +25,14 @@
             <li>{{user.region}}</li>
             <li>{{user.correo_respaldo}}</li>
         {% endif %}
-        </ul>
+    </ul>
 
-        <form action="/test_user/" method="POST"> {% csrf_token %}
-            <input type="submit">
-        </form>
-        
-        <ul>
-            {% if usuario %}
+    <form action="/test_user/" method="POST"> {% csrf_token %}
+        <input type="submit">
+    </form>
+
+    <ul>
+        {% if usuario %}
             {% if user.is_authenticated %}
                 <li>{{usuario.last_login}}</li>
                 <li>{{usuario.is_superuser}}</li>
@@ -46,11 +49,11 @@
                 <li>{{usuario.region}}</li>
                 <li>{{usuario.correo_respaldo}}</li>
             {% endif %}
-            {% endif %}
-        </ul>
-
-        {% if publicacion %}
-            <img src="{{publicacion.fotos.url}}">
         {% endif %}
-    </body>
+    </ul>
+
+    {% if publicacion %}
+        <img src="{{publicacion.fotos.url}}">
+    {% endif %}
+</body>
 </html>

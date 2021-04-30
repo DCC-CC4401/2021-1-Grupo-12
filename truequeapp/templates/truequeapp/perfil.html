@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil: {{usuario}}</title>
+</head>
+
+<body>
+
+    {% include "barra.html" %}
+
+    <div>
+        <h1>Perfil: {{usuario}}</h1>
+
+        <div>
+            <div>Datos</div><br><br>
+
+            <div>
+                Nombre: {{nombre}}<br>
+                Apellido: {{apellido}}<br>
+                Redes: {{red_social}}<br>
+                Correo: {{email}}<br>
+                Teléfono: {{telefono}}<br>
+                Región: {{region}}
+            </div>
+
+            <div>
+                N° de publicaciones: {{publicaciones|length}}<br>
+                N° Publicaciones Activas: Aún no implementado<br>
+                N° de trueques abiertos: Aún no implementado<br>
+                N° de trueques concretados: Aún no implementado<br>
+                Miembro desde: {{miembro_desde}}<br>
+                Reputacion: Aún no implementado
+            </div>
+        </div>
+
+        <div>
+            <div>Publicaciones</div><br><br>
+
+            <div>
+                <table border="solid-black">
+                    {% for publicacion in publicaciones %}
+                        <tr onclick="location.href='/publicacion?id={{publicacion.id}}'">
+                            <td><img src="{{publicacion.foto_principal.url}}" width="100px" height="100px"></td>
+                            <td>{{publicacion.titulo}} <br> {{publicacion.get_estado_display}}</td>
+                            <td>{{publicacion.get_categoria_display}} <br> {{publicacion.get_cambio_display}} <br> {{publicacion.fecha}}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

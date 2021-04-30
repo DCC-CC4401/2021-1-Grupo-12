@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <title>Publicaciones</title>
@@ -7,28 +8,30 @@
 </head>
 
 <body>
+
     {% include "barra.html" %}
-    <h1>{{publicacion.titulo}}</h1>
 
     <div>
-        <img src="{{publicacion.foto_principal.url}}" width="400px" height="400px">
-        {% if publicacion.foto_2 %}
-            <img src="{{publicacion.foto_2.url}}" width="40px" height="40px">
-        {% endif %}
+        <h1>{{publicacion.titulo}}</h1>
+
+        <div>
+            <img src="{{publicacion.foto_principal.url}}" width="400px" height="400px">
+            {% if publicacion.foto_2 %}
+                <img src="{{publicacion.foto_2.url}}" width="40px" height="40px">
+            {% endif %}
+        </div>
+
+
+        <div>
+            <h3>{{publicacion.descripcion}}</h3>
+            <h3>{{publicacion.get_estado_display}}</h3>
+            <h3>{{publicacion.get_categoria_display}}</h3>
+            <h3>{{publicacion.publicador.username}}</h3>
+            <h3>{{publicacion.fecha}}</h3>
+            <h3>{{publicacion.get_cambio_display}}</h3>
+        </div>
+
+        <button type="button" class="btn btn-primary" onclick="location.href='/perfil/{{publicacion.publicador.username}}'">Contactar Publicador</button>
     </div>
-    
-
-    <div>
-        <h3>{{publicacion.descripcion}}</h3>
-        <h3>{{publicacion.get_estado_display}}</h3>
-        <h3>{{publicacion.get_categoria_display}}</h3>
-        <h3>{{publicacion.publicador.username}}</h3>
-        <h3>{{publicacion.fecha}}</h3>
-        <h3>{{publicacion.get_cambio_display}}</h3>
-    </div>
-
-    <button type="button" class="btn btn-primary" onclick="location.href='/contactar?{{publicacion.publicador.id}}'">Contactar Publicador</button>
-
-
 </body>
 </html> 

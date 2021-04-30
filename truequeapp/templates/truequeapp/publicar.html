@@ -1,33 +1,19 @@
-<html>
-    <head>
-        <title>Publicar</title>
-        <script>
-            function addImageButton(i){
+<!DOCTYPE html>
+<html lang="es">
+{% load static %}
+<head>
+    <title>Publicar</title>
+    <script src="{% static 'truequeapp/js/publicar.js' %}"></script>
+</head>
 
-                if (i < 6){
+<body>
 
-                    let input_nuevo = document.createElement("input");
-                    input_nuevo.setAttribute("id","foto_"+i);
-                    input_nuevo.setAttribute("name","foto_"+i);
-                    input_nuevo.setAttribute("type","file");
-                    input_nuevo.setAttribute("required","");
-                    document.getElementById("fotos-div").appendChild(input_nuevo);
+    {% include "barra.html" %}
 
-                    let agregar_imagen = document.getElementById("agregar-fotos");
-                    agregar_imagen.setAttribute("onclick","addImageButton("+(i+1)+")");
-                }
-            }
-        </script>
-    </head>
-
-    <body>
-
-        {% include "barra.html" %}
-
+    <div>
         <h1>Publicar Producto</h1>
 
         {% if user.is_authenticated %}
-        
             <form action="/publicar/" method="POST" enctype="multipart/form-data"> {% csrf_token %}
 
                 <div id="titulo-div">
@@ -45,7 +31,7 @@
                     <select id="estado" name="estado" required>
                         <option value="" selected>Elija un estado</option>
                         {% for estado in estados %}
-                        <option value="{{estado.0}}">{{estado.1}}</option>
+                            <option value="{{estado.0}}">{{estado.1}}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -55,7 +41,7 @@
                     <select id="categoria" name="categoria" required>
                         <option value="" selected>Elija una categoria</option>
                         {% for categoria in categorias %}
-                        <option value="{{categoria.0}}">{{categoria.1}}</option>
+                            <option value="{{categoria.0}}">{{categoria.1}}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -74,7 +60,7 @@
                     <select id="cambio" name="cambio" required>
                         <option value="" selected>Elija una categoria</option>
                         {% for categoria in categorias %}
-                        <option value="{{categoria.0}}">{{categoria.1}}</option>
+                            <option value="{{categoria.0}}">{{categoria.1}}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -86,5 +72,6 @@
         {% else %}
             <h3>Por favor incie sesion para publicar sus productos</h3>
         {% endif %}
-    </body>
+    </div>
+</body>
 </html>

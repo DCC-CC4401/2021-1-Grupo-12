@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html lang="es">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <title>Publicaciones</title>
 </head>
 
 <body>
-    {% include "barra.html" %}
-    <h1>Publicaciones existentes</h1>
 
-    <table border="solid-black">
-    {% for publicacion in publicaciones_totales %}
-        <tr onclick="location.href='/publicacion?id={{publicacion.id}}'">
-            <td><img src="{{publicacion.foto_principal.url}}" width="100px" height="100px"></td>
-            <td>{{publicacion.titulo}} <br> {{publicacion.get_estado_display}}</td>
-            <td>{{publicacion.get_categoria_display}} <br> {{publicacion.get_cambio_display}} <br> {{publicacion.fecha}}</td>
-        </tr>
-    {% endfor %}
-    </table>
+    {% include "barra.html" %}
+
+    <div>
+        <h1>Publicaciones existentes</h1>
+
+        <table border="solid-black">
+            {% for publicacion in publicaciones_totales %}
+                <tr onclick="location.href='/publicacion?id={{publicacion.id}}'">
+                    <td><img src="{{publicacion.foto_principal.url}}" width="100px" height="100px"></td>
+                    <td>{{publicacion.titulo}} <br> {{publicacion.get_estado_display}}</td>
+                    <td>{{publicacion.get_categoria_display}} <br> {{publicacion.get_cambio_display}} <br> {{publicacion.fecha}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
 </body>
 </html> 

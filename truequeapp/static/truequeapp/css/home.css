@@ -1,0 +1,13 @@
+/* Estilo home.html */
+
+#Mensaje_de_bienvenida{
+    text-align: center;
+}
+
+#Categorias{
+    display: inline;
+}
+
+#Redirecciones{
+    text-align: end;
+}

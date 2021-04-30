@@ -1,52 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <title>HOME PAGE</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/home.css' %}">
 </head>
-
-<!-- Mover a un documento que tenga todos los estilos más adelante (?)-->
-<style>
-    #Mensaje_de_bienvenida{
-        text-align: center;
-    }
-    #Categorias{
-        display: inline;
-
-    }
-    #Redirecciones{
-        text-align: end;
-    }
-</style>
-<!-- --------------------- -->
 
 <body>
 
     {% include "barra.html" %}
 
     <div>
-    <hr>
-    {% if user.is_authenticated %}
-        <a href="{% url 'logout' %}">Cerrar sesión</a>
-    {% else %}
-        <a href="{% url 'registro' %}">Registrarse</a> 
-        <a href="{% url 'login' %}">Entrar a mi cuenta</a>
-    {% endif %}
-    <hr>
-    </div>
-    <div id="Categorias">Categorías</div>
-    <div>
-        {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                    <div class="alert">
-                        {{message}}
-                    </div>
-                {% endfor %}
-            </ul>
-        {% else %}
-        <div id="Mensaje_de_bienvenida">Bienvenidos a ...... la mejor página para realizar tus trueques</div>
-        {% endif %}
+        <div>Bienvenidos a ...... la mejor página para realizar tus trueques</div>
     </div>
 </body>
 </html> 
