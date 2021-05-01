@@ -97,3 +97,18 @@ class Publicacion(models.Model):
     cambio = models.CharField(max_length=2, blank=False, choices=CATEGORIAS)
     publicador = models.ForeignKey('Usuario', on_delete=models.CASCADE)
     fecha = models.DateField(blank=False, auto_now=True)
+
+class TruequesAbiertos(models.Model):
+    #id = models.IntegerField(blank=False, primary_key=True) produce un error, por mientras dejar asi
+    publicacion = models.ForeignKey("Publicacion", on_delete=models.CASCADE)
+    interesado = models.ForeignKey("Usuario", on_delete=models.CASCADE)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['publicacion', 'interesado'], name='no repetir trueque')
+            ]
+
+    def save(self, *args, **kwargs):
+        if Publicacion.objects.filter(publicador=self.interesado, categoria=self.publicacion.cambio).count() > 0:
+           super().save(*args,**kwargs)
+    

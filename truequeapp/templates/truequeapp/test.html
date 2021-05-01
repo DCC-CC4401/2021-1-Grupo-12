@@ -2,11 +2,11 @@
 <html lang="es">
 {% load static %}
 <head>
-    <title>Test User</title>
+    <title>Test</title>
 </head>
 
 <body>
-    <h1>Test User</h1>
+    <h1>Test</h1>
 
     <ul>
         {% if user.is_authenticated %}
@@ -27,28 +27,13 @@
         {% endif %}
     </ul>
 
-    <form action="/test_user/" method="POST"> {% csrf_token %}
+    <form action="/test/" method="POST"> {% csrf_token %}
         <input type="submit">
     </form>
 
     <ul>
-        {% if usuario %}
-            {% if user.is_authenticated %}
-                <li>{{usuario.last_login}}</li>
-                <li>{{usuario.is_superuser}}</li>
-                <li>{{usuario.username}}</li>
-                <li>{{usuario.first_name}}</li>
-                <li>{{usuario.last_name}}</li>
-                <li>{{usuario.email}}</li>
-                <li>{{usuario.is_staff}}</li>
-                <li>{{usuario.is_active}}</li>
-                <li>{{usuario.date_joined}}</li>
-                <li>{{usuario.rut}}</li>
-                <li>{{usuario.numero}}</li>
-                <li>{{usuario.red_social}}</li>
-                <li>{{usuario.region}}</li>
-                <li>{{usuario.correo_respaldo}}</li>
-            {% endif %}
+        {% if foo %}
+            <li>{{foo}}</li>
         {% endif %}
     </ul>
 

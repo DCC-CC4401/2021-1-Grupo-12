@@ -31,7 +31,7 @@
             <h3>{{publicacion.get_cambio_display}}</h3>
         </div>
 
-        <button type="button" class="btn btn-primary" onclick="location.href='/perfil/{{publicacion.publicador.username}}'">Contactar Publicador</button>
+        <button type="button" class="btn btn-primary" onclick="location.href='/contactar?id_p={{publicacion.id}}&id_i={{user.id}}'">Contactar Publicador</button>
     </div>
 </body>
 </html> 

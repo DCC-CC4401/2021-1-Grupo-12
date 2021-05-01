@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth import logout as django_logout, authenticate, login as django_login
 
-from truequeapp.models import Publicacion, Usuario
+from truequeapp.models import Publicacion, Usuario, TruequesAbiertos
 
 
 # Renderiza la pagina de home.
@@ -163,21 +163,31 @@ def publicar_producto(request):
             return render(request, "truequeapp/post_publicar.html")
 
 
-# Nosé XD
-def test_user(request):
+def test(request):
     """
     Metodo usada para el testeo de diversas funcionalidades de Django, pueden modificarla a conveniencia.
     """
     if request.method == "GET":
-        return render(request,"truequeapp/test_user.html")
+        return render(request,"truequeapp/test.html")
 
     if request.method == "POST":
-        usuario = request.user
-        publicacion = Publicacion.objects.get(titulo="Segunda publicacion")
-        return render(request,"truequeapp/test_user.html", {"usuario": usuario, "publicacion":publicacion})
+        foo = TruequesAbiertos.objects.create(publicacion = Publicacion.objects.filter(categoria="AF").first(), interesado=request.user)
+        if foo.id:
+            return render(request,"truequeapp/test.html", {"foo": foo})
+        else:
+            return render(request,"truequeapp/contacto_fallido.html", {"foo":foo})
 
 
 # Renderiza la página de publicaion elegida.
 def publicacion_elegida(request):
     publicacion = Publicacion.objects.get(id=request.GET["id"])
     return render(request, 'truequeapp/publicacion_elegida.html', {"publicacion":publicacion})
+
+def contactar(request):
+    publicacion = Publicacion.objects.get(id=request.GET["id_p"])
+    interesado = request.user
+    trueque = TruequesAbiertos.objects.create(publicacion = publicacion, interesado= interesado)
+    if trueque.id: # Si el trueque tiene id, es valido y entrara aqui
+        return perfil(request, publicacion.publicador.username)
+    else:
+        return render(request,"truequeapp/contacto_fallido.html", {"trueque":trueque})

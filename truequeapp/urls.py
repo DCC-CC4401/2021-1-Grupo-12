@@ -13,8 +13,9 @@ urlpatterns = [
 	path('publicar/', views.publicar_producto, name='publicar'),
 	path('contacto/', views.contacto, name='contacto'),
 	path('publicaciones/', views.publicaciones, name='publicaciones'),
-	path('test_user/', views.test_user, name='test'),
+	path('test/', views.test, name='test'),
 	path('publicacion/', views.publicacion_elegida, name='publicacion'),
+	path('contactar/', views.contactar, name='contactar'),
 	path('mis_publicaciones/', views.mis_publicaciones, name='mis_publicaciones'),
 	url(r'^perfil/(?P<username>[\w\-]+)/$', views.perfil, name='perfil'),
 ]
