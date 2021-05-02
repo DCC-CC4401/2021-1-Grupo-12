@@ -22,7 +22,6 @@ def contacto(request):
 # quiere acceder no existe, renderiza la pagina de perfil no encontrado. Por último si el usuario que hace
 # el request no esta loggeado lo redirecciona a la pagina de login.
 def perfil(request, username):
-
     # Ve si es que el username entregado existe.
     # noinspection PyBroadException
     try:
@@ -52,23 +51,34 @@ def perfil(request, username):
     else:
         return HttpResponseRedirect('/login/')
 
+
 # Renderiza las publicaciones del usuario.
 def mis_publicaciones(request):
     publicaciones_usuario = Publicacion.objects.filter(publicador_id=request.user.id).values()
     return render(request, "truequeapp/mis_publicaciones.html", {"publicaciones": publicaciones_usuario})
 
 
+def mis_trueques(request):
+    truequesd = {}
+    i = 0
+    for publicaciones_usuario in Publicacion.objects.filter(publicador_id=request.user.id):
+        for trueques in TruequesAbiertos.objects.filter(publicacion=publicaciones_usuario):
+            trueque = {"trueque" + str(i): (trueques.interesado.username, publicaciones_usuario)}
+            i += 1
+            truequesd.update(trueque)
+    return render(request, "truequeapp/mis_trueques.html", truequesd)
+
+
 # Renderiza las publicacines.
 def publicaciones(request):
     publicaciones_totales = Publicacion.objects.all()
-    return render(request, "truequeapp/publicaciones.html", {"publicaciones_totales":publicaciones_totales})
+    return render(request, "truequeapp/publicaciones.html", {"publicaciones_totales": publicaciones_totales})
 
 
 # Renderiza pagina de login.
 # El método devuelve el template si es requerido por GET.
 # Si es por POST (mandar info de login), loggea usuario.
 def login(request):
-
     if request.method == 'GET':
         return render(request, 'truequeapp/login.html')
 
@@ -83,7 +93,9 @@ def login(request):
             django_login(request, usuario)
             return HttpResponseRedirect('/home/')
 
-        else: return
+        else:
+            return HttpResponseRedirect('/login/')
+
 
 # Renderiza pagina de home al hacer logout.
 def logout(request):
@@ -95,7 +107,7 @@ def logout(request):
 # El método devuelve el template si es requerido por GET.
 # Si es por POST (mandar info de registro), crea usuario.
 def registro(request):
-    if request.method =='GET':
+    if request.method == 'GET':
         return render(request, "truequeapp/registro.html")
 
     elif request.method == 'POST':
@@ -109,6 +121,9 @@ def registro(request):
         correo = request.POST['correo']
         correo_respaldo = request.POST['correo_respaldo']
         contraseña = request.POST['contraseña']
+
+        if Usuario.objects.filter(username=nombre_usuario).exists():
+            return render(request, "truequeapp/registro.html")
 
         Usuario.objects.create_user(
             username=nombre_usuario,
@@ -140,7 +155,8 @@ def publicar_producto(request):
     Metodo encargado de la publicacion de un producto por parte de un usuario.
     """
     if request.method == "GET":
-        return render(request,"truequeapp/publicar.html", {"estados": Publicacion.ESTADOS, "categorias":Publicacion.CATEGORIAS})
+        return render(request, "truequeapp/publicar.html", {"estados": Publicacion.ESTADOS,
+                                                            "categorias": Publicacion.CATEGORIAS})
 
     if request.method == "POST":
         if request.user.is_authenticated:
@@ -168,26 +184,35 @@ def test(request):
     Metodo usada para el testeo de diversas funcionalidades de Django, pueden modificarla a conveniencia.
     """
     if request.method == "GET":
-        return render(request,"truequeapp/test.html")
+        return render(request, "truequeapp/test.html")
 
     if request.method == "POST":
-        foo = TruequesAbiertos.objects.create(publicacion = Publicacion.objects.filter(categoria="AF").first(), interesado=request.user)
+        foo = TruequesAbiertos.objects.create(publicacion=Publicacion.objects.filter(categoria="AF").first(),
+                                              interesado=request.user)
         if foo.id:
-            return render(request,"truequeapp/test.html", {"foo": foo})
+            return render(request, "truequeapp/test.html", {"foo": foo})
         else:
-            return render(request,"truequeapp/contacto_fallido.html", {"foo":foo})
+            return render(request, "truequeapp/contacto_fallido.html", {"foo": foo})
 
 
 # Renderiza la página de publicaion elegida.
 def publicacion_elegida(request):
     publicacion = Publicacion.objects.get(id=request.GET["id"])
-    return render(request, 'truequeapp/publicacion_elegida.html', {"publicacion":publicacion})
+    return render(request, 'truequeapp/publicacion_elegida.html', {"publicacion": publicacion})
+
 
 def contactar(request):
-    publicacion = Publicacion.objects.get(id=request.GET["id_p"])
-    interesado = request.user
-    trueque = TruequesAbiertos.objects.create(publicacion = publicacion, interesado= interesado)
-    if trueque.id: # Si el trueque tiene id, es valido y entrara aqui
-        return perfil(request, publicacion.publicador.username)
+    if request.user.is_authenticated:
+        publicacion = Publicacion.objects.get(id=request.GET["id_p"])
+        interesado = request.user
+        if not TruequesAbiertos.objects.filter(publicacion=publicacion, interesado=interesado).exists():
+            trueque = TruequesAbiertos.objects.create(publicacion=publicacion, interesado=interesado)
+        else:
+            trueque = TruequesAbiertos.objects.get(publicacion=publicacion, interesado=interesado)
+        if trueque.id:  # Si el trueque tiene id, es valido y entrara aqui
+            return perfil(request, publicacion.publicador.username)
+        else:
+            return render(request, "truequeapp/contacto_fallido.html", {"trueque": trueque})
+
     else:
-        return render(request,"truequeapp/contacto_fallido.html", {"trueque":trueque})
+        return HttpResponseRedirect('/login/')

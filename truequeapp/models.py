@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+
 # El modelo predeterminado de User en Django ya trae los sgtes atributos:
 # username, first_name, last_name, email, password, groups, user_permissions, 
 # is_staff, is_active, is_superuser, last_login y date_joined.
@@ -22,9 +23,10 @@ class Usuario(AbstractUser):
                 ('Región Aisén del Gral. Carlos Ibáñez del Campo', 'Región Aisén del Gral. Carlos Ibáñez del Campo'),
                 ('Región de Magallanes y de la Antártíca Chilena', 'Región de Magallanes y de la Antártíca Chilena'),
                 ('Región Metropolitana de Santiago', 'Región Metropolitana de Santiago')]
-    region = models.CharField(max_length=200, choices=regiones)
+    region = models.CharField(max_length=254, choices=regiones)
     # Seguridad
     correo_respaldo = models.EmailField(max_length=254, blank=True)
+
 
 class Publicacion(models.Model):
 
@@ -62,7 +64,7 @@ class Publicacion(models.Model):
     VEHICULOS = "Vh"
     OTROS = "Ot"
     CATEGORIAS = [
-        (ACCESORIOS,"Accesorios"),
+        (ACCESORIOS, "Accesorios"),
         (APARATOS_ELECTRONICOS, "Aparatos Electronicos"),
         (AUDIO_FOTO, "Audio/Foto"),
         (ARTESANIAS_JOYERIA, "Artesania/Joyeria"),
@@ -98,8 +100,9 @@ class Publicacion(models.Model):
     publicador = models.ForeignKey('Usuario', on_delete=models.CASCADE)
     fecha = models.DateField(blank=False, auto_now=True)
 
+
 class TruequesAbiertos(models.Model):
-    #id = models.IntegerField(blank=False, primary_key=True) produce un error, por mientras dejar asi
+    # id = models.IntegerField(blank=False, primary_key=True) produce un error, por mientras dejar asi
     publicacion = models.ForeignKey("Publicacion", on_delete=models.CASCADE)
     interesado = models.ForeignKey("Usuario", on_delete=models.CASCADE)
 
@@ -110,5 +113,4 @@ class TruequesAbiertos(models.Model):
 
     def save(self, *args, **kwargs):
         if Publicacion.objects.filter(publicador=self.interesado, categoria=self.publicacion.cambio).count() > 0:
-           super().save(*args,**kwargs)
-    
+            super().save(*args, **kwargs)
