@@ -12,7 +12,6 @@
 
     <div>
         <h1>Publicar Producto</h1>
-
         {% if user.is_authenticated %}
             <form action="/publicar/" method="POST" enctype="multipart/form-data"> {% csrf_token %}
 
@@ -69,6 +68,7 @@
                     <input id="enviar" name="enviar" type="submit" value="Publicar">
                 </div>
             </form>
+
         {% else %}
             <h3>Por favor incie sesion para publicar sus productos</h3>
         {% endif %}

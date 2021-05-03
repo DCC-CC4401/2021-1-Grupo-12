@@ -9,7 +9,7 @@
 
 <body>
     {% if user.is_authenticated %}
-        <div>
+        <div id="barra_grande">
             <ul id="barra">
                 <li class="first"><a href="/perfil/{{ user.username }}">Mi perfil</a></li>
                 <li><a href="/home/">Home</a></li>
@@ -20,13 +20,13 @@
             </ul>
         </div>
     {% else %}
-        <div>
+        <div id="barra_grande">
             <ul id="barra">
                 <li class="first"><a href="/login/">Entrar a mi cuenta</a></li>
                 <li><a href="/home/">Home</a></li>
                 <li><a href="/publicaciones/">Trueques</a></li>
                 <li><a href="/contacto/">Contacto</a></li>
-                <li class="last"><a href="/registro/">Resgistrarse</a></li>
+                <li class="last"><a href="/registro/">Registrarse</a></li>
             </ul>
         </div>
     {% endif %}

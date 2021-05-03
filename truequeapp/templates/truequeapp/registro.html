@@ -4,16 +4,17 @@
 <head>
 	<meta charset="utf-8">
 	<title>Registro de Usuario</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/formulario.css' %}">
 </head>
 
 <body>
 
 	{% include "barra.html" %}
 
-    <div>
-        <h1> Registro de usuario </h1>
 
-        <form method="post">
+        <h1 style="text-align: center"> Registro de usuario </h1>
+        <div id="formulario">
+        <div method="post">
             {% csrf_token %}
 
             <div class="form-group">
@@ -84,6 +85,7 @@
 
             <button type="submit">Crear usuario</button>
         </form>
-    </div>
+        </div>
+
 </body>
 </html>
