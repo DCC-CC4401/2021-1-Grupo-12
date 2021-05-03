@@ -9,7 +9,9 @@ function addImageButton(i){
         input_nuevo.setAttribute("name","foto_"+i);
         input_nuevo.setAttribute("type","file");
         input_nuevo.setAttribute("required","");
-        document.getElementById("fotos-div").appendChild(input_nuevo);
+        document.getElementById("input-fotos").appendChild(input_nuevo);
+        input_nuevo.insertAdjacentHTML('beforebegin', '<div>');
+        input_nuevo.insertAdjacentHTML('afterend', '</div>');
 
         let agregar_imagen = document.getElementById("agregar-fotos");
         agregar_imagen.setAttribute("onclick","addImageButton("+(i+1)+")");
