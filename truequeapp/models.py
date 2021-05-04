@@ -87,8 +87,8 @@ class Publicacion(models.Model):
     ########################################################################################
 
     id = models.IntegerField(blank=False, primary_key=True)
-    titulo = models.CharField(max_length=200)
-    descripcion = models.TextField(blank=False)
+    titulo = models.CharField(max_length=200, blank=False)
+    descripcion = models.TextField(blank=True)
     estado = models.CharField(max_length=2, blank=False, choices=ESTADOS)
     categoria = models.CharField(max_length=2, blank=False, choices=CATEGORIAS)
     foto_principal = models.ImageField(upload_to='publicaciones/%Y/%m/%d/')
