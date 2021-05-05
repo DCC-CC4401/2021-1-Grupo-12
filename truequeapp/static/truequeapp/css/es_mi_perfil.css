@@ -1,0 +1,33 @@
+/* Estilo mi_perfil.html */
+
+ #barra_lateral{
+     display: inline;
+     margin: 50px;
+ }
+ #informacion{
+     position: absolute;
+    top: 60%;
+    left: 50%;
+    margin-top: -250px;
+    margin-left: -50px;
+    padding: 10px;
+    width: 250px;
+    height: 250px;
+    background-color: beige;
+ }
+
+#fondo{
+    width: 250px;
+    height: 120px;
+    border-radius: 10px;
+    background-color: #08c2b9c0;
+    padding-top: 5px;
+}
+.pestañas{
+    color: black;
+}
+
+ li{
+     list-style-type: none;
+     font-size: 20px;
+ }

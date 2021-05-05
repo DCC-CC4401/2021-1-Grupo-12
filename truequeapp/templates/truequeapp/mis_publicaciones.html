@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Mi perfil</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/mi_perfil.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/es_mi_perfil.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/publicaciones.css' %}">
 </head>
 
 <body>
@@ -13,18 +14,21 @@
 
     <div>
         <h1>Mi perfil</h1>
-
         <div id="barra_lateral">
-            <a href="/perfil/{{ user.username }}"> Mis datos </a><br>
-            Mis publicaciones <br>
-            <a href="/mis_trueques/">Trueques</a>
+            <div id="fondo">
+                <ul id="lista">
+                    <li><a class="pestañas" href="/perfil/{{ user.username }}"> Mis datos </a></li>
+                    <li>Mis publicaciones</li>
+                    <li><a class="pestañas"href="/mis_trueques/">Trueques</a></li>
+                </ul>
+            </div>
         </div>
-
+      
         <div id="informacion">
-            <div>Publicaciones</div><br><br>
+            <h3>Publicaciones</h3>
 
             <div>
-                <table border="solid-black">
+                <table>
                     {% for publicacion in publicaciones %}
                         <tr onclick="location.href='/publicacion?id={{publicacion.id}}'">
                             <td><img src="{{publicacion.foto_principal.url}}" width="100px" height="100px"></td>

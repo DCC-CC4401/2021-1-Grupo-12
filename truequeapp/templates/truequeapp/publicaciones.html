@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Publicaciones</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/publicaciones.css' %}">
 </head>
 
 <body>
@@ -11,14 +12,19 @@
     {% include "barra.html" %}
 
     <div>
-        <h1>Publicaciones existentes</h1>
+        <h1 id="encabezado">Todas las publicaciones</h1>
 
-        <table border="solid-black">
+        <table id="publicaciones">
             {% for publicacion in publicaciones_totales %}
                 <tr onclick="location.href='/publicacion?id={{publicacion.id}}'">
-                    <td><img src="{{publicacion.foto_principal.url}}" width="100px" height="100px"></td>
-                    <td>{{publicacion.titulo}} <br> {{publicacion.get_estado_display}}</td>
-                    <td>{{publicacion.get_categoria_display}} <br> {{publicacion.get_cambio_display}} <br> {{publicacion.fecha}}</td>
+                    <td id="imagen"><img src="{{publicacion.foto_principal.url}}" width="160px" height="160px"></td>
+                    <td><span id="titulo">{{publicacion.titulo}} </span> 
+                        <br> <span id="estado">{{publicacion.get_estado_display}} </span></td>
+                    <td><span id="categoria"> {{publicacion.get_categoria_display}} </span>
+                        <div class="linea"></div>
+                        <span id="cambio"> Busco: {{publicacion.get_cambio_display}} </span>
+                        <div class="linea"></div>
+                        <span id="fecha">{{publicacion.fecha}} </span></td>
                 </tr>
             {% endfor %}
         </table>

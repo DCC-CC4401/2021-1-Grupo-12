@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Mi perfil</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/mi_perfil.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/es_mi_perfil.css' %}">
 </head>
 
 <body>
@@ -15,13 +15,16 @@
         <h1>Mi perfil</h1>
 
         <div id="barra_lateral">
-            <a href="/perfil/{{ user.username }}"> Mis datos </a><br>
-            <a href="/mis_publicaciones/">Mis publicaciones </a><br>
-            <a>Trueques</a>
+            <div id="fondo">
+                <ul id="lista">
+                    <li><a class="pestañas" href="/perfil/{{ user.username }}"> Mis datos </a></li>
+                    <li><a class="pestañas" href="/mis_publicaciones/">Mis publicaciones </a></li>
+                    <li>Trueques</li>
+                </ul>
+            </div>
         </div>
-
         <div id="informacion">
-            <div>Trueques</div><br><br>
+            <h3>Trueques</h3>
 
             <div>
             {{ truequesd.truque0 }}
