@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Contacto Fallido</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/general.css' %}">
+</head>
+
+<body>
+
+    {% include "barra.html" %}
+
+    <div class="centrar">
+        <h1>No se pudo empezar con el trueque</h1>
+        <h2>Esto ocurre porque usted no tiene ninguna publicacion en la categoria que le interesa al publicador</h2>
+        <h3>Le sugerimos subir su producto para poder empezar con el trueque</h3>
+        <a href="/perfil/{{ perfil_usuario }}">Ir al perfil del usuario igualmente</a>
+    </div>
+</body>

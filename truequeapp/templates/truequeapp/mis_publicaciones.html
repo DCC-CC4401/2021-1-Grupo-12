@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Mi perfil</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/mi_perfil.css' %}">
+</head>
+
+<body>
+
+    {% include "barra.html" %}
+
+    <div>
+        <h1 class="tgrande">Mi perfil</h1>
+
+        <div class="row">
+            <div class="column left">
+                <a href="/perfil/{{ user.username }}"> Mis datos </a><br>
+                Mis publicaciones <br>
+                <a href="/mis_trueques/">Trueques</a>
+            </div>
+
+            <div class="column right">
+                <div class="titulo">Publicaciones</div><br><br>
+
+                <div>
+                    <table>
+                        {% for publicacion in publicaciones %}
+                            <tr onclick="location.href='/publicacion?id={{publicacion.id}}'">
+                                <td><img src="{{publicacion.foto_principal.url}}" width="100px" height="100px"></td>
+                                <td>{{publicacion.titulo}} <br> {{publicacion.get_estado_display}}</td>
+                                <td>{{publicacion.get_categoria_display}} <br> {{publicacion.get_cambio_display}} <br> {{publicacion.fecha}}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

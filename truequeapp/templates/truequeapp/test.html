@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+{% load static %}
+<head>
+    <title>Test</title>
+</head>
+
+<body>
+    <h1>Test</h1>
+
+    <ul>
+        {% if user.is_authenticated %}
+            <li>{{user.last_login}}</li>
+            <li>{{user.is_superuser}}</li>
+            <li>{{user.username}}</li>
+            <li>{{user.first_name}}</li>
+            <li>{{user.last_name}}</li>
+            <li>{{user.email}}</li>
+            <li>{{user.is_staff}}</li>
+            <li>{{user.is_active}}</li>
+            <li>{{user.date_joined}}</li>
+            <li>{{user.rut}}</li>
+            <li>{{user.numero}}</li>
+            <li>{{user.red_social}}</li>
+            <li>{{user.region}}</li>
+            <li>{{user.correo_respaldo}}</li>
+        {% endif %}
+    </ul>
+
+    <form action="/test/" method="POST"> {% csrf_token %}
+        <input type="submit">
+    </form>
+
+    <ul>
+        {% if foo %}
+            <li>{{foo}}</li>
+        {% endif %}
+    </ul>
+
+    {% if publicacion %}
+        <img src="{{publicacion.fotos.url}}">
+    {% endif %}
+</body>
+</html>

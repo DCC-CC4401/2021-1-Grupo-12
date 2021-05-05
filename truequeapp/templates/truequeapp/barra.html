@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Barra</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/barra.css' %}">
+</head>
+
+<body>
+    {% if user.is_authenticated %}
+        <div id="barra_grande">
+            <ul id="barra">
+                <li class="first"><a href="/perfil/{{ user.username }}">Mi perfil</a></li>
+                <li><a href="/home/">Home</a></li>
+                <li><a href="/publicar/">Publicar</a></li>
+                <li><a href="/publicaciones/">Trueques</a></li>
+                <li><a href="/contacto/">Contacto</a></li>
+                <li class="last"><a href="/logout/">Cerrar sesión</a></li>
+            </ul>
+        </div>
+    {% else %}
+        <div id="barra_grande">
+            <ul id="barra">
+                <li class="first"><a href="/login/">Entrar a mi cuenta</a></li>
+                <li><a href="/home/">Home</a></li>
+                <li><a href="/publicaciones/">Trueques</a></li>
+                <li><a href="/contacto/">Contacto</a></li>
+                <li class="last"><a href="/registro/">Registrarse</a></li>
+            </ul>
+        </div>
+    {% endif %}
+</body>
+</html>

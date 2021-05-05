@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil no encontrado</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/general.css' %}">
+</head>
+
+<body>
+
+    {% include "barra.html" %}
+
+    <div class="centrar">
+        <h4>Lo sentimos, pero el usuario "{{usuario}}" no existe.</h4>
+    </div>
+</body>
+</html>
