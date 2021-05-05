@@ -212,7 +212,7 @@ def contactar(request):
         if trueque.id:  # Si el trueque tiene id, es valido y entrara aqui
             return perfil(request, publicacion.publicador.username)
         else:
-            return render(request, "truequeapp/contacto_fallido.html", {"trueque": trueque})
+            return render(request, "truequeapp/contacto_fallido.html", {"perfil_usuario": publicacion.publicador})
 
     else:
         return HttpResponseRedirect('/login/')

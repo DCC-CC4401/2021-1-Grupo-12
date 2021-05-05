@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Mi perfil</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/es_mi_perfil.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/mi_perfil.css' %}">
 </head>
 
 <body>
@@ -12,27 +12,24 @@
     {% include "barra.html" %}
 
     <div>
-        <h1>Mi perfil</h1>
-        <div id="barra_lateral">
-            <div id="fondo">
-                <ul id="lista">
-                    <li>Mis datos</li>
-                    <li><a class="pestañas" href="/mis_publicaciones/">Mis publicaciones </a></li>
-                    <li><a class="pestañas"href="/mis_trueques/">Trueques</a></li>
-                </ul>
-            </div>
-        </div>
+        <h1 class="tgrande">Mi perfil</h1>
 
-        <div id="informacion">
-            <h3>Datos:</h3>
-            <ul>
-                <li>Nombre: {{nombre}}</li>
-                <li>Apellido: {{apellido}}</li>
-                <li>Nombre de usuario: {{usuario}}</li>
-                <li>Teléfono: {{telefono}}</li>
-                <li>Rut: {{rut}}</li>
-                <li>Región: {{region}}</li>
-            </ul>
+        <div class="row">
+            <div class="column left">
+                Mis datos<br>
+                <a href="/mis_publicaciones/">Mis publicaciones </a><br>
+                <a href="/mis_trueques/">Trueques</a>
+            </div>
+
+            <div  class="column right">
+                <div class="titulo">Datos</div><br><br>
+                Nombre: {{nombre}}<br>
+                Apellido: {{apellido}}<br>
+                Nombre de usuario: {{usuario}}<br>
+                Teléfono: {{telefono}}<br>
+                Rut: {{rut}}<br>
+                Región: {{region}}
+            </div>
         </div>
     </div>
 </body>

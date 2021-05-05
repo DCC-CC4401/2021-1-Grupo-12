@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Perfil: {{usuario}}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/perfil.css' %}">
 </head>
 
 <body>
@@ -13,10 +14,11 @@
     <div>
         <h1>Perfil: {{usuario}}</h1>
 
-        <div>
-            <div>Datos</div><br><br>
+        <div class="row">
 
-            <div>
+            <div class="titulo">Datos</div><br><br>
+
+            <div class="column left">
                 Nombre: {{nombre}}<br>
                 Apellido: {{apellido}}<br>
                 Redes: {{red_social}}<br>
@@ -25,7 +27,7 @@
                 Región: {{region}}
             </div>
 
-            <div>
+            <div class="column right">
                 N° de publicaciones: {{publicaciones|length}}<br>
                 N° Publicaciones Activas: {{publicaciones|length}}<br>
                 N° de trueques abiertos: {{publicaciones|length}}<br>
@@ -35,11 +37,11 @@
             </div>
         </div>
 
-        <div>
-            <div>Publicaciones</div><br><br>
+        <div><br><br>
+            <div class="titulo">Publicaciones</div><br><br>
 
             <div>
-                <table border="solid-black">
+                <table>
                     {% for publicacion in publicaciones %}
                         <tr onclick="location.href='/publicacion?id={{publicacion.id}}'">
                             <td><img src="{{publicacion.foto_principal.url}}" width="100px" height="100px"></td>

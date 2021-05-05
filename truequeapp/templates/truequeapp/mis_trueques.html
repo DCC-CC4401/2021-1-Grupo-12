@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Mi perfil</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/es_mi_perfil.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/mi_perfil.css' %}">
 </head>
 
 <body>
@@ -12,32 +12,31 @@
     {% include "barra.html" %}
 
     <div>
-        <h1>Mi perfil</h1>
+        <h1 class="tgrande">Mi perfil</h1>
 
-        <div id="barra_lateral">
-            <div id="fondo">
-                <ul id="lista">
-                    <li><a class="pestañas" href="/perfil/{{ user.username }}"> Mis datos </a></li>
-                    <li><a class="pestañas" href="/mis_publicaciones/">Mis publicaciones </a></li>
-                    <li>Trueques</li>
-                </ul>
+        <div class="row">
+            <div class="column left">
+                <a href="/perfil/{{ user.username }}"> Mis datos </a><br>
+                <a href="/mis_publicaciones/">Mis publicaciones </a><br>
+                <a>Trueques</a>
             </div>
-        </div>
-        <div id="informacion">
-            <h3>Trueques</h3>
 
-            <div>
-            {{ truequesd.truque0 }}
-                <table border="solid-black">
-                    {% for trueque in truequesd %}
-                        <tr onclick="location.href='/publicacion?id={{ trueque.1.id }}'">
-                            <td>{{trueque.0}}</td>
-                            <td><img src="{{trueque.1.foto_principal.url}}" width="100px" height="100px"></td>
-                            <td>{{trueque.1.titulo}} <br> {{trueque.1.get_estado_display}}</td>
-                            <td>{{trueque.1.get_categoria_display}} <br> {{trueque.1.get_cambio_display}} <br> {{trueque.1.fecha}}</td>
-                        </tr>
-                    {% endfor %}
-                </table>
+            <div class="column right">
+                <div class="titulo">Trueques</div><br><br>
+
+                <div>
+                {{ truequesd.truque0 }}
+                    <table border="solid-black">
+                        {% for trueque in truequesd %}
+                            <tr onclick="location.href='/publicacion?id={{ trueque.1.id }}'">
+                                <td>{{trueque.0}}</td>
+                                <td><img src="{{trueque.1.foto_principal.url}}" width="100px" height="100px"></td>
+                                <td>{{trueque.1.titulo}} <br> {{trueque.1.get_estado_display}}</td>
+                                <td>{{trueque.1.get_categoria_display}} <br> {{trueque.1.get_cambio_display}} <br> {{trueque.1.fecha}}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
             </div>
         </div>
     </div>

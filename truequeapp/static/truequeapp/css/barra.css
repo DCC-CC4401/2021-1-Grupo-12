@@ -20,8 +20,9 @@ body {
 }
 
 #barra_grande{
+    width: 100%;
     margin-bottom: 5%;
-    background-color: #FAE34A;
+    background-color: #ffe252;
 }
 a{
     text-decoration-line: none;
@@ -34,8 +35,8 @@ a:hover{
 }
 
 #barra li{
-    display: inline;
-    margin: 0 20px;
+    display: inline-flex;
+    margin: 10px 20px;
 }
 
 #barra li.last{

@@ -1,12 +1,8 @@
- /* Estilo barra.hmtl */
-/*Paleta de colores
-Verde: #81FA25
-Celeste/Azul: #20BED6
-Morado: #952FED
-Rojo: #D64920
-Amarillo: #FAE34A
-Blanco crema: #efefef
-*/
+/* Estilo publicaciones */
+
+@import "estilo_tablas.css";
+
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
     background-color: #efefef;
@@ -18,46 +14,45 @@ body {
     font-size: 300%;
 }
 
-table {
-    margin: auto;
-    width: 75%;
-    border-collapse: collapse;
-    border-top: 3px solid #000030;
-    border-bottom: 3px solid #000030;
-  }
+#imagen{
+    padding: 5px;
+    height: 160px;
+    width: 160px;
+    text-align: center;
+}
 
-  th, td {
-    border-top: 3px solid #000030;
-    border-left: 1px solid gray;
-    border-right: 1px solid gray;
-    padding: 15px;
-  }
-
-  #imagen{
-      padding: 5px;
-      height: 160px;
-      width: 160px;
-      text-align: center;
-  }
-
-  #titulo{
+#titulo{
     font-size: 28px;
-  }
+}
 
-  #estado{
-      font-size: 17px;
-      font-style: italic;
-  }
+#estado{
+  font-size: 17px;
+  font-style: italic;
+}
 
-  #cambio{
-      font-weight: bold;
-  }
+#cambio{
+  font-weight: bold;
+}
 
-  #fecha{
-      font-style: italic;
-  }
+#fecha{
+  font-style: italic;
+}
 
-  .linea{
+.linea{
     border: 1px dashed gray ;
     margin: 5px 2px;
-  }
+}
+
+table {}
+
+tr:hover {}
+
+th, td {}
+
+tr:nth-child(even){}
+
+th {}
+
+tr {}
+
+.titulo_tabla {}
