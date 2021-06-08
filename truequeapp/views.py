@@ -41,9 +41,23 @@ def perfil(request, username):
 
     # Si el usuario realizando la request no es el mismo que el username entregado, renderiza el perfil.
     elif request.user.is_authenticated:
+        n_publicaciones_activas = len(Publicacion.objects.filter(publicador_id=usuario.id, completado="A").values())
+        n_trueques_a = len(TruequesAbiertos.objects.filter(estado="A", interesado_id=usuario.id).values())
+        publ = TruequesAbiertos.objects.filter(estado="A").values()
+        for pub in publ:
+            if Publicacion.objects.filter(id=pub["publicacion_id"]).first().publicador_id == usuario.id:
+                n_trueques_a+=1
+
+        n_trueques_c = len(TruequesAbiertos.objects.filter(estado="C", interesado_id=usuario.id).values())
+        publ = TruequesAbiertos.objects.filter(estado="C").values()
+        for pub in publ:
+            if Publicacion.objects.filter(id=pub["publicacion_id"]).first().publicador_id == usuario.id:
+                n_trueques_c+=1        
+
         datos = {"nombre": usuario.first_name, "apellido": usuario.last_name, "usuario": usuario.username,
                  "red_social": usuario.red_social, "email": usuario.email,
-                 "telefono": usuario.numero, "region": usuario.region, "miembro_desde": usuario.date_joined}
+                 "telefono": usuario.numero, "region": usuario.region, "miembro_desde": usuario.date_joined,
+                 "n_p_activas":n_publicaciones_activas, "n_t_abiertos":n_trueques_a, "n_t_concretados":n_trueques_c}
         datos.update({"publicaciones": Publicacion.objects.filter(publicador_id=usuario.id).values()})
         return render(request, "truequeapp/perfil.html", datos)
 
@@ -184,6 +198,9 @@ def test(request):
     Metodo usada para el testeo de diversas funcionalidades de Django, pueden modificarla a conveniencia.
     """
     if request.method == "GET":
+        #publ = TruequesAbiertos.objects.filter(interesado_id=5).first()
+        #publ.estado = "C"
+        #publ.save(update_fields=["estado"])
         return render(request, "truequeapp/test.html")
 
     if request.method == "POST":

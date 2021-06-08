@@ -86,10 +86,24 @@ class Publicacion(models.Model):
     
     ########################################################################################
 
+    # Estado de la publicación (si fue realizado el trueque entre usuarios, bajado el post, etc)
+    ACTIVO = "A"
+    ELIMINADO = "E"
+    INACTIVO = "I"
+
+    COMPLETADOS = [
+        (ACTIVO, "Activo"),
+        (ELIMINADO, "Eliminado"),
+        (INACTIVO, "Inactivo"),
+    ]
+
+    ########################################################################################
+
     id = models.IntegerField(blank=False, primary_key=True)
     titulo = models.CharField(max_length=200, blank=False)
     descripcion = models.TextField(blank=True)
     estado = models.CharField(max_length=2, blank=False, choices=ESTADOS)
+    completado = models.CharField(max_length=1, blank=False, choices=COMPLETADOS, default=ACTIVO)
     categoria = models.CharField(max_length=2, blank=False, choices=CATEGORIAS)
     foto_principal = models.ImageField(upload_to='publicaciones/%Y/%m/%d/')
     foto_2 = models.ImageField(upload_to='publicaciones/%Y/%m/%d/')
@@ -102,9 +116,21 @@ class Publicacion(models.Model):
 
 
 class TruequesAbiertos(models.Model):
+     # Estado del trueque (si fue realizado el trueque entre usuarios, no concretado, etc)
+    ABIERTO = "A"
+    CONCRETADO = "C"
+    FALLIDO = "F"
+
+    ESTADO = [
+        (ABIERTO, "Abierto"),
+        (CONCRETADO, "Concretado"),
+        (FALLIDO, "Fallido"),
+    ]
+
     # id = models.IntegerField(blank=False, primary_key=True) produce un error, por mientras dejar asi
     publicacion = models.ForeignKey("Publicacion", on_delete=models.CASCADE)
     interesado = models.ForeignKey("Usuario", on_delete=models.CASCADE)
+    estado = models.CharField(max_length=1, blank=False, choices=ESTADO, default=ABIERTO)
 
     class Meta:
         constraints = [
