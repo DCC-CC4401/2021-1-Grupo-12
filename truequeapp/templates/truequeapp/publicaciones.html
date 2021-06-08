@@ -13,7 +13,12 @@
 
     <div>
         <h1 class="titulo_tabla">Todas las publicaciones</h1>
-
+        <div>
+        {% for categoria in categorias %}
+            <input type="checkbox" id="{{categoria.0}}" name="{{categoria.0}}" value="{{categoria.1}}">
+            <label for="{{categoria.0}}"> {{categoria.1}}</label><br>
+        {% endfor %}
+        </div>
         <table id="publicaciones">
             {% for publicacion in publicaciones_totales %}
                 <tr onclick="location.href='/publicacion?id={{publicacion.id}}'">

@@ -72,7 +72,9 @@ def mis_trueques(request):
 # Renderiza las publicacines.
 def publicaciones(request):
     publicaciones_totales = Publicacion.objects.all()
-    return render(request, "truequeapp/publicaciones.html", {"publicaciones_totales": publicaciones_totales})
+    todas_las_categorias = Publicacion.CATEGORIAS
+    return render(request, "truequeapp/publicaciones.html", {"publicaciones_totales": publicaciones_totales,
+                                                             "categorias": todas_las_categorias})
 
 
 # Renderiza pagina de login.
