@@ -54,7 +54,7 @@ def perfil(request, username):
 
 # Renderiza las publicaciones del usuario.
 def mis_publicaciones(request):
-    publicaciones_usuario = Publicacion.objects.filter(publicador_id=request.user.id).values()
+    publicaciones_usuario = Publicacion.objects.filter(publicador_id=request.user.id)
     return render(request, "truequeapp/mis_publicaciones.html", {"publicaciones": publicaciones_usuario})
 
 
@@ -69,7 +69,7 @@ def mis_trueques(request):
     return render(request, "truequeapp/mis_trueques.html", truequesd)
 
 
-# Renderiza las publicacines.
+# Renderiza las publicaciones.
 def publicaciones(request):
     publicaciones_totales = Publicacion.objects.all()
     todas_las_categorias = Publicacion.CATEGORIAS
@@ -212,7 +212,11 @@ def contactar(request):
         else:
             trueque = TruequesAbiertos.objects.get(publicacion=publicacion, interesado=interesado)
         if trueque.id:  # Si el trueque tiene id, es valido y entrara aqui
-            return perfil(request, publicacion.publicador.username)
+            # return perfil(request, publicacion.publicador.username)
+            publicaciones_compatibles = Publicacion.objects.filter(publicador_id=interesado.id).filter\
+                    (categoria=publicacion.cambio)
+            return render(request, 'truequeapp/trueques_compatibles.html', {"publicaciones_compatibles":
+                                                                                publicaciones_compatibles})
         else:
             return render(request, "truequeapp/contacto_fallido.html", {"perfil_usuario": publicacion.publicador})
 

@@ -70,10 +70,13 @@
                 <td class= "etiq">Fecha:</td><td> {{publicacion.fecha}}</td>
             </tr>    
         </table>
-
+        {% if  publicacion.publicador.username != user.username %}
         <div class="boton">
             <button type="button" class="btn" onclick="location.href='/contactar?id_p={{publicacion.id}}&id_i={{user.id}}'">Contactar Publicador</button>
         </div>
+        {% else %}
+        <h3>Esta publicación es tuya</h3>
+        {% endif %}
     </div>
 
 </body>
