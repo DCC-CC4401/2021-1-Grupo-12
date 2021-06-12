@@ -86,10 +86,24 @@ class Publicacion(models.Model):
     
     ########################################################################################
 
+    # Estado de la publicación (si fue realizado el trueque entre usuarios, bajado el post, etc)
+    ACTIVO = "A"
+    ELIMINADO = "E"
+    INACTIVO = "I"
+
+    COMPLETADOS = [
+        (ACTIVO, "Activo"),
+        (ELIMINADO, "Eliminado"),
+        (INACTIVO, "Inactivo"),
+    ]
+
+    ########################################################################################
+
     id = models.IntegerField(blank=False, primary_key=True)
     titulo = models.CharField(max_length=200, blank=False)
     descripcion = models.TextField(blank=True)
     estado = models.CharField(max_length=2, blank=False, choices=ESTADOS)
+    completado = models.CharField(max_length=1, blank=False, choices=COMPLETADOS, default=ACTIVO)
     categoria = models.CharField(max_length=2, blank=False, choices=CATEGORIAS)
     foto_principal = models.ImageField(upload_to='publicaciones/%Y/%m/%d/')
     foto_2 = models.ImageField(upload_to='publicaciones/%Y/%m/%d/')
@@ -100,17 +114,32 @@ class Publicacion(models.Model):
     publicador = models.ForeignKey('Usuario', on_delete=models.CASCADE)
     fecha = models.DateField(blank=False, auto_now=True)
 
+class Trueque(models.Model):
+     # Estado del trueque (si fue realizado el trueque entre usuarios, no concretado, etc)
+    ABIERTO = "A"
+    CONCRETADO = "C"
+    FALLIDO = "F"
 
-class TruequesAbiertos(models.Model):
+    ESTADO = [
+        (ABIERTO, "Abierto"),
+        (CONCRETADO, "Concretado"),
+        (FALLIDO, "Fallido"),
+    ]
+
     # id = models.IntegerField(blank=False, primary_key=True) produce un error, por mientras dejar asi
-    publicacion = models.ForeignKey("Publicacion", on_delete=models.CASCADE)
-    interesado = models.ForeignKey("Usuario", on_delete=models.CASCADE)
+    oferente = models.ForeignKey("Usuario", on_delete=models.CASCADE, related_name='oferente')
+    publicacion_oferente = models.ForeignKey("Publicacion", on_delete=models.CASCADE, related_name='publicacion_oferente')
+
+    demandante = models.ForeignKey("Usuario", on_delete=models.CASCADE, related_name='demandante')
+    publicacion_demandante = models.ForeignKey("Publicacion", on_delete=models.CASCADE, related_name='publicacion_demandante')
+
+    estado = models.CharField(max_length=1, blank=False, choices=ESTADO, default=ABIERTO)
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['publicacion', 'interesado'], name='no repetir trueque')
+            models.UniqueConstraint(fields=['publicacion_oferente', 'publicacion_demandante'], name='no repetir trueque')
             ]
 
     def save(self, *args, **kwargs):
-        if Publicacion.objects.filter(publicador=self.interesado, categoria=self.publicacion.cambio).count() > 0:
+        if Publicacion.objects.filter(publicador=self.demandante, categoria=self.publicacion_oferente.cambio).count() > 0:
             super().save(*args, **kwargs)
