@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth import logout as django_logout, authenticate, login as django_login
 
-from truequeapp.models import Publicacion, Usuario, TruequesAbiertos
+from truequeapp.models import Publicacion, Usuario, Trueque
 
 
 # Renderiza la pagina de home.
@@ -41,18 +41,18 @@ def perfil(request, username):
 
     # Si el usuario realizando la request no es el mismo que el username entregado, renderiza el perfil.
     elif request.user.is_authenticated:
+        #se cuentan las publicaciones asociadas al usuario cuyo estado se haya completado
         n_publicaciones_activas = len(Publicacion.objects.filter(publicador_id=usuario.id, completado="A").values())
-        n_trueques_a = len(TruequesAbiertos.objects.filter(estado="A", interesado_id=usuario.id).values())
-        publ = TruequesAbiertos.objects.filter(estado="A").values()
-        for pub in publ:
-            if Publicacion.objects.filter(id=pub["publicacion_id"]).first().publicador_id == usuario.id:
-                n_trueques_a+=1
 
-        n_trueques_c = len(TruequesAbiertos.objects.filter(estado="C", interesado_id=usuario.id).values())
-        publ = TruequesAbiertos.objects.filter(estado="C").values()
-        for pub in publ:
-            if Publicacion.objects.filter(id=pub["publicacion_id"]).first().publicador_id == usuario.id:
-                n_trueques_c+=1        
+        #se cuentan los trueques con estado abierto donde el usuario es demandante
+        n_trueques_a = len(Trueque.objects.filter(estado="A", demandante_id=usuario.id).values())
+
+        #se cuentan los trueques con estado abierto donde el usuario es oferente
+        n_trueques_a += len(Trueque.objects.filter(estado="A", oferente_id=usuario.id).values())
+
+        #análogo a lo de arriba pero con trueques concretados
+        n_trueques_c = len(Trueque.objects.filter(estado="C", demandante_id=usuario.id).values())
+        n_trueques_c += len(Trueque.objects.filter(estado="C", oferente_id=usuario.id).values())
 
         datos = {"nombre": usuario.first_name, "apellido": usuario.last_name, "usuario": usuario.username,
                  "red_social": usuario.red_social, "email": usuario.email,
@@ -76,8 +76,8 @@ def mis_trueques(request):
     truequesd = {}
     i = 0
     for publicaciones_usuario in Publicacion.objects.filter(publicador_id=request.user.id):
-        for trueques in TruequesAbiertos.objects.filter(publicacion=publicaciones_usuario):
-            trueque = {"trueque" + str(i): (trueques.interesado.username, publicaciones_usuario)}
+        for trueques in Trueque.objects.filter(publicacion_demandante=publicaciones_usuario):
+            trueque = {"trueque" + str(i): (trueques.demandante.username, publicaciones_usuario)}
             i += 1
             truequesd.update(trueque)
     return render(request, "truequeapp/mis_trueques.html", truequesd)
@@ -204,32 +204,44 @@ def test(request):
         return render(request, "truequeapp/test.html")
 
     if request.method == "POST":
-        foo = TruequesAbiertos.objects.create(publicacion=Publicacion.objects.filter(categoria="AF").first(),
-                                              interesado=request.user)
+        foo = Trueque.objects.create(publicacion_demandante=Publicacion.objects.filter(categoria="AF").first(),
+                                              demandante=request.user)
         if foo.id:
             return render(request, "truequeapp/test.html", {"foo": foo})
         else:
             return render(request, "truequeapp/contacto_fallido.html", {"foo": foo})
-
 
 # Renderiza la página de publicaion elegida.
 def publicacion_elegida(request):
     publicacion = Publicacion.objects.get(id=request.GET["id"])
     return render(request, 'truequeapp/publicacion_elegida.html', {"publicacion": publicacion})
 
-
+#
+#por arreglar despues
 def contactar(request):
     if request.user.is_authenticated:
-        publicacion = Publicacion.objects.get(id=request.GET["id_p"])
-        interesado = request.user
-        if not TruequesAbiertos.objects.filter(publicacion=publicacion, interesado=interesado).exists():
-            trueque = TruequesAbiertos.objects.create(publicacion=publicacion, interesado=interesado)
+        publicacion_oferente = Publicacion.objects.get(id=request.GET["id_p"])
+        oferente = Usuario.objects.get(id=publicacion_oferente.publicador.id)
+
+        #en caso de tratar de intercambiar con uno mismo
+        if request.user.id == oferente.id:
+            return perfil(request, publicacion_oferente.publicador.username)
+
+        demandante = request.user
+        #por default da el valor del indice 0, pero será cambiado más adelante
+        publicacion_demandante = Publicacion.objects.filter(publicador_id=demandante.id, categoria=publicacion_oferente.cambio).first()
+
+        #aqui cambiar demandante por publicacion oferente
+        if not Trueque.objects.filter(publicacion_oferente=publicacion_oferente, demandante=demandante).exists():
+            trueque = Trueque.objects.create(publicacion_oferente=publicacion_oferente, demandante=demandante, oferente=oferente, 
+                publicacion_demandante=publicacion_demandante)
         else:
-            trueque = TruequesAbiertos.objects.get(publicacion=publicacion, interesado=interesado)
+            #aqui cambiar demandante por publicacion oferente
+            trueque = Trueque.objects.get(publicacion_oferente=publicacion_oferente, demandante=demandante)
         if trueque.id:  # Si el trueque tiene id, es valido y entrara aqui
-            return perfil(request, publicacion.publicador.username)
+            return perfil(request, publicacion_oferente.publicador.username)
         else:
-            return render(request, "truequeapp/contacto_fallido.html", {"perfil_usuario": publicacion.publicador})
+            return render(request, "truequeapp/contacto_fallido.html", {"perfil_usuario": publicacion_oferente.publicador})
 
     else:
         return HttpResponseRedirect('/login/')

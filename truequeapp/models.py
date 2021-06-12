@@ -114,8 +114,7 @@ class Publicacion(models.Model):
     publicador = models.ForeignKey('Usuario', on_delete=models.CASCADE)
     fecha = models.DateField(blank=False, auto_now=True)
 
-
-class TruequesAbiertos(models.Model):
+class Trueque(models.Model):
      # Estado del trueque (si fue realizado el trueque entre usuarios, no concretado, etc)
     ABIERTO = "A"
     CONCRETADO = "C"
@@ -128,15 +127,19 @@ class TruequesAbiertos(models.Model):
     ]
 
     # id = models.IntegerField(blank=False, primary_key=True) produce un error, por mientras dejar asi
-    publicacion = models.ForeignKey("Publicacion", on_delete=models.CASCADE)
-    interesado = models.ForeignKey("Usuario", on_delete=models.CASCADE)
+    oferente = models.ForeignKey("Usuario", on_delete=models.CASCADE, related_name='oferente')
+    publicacion_oferente = models.ForeignKey("Publicacion", on_delete=models.CASCADE, related_name='publicacion_oferente')
+
+    demandante = models.ForeignKey("Usuario", on_delete=models.CASCADE, related_name='demandante')
+    publicacion_demandante = models.ForeignKey("Publicacion", on_delete=models.CASCADE, related_name='publicacion_demandante')
+
     estado = models.CharField(max_length=1, blank=False, choices=ESTADO, default=ABIERTO)
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['publicacion', 'interesado'], name='no repetir trueque')
+            models.UniqueConstraint(fields=['publicacion_oferente', 'publicacion_demandante'], name='no repetir trueque')
             ]
 
     def save(self, *args, **kwargs):
-        if Publicacion.objects.filter(publicador=self.interesado, categoria=self.publicacion.cambio).count() > 0:
+        if Publicacion.objects.filter(publicador=self.demandante, categoria=self.publicacion_oferente.cambio).count() > 0:
             super().save(*args, **kwargs)
