@@ -200,6 +200,14 @@ def publicacion_elegida(request):
     publicacion = Publicacion.objects.get(id=request.GET["id"])
     return render(request, 'truequeapp/publicacion_elegida.html', {"publicacion": publicacion})
 
+# Vista oferta-demanda. El oferente es quien debe aceptar.
+def vista_oferta_demanda(request):
+    publicacion_ofrecida = Publicacion.objects.get(id=request.GET["id_o"])
+    demandante = publicacion_ofrecida.publicador
+    publicacion_demandada = Publicacion.objects.get(id=request.GET["id_d"])
+    oferente = publicacion_demandada.publicador
+    return render(request, 'truequeapp/vista_oferta_demanda.html', {"ofrecido": publicacion_ofrecida, "oferente": oferente, "demandada": publicacion_demandada, "demandante": demandante})
+
 
 def contactar(request):
     if request.user.is_authenticated:

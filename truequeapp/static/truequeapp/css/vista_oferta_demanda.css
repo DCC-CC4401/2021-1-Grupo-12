@@ -1,0 +1,77 @@
+ /* Estilo barra.hmtl */
+/*Paleta de colores
+Verde: #81FA25
+Celeste/Azul: #20BED6
+Morado: #952FED
+Rojo: #D64920
+Amarillo: #FAE34A
+Blanco crema: #efefef
+*/
+body {
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
+    background-color: #efefef;
+    color: #000000;
+}
+
+h1{
+    font-size: 250%;
+}
+
+h3{
+    font-size: 22px;
+}
+
+#izq{
+    float: left;
+    margin: 0px 50px;
+}
+#der {
+    margin-left: 50px;
+    float: left;   
+}
+
+p{
+    font-size: 17px;
+}
+
+table{
+    border: 2px solid black;
+    border-collapse: collapse;
+}
+
+.etiq{
+    font-weight: 200;
+    padding-right: 15px;
+}
+
+td{
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+    padding: 5px;
+    font-size: 18px;
+}
+
+.boton{
+    text-align: left;
+}
+
+.btn{
+    position: relative;
+    left: 25px;
+    border: 1px solid black;
+    padding: 10px;
+    font-weight: 550;
+    font-size: 20px;
+    color: #FFFFFF;
+    background-color: #006d18;
+    border-radius: 3px;
+    margin-top: 30px;
+}
+
+#user{
+    font-size: 150%;
+    text-align: center;
+}
+#cal{
+    text-align: center;
+}
