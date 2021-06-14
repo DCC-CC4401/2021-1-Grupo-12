@@ -71,11 +71,18 @@ def mis_trueques(request):
 
 # Renderiza las publicaciones.
 def publicaciones(request):
-    publicaciones_totales = Publicacion.objects.all()
     todas_las_categorias = Publicacion.CATEGORIAS
+    filtros = request.GET.getlist("categoria[]")
+
+    if len(filtros) == 0:
+        publicaciones_totales = Publicacion.objects.all()
+
+    else:
+        publicaciones_totales = Publicacion.objects.filter(categoria__in=filtros)
+
+    request.path = "/publicaciones/?categorias=filtros'"
     return render(request, "truequeapp/publicaciones.html", {"publicaciones_totales": publicaciones_totales,
                                                              "categorias": todas_las_categorias})
-
 
 # Renderiza pagina de login.
 # El método devuelve el template si es requerido por GET.
