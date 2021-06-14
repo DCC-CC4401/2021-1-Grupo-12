@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Trueques Compatibles</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/publicaciones.css' %}">
+</head>
+<body>
+{% include "barra.html" %}
+    <div>
+        <h1 class="titulo_tabla">Mis trueques compatibles</h1>
+        <h1 class="titulo_tabla">Selecciona por cual quieres intercambiar tu producto</h1>
+        <table id="publicaciones">
+            {% for publicacion in publicaciones_compatibles %}
+                <tr onclick="location.href='/publicacion?id={{publicacion.id}}'">
+                    <td id="imagen"><img src="{{publicacion.foto_principal.url}}" width="160px" height="160px"></td>
+                    <td><span id="titulo">{{publicacion.titulo}} </span>
+                        <br> <span id="estado">{{publicacion.get_estado_display}} </span></td>
+                    <td><span id="categoria"> {{publicacion.get_categoria_display}} </span>
+                        <div class="linea"></div>
+                        <span id="cambio"> Busco: {{publicacion.get_cambio_display}} </span>
+                        <div class="linea"></div>
+                        <span id="fecha">{{publicacion.fecha}} </span></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</body>
+</html>

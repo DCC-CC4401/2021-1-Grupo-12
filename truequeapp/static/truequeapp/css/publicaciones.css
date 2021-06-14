@@ -2,7 +2,6 @@
 
 @import "estilo_tablas.css";
 
-
 body {
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
     background-color: #efefef;
@@ -38,9 +37,72 @@ body {
   font-style: italic;
 }
 
+
+.titulo_filtro{
+    color: #2B92E9;
+    font-size: 28px;
+    text-decoration-line: underline;
+}
+
+.titulo_filtro:hover{
+    color: #09477B;
+    font-size: 28px;
+    font-weight: bold;
+    text-decoration-line: underline;
+}
+
+.filtro{
+    margin-bottom: 10px;
+    margin-top: 10px;
+    text-align: left;
+    background: lightgray;
+    border: 1px solid gray;
+    border-collapse: collapse;
+    border-radius: 5px;
+    display: none;
+}
+
+.categorias{
+    margin-top: 5px;
+    display: inline-flex;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.boton_filtro{
+    float: right !important;
+    margin: 5px;
+    margin-top: 15px;
+}
+
+.boton_marcar_todo{
+    float: left !important;
+    margin: 5px;
+    margin-top: 15px;
+}
+
+.ctg{
+    width: 200px;
+}
+
 .linea{
     border: 1px dashed gray ;
     margin: 5px 2px;
+}
+
+.centrar{
+  position: relative;
+  height: 150px;
+}
+
+.centrar h4{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
 }
 
 table {}

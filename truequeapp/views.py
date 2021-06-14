@@ -68,7 +68,7 @@ def perfil(request, username):
 
 # Renderiza las publicaciones del usuario.
 def mis_publicaciones(request):
-    publicaciones_usuario = Publicacion.objects.filter(publicador_id=request.user.id).values()
+    publicaciones_usuario = Publicacion.objects.filter(publicador_id=request.user.id)
     return render(request, "truequeapp/mis_publicaciones.html", {"publicaciones": publicaciones_usuario})
 
 
@@ -83,11 +83,20 @@ def mis_trueques(request):
     return render(request, "truequeapp/mis_trueques.html", truequesd)
 
 
-# Renderiza las publicacines.
+# Renderiza las publicaciones.
 def publicaciones(request):
-    publicaciones_totales = Publicacion.objects.all()
-    return render(request, "truequeapp/publicaciones.html", {"publicaciones_totales": publicaciones_totales})
+    todas_las_categorias = Publicacion.CATEGORIAS
+    filtros = request.GET.getlist("categoria[]")
 
+    if len(filtros) == 0:
+        publicaciones_totales = Publicacion.objects.all()
+
+    else:
+        publicaciones_totales = Publicacion.objects.filter(categoria__in=filtros)
+
+    request.path = "/publicaciones/?categorias=filtros'"
+    return render(request, "truequeapp/publicaciones.html", {"publicaciones_totales": publicaciones_totales,
+                                                             "categorias": todas_las_categorias})
 
 # Renderiza pagina de login.
 # El método devuelve el template si es requerido por GET.
@@ -239,7 +248,10 @@ def contactar(request):
             #aqui cambiar demandante por publicacion oferente
             trueque = Trueque.objects.get(publicacion_oferente=publicacion_oferente, demandante=demandante)
         if trueque.id:  # Si el trueque tiene id, es valido y entrara aqui
-            return perfil(request, publicacion_oferente.publicador.username)
+            publicaciones_compatibles = Publicacion.objects.filter(publicador_id=request.user.id).filter \
+                (categoria=publicacion_oferente.cambio)
+            return render(request, 'truequeapp/trueques_compatibles.html', {"publicaciones_compatibles":
+                                                                                publicaciones_compatibles})
         else:
             return render(request, "truequeapp/contacto_fallido.html", {"perfil_usuario": publicacion_oferente.publicador})
 

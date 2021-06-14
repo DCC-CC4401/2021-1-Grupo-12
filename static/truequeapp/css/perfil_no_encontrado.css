@@ -1,0 +1,14 @@
+/* Estilo perfil_no_encontrado.html */
+
+.center{
+  position: relative;
+  height: 150px;
+}
+
+.center h4{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+}
