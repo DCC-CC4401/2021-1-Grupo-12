@@ -13,7 +13,7 @@
         <h1 class="titulo_tabla">Selecciona por cual quieres intercambiar tu producto</h1>
         <table id="publicaciones">
             {% for publicacion in publicaciones_compatibles %}
-                <tr onclick="location.href='/publicacion?id={{publicacion.id}}'">
+                <tr onclick="location.href='/contactar?id_d={{publicacion.id}}&id_o={{publicacion_oferente.id}}'">
                     <td id="imagen"><img src="{{publicacion.foto_principal.url}}" width="160px" height="160px"></td>
                     <td><span id="titulo">{{publicacion.titulo}} </span>
                         <br> <span id="estado">{{publicacion.get_estado_display}} </span></td>

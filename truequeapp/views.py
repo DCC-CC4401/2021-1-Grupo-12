@@ -220,16 +220,25 @@ def test(request):
         else:
             return render(request, "truequeapp/contacto_fallido.html", {"foo": foo})
 
-# Renderiza la página de publicaion elegida.
+# Renderiza la página de publicacion elegida.
 def publicacion_elegida(request):
     publicacion = Publicacion.objects.get(id=request.GET["id"])
     return render(request, 'truequeapp/publicacion_elegida.html', {"publicacion": publicacion})
 
-#
+def trueques_compatibles(request):
+    publicacion_oferente = Publicacion.objects.get(id=request.GET["id_p"])
+    demandante = request.user
+    publicaciones_compatibles = Publicacion.objects.filter(publicador_id=demandante.id).filter \
+        (categoria=publicacion_oferente.cambio)
+    return render(request, 'truequeapp/trueques_compatibles.html', {"publicaciones_compatibles":
+                                                                        publicaciones_compatibles,
+                                                                    "publicacion_oferente":publicacion_oferente})
+
+
 #por arreglar despues
 def contactar(request):
     if request.user.is_authenticated:
-        publicacion_oferente = Publicacion.objects.get(id=request.GET["id_p"])
+        publicacion_oferente = Publicacion.objects.get(id=request.GET["id_o"])
         oferente = Usuario.objects.get(id=publicacion_oferente.publicador.id)
 
         #en caso de tratar de intercambiar con uno mismo
@@ -238,8 +247,8 @@ def contactar(request):
 
         demandante = request.user
         #por default da el valor del indice 0, pero será cambiado más adelante
-        publicacion_demandante = Publicacion.objects.filter(publicador_id=demandante.id, categoria=publicacion_oferente.cambio).first()
-
+        #publicacion_demandante = Publicacion.objects.filter(publicador_id=demandante.id, categoria=publicacion_oferente.cambio).first()
+        publicacion_demandante = Publicacion.objects.get(id=request.GET["id_d"])
         #aqui cambiar demandante por publicacion oferente
         if not Trueque.objects.filter(publicacion_oferente=publicacion_oferente, demandante=demandante).exists():
             trueque = Trueque.objects.create(publicacion_oferente=publicacion_oferente, demandante=demandante, oferente=oferente, 
@@ -248,10 +257,7 @@ def contactar(request):
             #aqui cambiar demandante por publicacion oferente
             trueque = Trueque.objects.get(publicacion_oferente=publicacion_oferente, demandante=demandante)
         if trueque.id:  # Si el trueque tiene id, es valido y entrara aqui
-            publicaciones_compatibles = Publicacion.objects.filter(publicador_id=request.user.id).filter \
-                (categoria=publicacion_oferente.cambio)
-            return render(request, 'truequeapp/trueques_compatibles.html', {"publicaciones_compatibles":
-                                                                                publicaciones_compatibles})
+            return render(request, "truequeapp/post_solic_trueque.html")
         else:
             return render(request, "truequeapp/contacto_fallido.html", {"perfil_usuario": publicacion_oferente.publicador})
 
