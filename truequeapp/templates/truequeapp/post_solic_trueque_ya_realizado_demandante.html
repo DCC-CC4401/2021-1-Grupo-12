@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+{% load static %}
+<head>
+    <title>Post Publicar</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/general.css' %}">
+</head>
+
+<body>
+
+    {% include "barra.html" %}
+
+    <div class="centrar">
+        <h1>Revisa tus notificaciones.</h1>
+        <h2>El usuario de esta publicación te ha solicitado realizar este mismo trueque.</h2>
+        <h2>Debes estar atento a tus notificaciones.</h2>
+        <a href="/home/">
+            <button type="button">Volver a la portada</button>
+        </a>
+    </div>
+</body>
+</html>
