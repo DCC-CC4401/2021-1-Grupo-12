@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db.models.deletion import CASCADE
 
 
 # El modelo predeterminado de User en Django ya trae los sgtes atributos:
@@ -26,6 +27,9 @@ class Usuario(AbstractUser):
     region = models.CharField(max_length=254, choices=regiones)
     # Seguridad
     correo_respaldo = models.EmailField(max_length=254, blank=True)
+
+    def get_num_mess(self):
+        return len(Mensaje.objects.filter(usuario_id=self.id, estado="N").values())
 
 
 class Publicacion(models.Model):
@@ -143,3 +147,31 @@ class Trueque(models.Model):
     def save(self, *args, **kwargs):
         if Publicacion.objects.filter(publicador=self.demandante, categoria=self.publicacion_oferente.cambio).count() > 0:
             super().save(*args, **kwargs)
+
+class Mensaje(models.Model):
+    CALIFICAR = "C"
+    REVISAR = "R"
+    ACEPTAR = "A"
+    TIPO = [
+        (CALIFICAR, "calificar"),
+        (REVISAR, "revisar"),
+        (ACEPTAR, "aceptar"),
+    ]
+
+    VISTO = "V"
+    NOVISTO = "N"
+    ESTADO = [
+        (VISTO, "Visto"),
+        (NOVISTO, "No visto"),
+    ]
+
+    usuario = models.ForeignKey("Usuario", on_delete=CASCADE)
+    trueque_asoc = models.ForeignKey("Trueque", on_delete=CASCADE)
+    fecha_de_envio = models.DateTimeField(auto_now_add=True)
+    tipo = models.CharField(max_length=1, blank=False, choices=TIPO)
+    estado = models.CharField(max_length=1, blank=False, choices=ESTADO, default=NOVISTO)
+
+    class Meta:
+        # sort by "fecha" in descending order unless
+        # overridden in the query with order_by()
+        ordering = ['-fecha_de_envio']
