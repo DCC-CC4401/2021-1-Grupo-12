@@ -170,3 +170,8 @@ class Mensaje(models.Model):
     fecha_de_envio = models.DateTimeField(auto_now_add=True)
     tipo = models.CharField(max_length=1, blank=False, choices=TIPO)
     estado = models.CharField(max_length=1, blank=False, choices=ESTADO, default=NOVISTO)
+
+    class Meta:
+        # sort by "fecha" in descending order unless
+        # overridden in the query with order_by()
+        ordering = ['-fecha_de_envio']
