@@ -19,6 +19,7 @@ urlpatterns = [
 	path('mis_publicaciones/', views.mis_publicaciones, name='mis_publicaciones'),
 	path('mis_trueques/', views.mis_trueques, name='mis_trueques'),
 	url(r'^perfil/(?P<username>[\w\-]+)/$', views.perfil, name='perfil'),
+	path('notificacion/', views.notificacion, name='notificacion'),
 ]
 
 if settings.DEBUG:

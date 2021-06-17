@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth import logout as django_logout, authenticate, login as django_login
 
-from truequeapp.models import Publicacion, Usuario, Trueque
+from truequeapp.models import Publicacion, Usuario, Trueque, Mensaje
 
 
 # Renderiza la pagina de home.
@@ -255,5 +255,39 @@ def contactar(request):
         else:
             return render(request, "truequeapp/contacto_fallido.html", {"perfil_usuario": publicacion_oferente.publicador})
 
+    else:
+        return HttpResponseRedirect('/login/')
+
+def notificacion(request):
+    if request.user.is_authenticated:
+
+        if "id_m" in request.GET:
+            mensaje = Mensaje.objects.get(id=request.GET["id_m"])
+            mensaje.estado = "V"
+            mensaje.save(update_fields=["estado"])
+
+        mensajes = Mensaje.objects.filter(usuario_id=request.user.id, estado='N')
+        mensajes_html = []
+        for mensaje in mensajes:
+            trueque = Trueque.objects.get(id=mensaje.trueque_asoc_id)
+            demandante = Usuario.objects.get(id=trueque.demandante_id)
+            oferente = Usuario.objects.get(id=trueque.oferente_id)
+            if mensaje.tipo == "C":
+                link = f"/calificar?id_t={trueque}"
+                if demandante.id == request.user.id:
+                    informacion = f"Trueque aceptado por {oferente.username}, califica el intercambio"
+                else:
+                    informacion = f"Haz aceptado el trueque con {demandante.username}, califica el intercambio"
+            elif mensaje.tipo == "R":
+                link = f"/revisar?id_t={trueque.id}"
+                informacion = f"El usuario {demandante.username} quiere intercambiar un producto contigo, revisalo"
+            else: # tipo = "A"
+                link = f"/notificacion?id_m={mensaje.id}"
+                informacion = f"Trueque rechazado por {oferente.username}, lo sentimos"
+            tipo = mensaje.get_tipo_display()
+            
+            mensajes_html += [{'informacion': informacion,'link': link, 'tipo': tipo}]
+
+        return render(request, "truequeapp/notificacion.html", {"mensajes": mensajes_html})
     else:
         return HttpResponseRedirect('/login/')
