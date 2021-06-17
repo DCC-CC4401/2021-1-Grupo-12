@@ -41,23 +41,23 @@ def perfil(request, username):
 
     # Si el usuario realizando la request no es el mismo que el username entregado, renderiza el perfil.
     elif request.user.is_authenticated:
-        #se cuentan las publicaciones asociadas al usuario cuyo estado se haya completado
+        # se cuentan las publicaciones asociadas al usuario cuyo estado se haya completado
         n_publicaciones_activas = len(Publicacion.objects.filter(publicador_id=usuario.id, completado="A").values())
 
-        #se cuentan los trueques con estado abierto donde el usuario es demandante
+        # se cuentan los trueques con estado abierto donde el usuario es demandante
         n_trueques_a = len(Trueque.objects.filter(estado="A", demandante_id=usuario.id).values())
 
-        #se cuentan los trueques con estado abierto donde el usuario es oferente
+        # se cuentan los trueques con estado abierto donde el usuario es oferente
         n_trueques_a += len(Trueque.objects.filter(estado="A", oferente_id=usuario.id).values())
 
-        #análogo a lo de arriba pero con trueques concretados
+        # análogo a lo de arriba pero con trueques concretados
         n_trueques_c = len(Trueque.objects.filter(estado="C", demandante_id=usuario.id).values())
         n_trueques_c += len(Trueque.objects.filter(estado="C", oferente_id=usuario.id).values())
 
         datos = {"nombre": usuario.first_name, "apellido": usuario.last_name, "usuario": usuario.username,
                  "red_social": usuario.red_social, "email": usuario.email,
                  "telefono": usuario.numero, "region": usuario.region, "miembro_desde": usuario.date_joined,
-                 "n_p_activas":n_publicaciones_activas, "n_t_abiertos":n_trueques_a, "n_t_concretados":n_trueques_c}
+                 "n_p_activas": n_publicaciones_activas, "n_t_abiertos": n_trueques_a, "n_t_concretados": n_trueques_c}
         datos.update({"publicaciones": Publicacion.objects.filter(publicador_id=usuario.id).values()})
         return render(request, "truequeapp/perfil.html", datos)
 
@@ -73,14 +73,63 @@ def mis_publicaciones(request):
 
 
 def mis_trueques(request):
-    truequesd = {}
-    i = 0
-    for publicaciones_usuario in Publicacion.objects.filter(publicador_id=request.user.id):
-        for trueques in Trueque.objects.filter(publicacion_demandante=publicaciones_usuario):
-            trueque = {"trueque" + str(i): (trueques.demandante.username, publicaciones_usuario)}
-            i += 1
-            truequesd.update(trueque)
-    return render(request, "truequeapp/mis_trueques.html", truequesd)
+    trueques_usuario_of = Trueque.objects.filter(oferente_id=request.user.id)
+    trueques_usuario_de = Trueque.objects.filter(demandante_id=request.user.id)
+    trueque_como_oferente = []
+    trueque_como_demandante = []
+    trueques = []
+
+    for trueque in trueques_usuario_of:
+        publicacion_oferente = Publicacion.objects.get(id=trueque.publicacion_oferente.id)
+        publicacion_oferente_id = publicacion_oferente.id
+        publicacion_oferente_foto = publicacion_oferente.foto_principal.url
+        publicacion_oferente_titulo = publicacion_oferente.titulo
+        publicacion_oferente_estado = publicacion_oferente.get_estado_display
+        oferente = Usuario.objects.get(id=trueque.oferente.id).username
+        publicacion_demandante = Publicacion.objects.get(id=trueque.publicacion_demandante.id)
+        publicacion_demandante_id = publicacion_demandante.id
+        publicacion_demandante_foto = publicacion_demandante.foto_principal.url
+        publicacion_demandante_titulo = publicacion_demandante.titulo
+        publicacion_demandante_estado = publicacion_demandante.get_estado_display
+        demandante = Usuario.objects.get(id=trueque.demandante.id).username
+        trueque_como_oferente += [{'publicacion_oferente_id': publicacion_oferente_id,
+                                   'publicacion_oferente_foto': publicacion_oferente_foto,
+                                   'publicacion_oferente_titulo': publicacion_oferente_titulo,
+                                   'publicacion_oferente_estado': publicacion_oferente_estado,
+                                   'oferente': oferente,
+                                   'publicacion_demandante_id': publicacion_demandante_id,
+                                   'publicacion_demandante_foto': publicacion_demandante_foto,
+                                   'publicacion_demandante_titulo': publicacion_demandante_titulo,
+                                   'publicacion_demandante_estado': publicacion_demandante_estado,
+                                   'demandante': demandante,
+                                   }]
+
+    for trueque in trueques_usuario_de:
+        publicacion_oferente = Publicacion.objects.get(id=trueque.publicacion_oferente.id)
+        publicacion_oferente_id = publicacion_oferente.id
+        publicacion_oferente_foto = publicacion_oferente.foto_principal.url
+        publicacion_oferente_titulo = publicacion_oferente.titulo
+        publicacion_oferente_estado = publicacion_oferente.get_estado_display
+        oferente = Usuario.objects.get(id=trueque.oferente.id).username
+        publicacion_demandante = Publicacion.objects.get(id=trueque.publicacion_demandante.id)
+        publicacion_demandante_id = publicacion_demandante.id
+        publicacion_demandante_foto = publicacion_demandante.foto_principal.url
+        publicacion_demandante_titulo = publicacion_demandante.titulo
+        publicacion_demandante_estado = publicacion_demandante.get_estado_display
+        demandante = Usuario.objects.get(id=trueque.demandante.id).username
+        trueque_como_demandante += [{'publicacion_oferente_id': publicacion_oferente_id,
+                                   'publicacion_oferente_foto': publicacion_oferente_foto,
+                                   'publicacion_oferente_titulo': publicacion_oferente_titulo,
+                                   'publicacion_oferente_estado': publicacion_oferente_estado,
+                                   'oferente': oferente,
+                                   'publicacion_demandante_id': publicacion_demandante_id,
+                                   'publicacion_demandante_foto': publicacion_demandante_foto,
+                                   'publicacion_demandante_titulo': publicacion_demandante_titulo,
+                                   'publicacion_demandante_estado': publicacion_demandante_estado,
+                                   'demandante': demandante,
+                                   }]
+
+    return render(request, "truequeapp/mis_trueques.html", {'trueque_como_oferente': trueque_como_oferente, 'trueque_como_demandante': trueque_como_demandante})
 
 
 # Renderiza las publicaciones.
@@ -92,11 +141,12 @@ def publicaciones(request):
         publicaciones_totales = Publicacion.objects.all()
 
     else:
-        publicaciones_totales = Publicacion.objects.filter(categoria__in=filtros)
+        publicaciones_totales = Publicacion.objects.filter(categoria_in=filtros)
 
     request.path = "/publicaciones/?categorias=filtros'"
     return render(request, "truequeapp/publicaciones.html", {"publicaciones_totales": publicaciones_totales,
                                                              "categorias": todas_las_categorias})
+
 
 # Renderiza pagina de login.
 # El método devuelve el template si es requerido por GET.
@@ -214,53 +264,73 @@ def test(request):
         mensaje = Mensaje.objects.create(usuario=request.user, trueque_asoc=trueque, tipo="C")
         mensaje = Mensaje.objects.create(usuario=request.user, trueque_asoc=trueque, tipo="R")
         mensaje = Mensaje.objects.create(usuario=request.user, trueque_asoc=trueque, tipo="A")
+
         return render(request, "truequeapp/test.html")
 
     if request.method == "POST":
         foo = Trueque.objects.create(publicacion_demandante=Publicacion.objects.filter(categoria="AF").first(),
-                                              demandante=request.user)
+                                     demandante=request.user)
         if foo.id:
             return render(request, "truequeapp/test.html", {"foo": foo})
         else:
             return render(request, "truequeapp/contacto_fallido.html", {"foo": foo})
 
-# Renderiza la página de publicaion elegida.
+
+# Renderiza la página de publicacion elegida.
 def publicacion_elegida(request):
     publicacion = Publicacion.objects.get(id=request.GET["id"])
     return render(request, 'truequeapp/publicacion_elegida.html', {"publicacion": publicacion})
 
-#
-#por arreglar despues
-def contactar(request):
+
+def trueques_compatibles(request):
     if request.user.is_authenticated:
         publicacion_oferente = Publicacion.objects.get(id=request.GET["id_p"])
-        oferente = Usuario.objects.get(id=publicacion_oferente.publicador.id)
-
-        #en caso de tratar de intercambiar con uno mismo
-        if request.user.id == oferente.id:
-            return perfil(request, publicacion_oferente.publicador.username)
-
         demandante = request.user
-        #por default da el valor del indice 0, pero será cambiado más adelante
-        publicacion_demandante = Publicacion.objects.filter(publicador_id=demandante.id, categoria=publicacion_oferente.cambio).first()
-
-        #aqui cambiar demandante por publicacion oferente
-        if not Trueque.objects.filter(publicacion_oferente=publicacion_oferente, demandante=demandante).exists():
-            trueque = Trueque.objects.create(publicacion_oferente=publicacion_oferente, demandante=demandante, oferente=oferente, 
-                publicacion_demandante=publicacion_demandante)
-        else:
-            #aqui cambiar demandante por publicacion oferente
-            trueque = Trueque.objects.get(publicacion_oferente=publicacion_oferente, demandante=demandante)
-        if trueque.id:  # Si el trueque tiene id, es valido y entrara aqui
-            publicaciones_compatibles = Publicacion.objects.filter(publicador_id=request.user.id).filter \
-                (categoria=publicacion_oferente.cambio)
+        publicaciones_compatibles = Publicacion.objects.filter(publicador_id=demandante.id).filter \
+            (categoria=publicacion_oferente.cambio)
+        if len(publicaciones_compatibles) != 0:
             return render(request, 'truequeapp/trueques_compatibles.html', {"publicaciones_compatibles":
-                                                                                publicaciones_compatibles})
+                                                                                publicaciones_compatibles,
+                                                                            "publicacion_oferente": publicacion_oferente})
         else:
             return render(request, "truequeapp/contacto_fallido.html", {"perfil_usuario": publicacion_oferente.publicador})
-
     else:
         return HttpResponseRedirect('/login/')
+
+
+# por arreglar despues
+def contactar(request):
+    if request.user.is_authenticated:
+        publicacion_oferente = Publicacion.objects.get(id=request.GET["id_o"])
+        oferente = Usuario.objects.get(id=publicacion_oferente.publicador.id)
+
+        # en caso de tratar de intercambiar con uno mismo
+        if request.user.id == oferente.id:
+            return perfil(request, request.user.username)
+
+        demandante = request.user
+        # por default da el valor del indice 0, pero será cambiado más adelante
+        # publicacion_demandante = Publicacion.objects.filter(publicador_id=demandante.id, categoria=publicacion_oferente.cambio).first()
+        publicacion_demandante = Publicacion.objects.get(id=request.GET["id_d"])
+        # aqui cambiar demandante por publicacion oferente
+        if Trueque.objects.filter(publicacion_oferente_id=publicacion_oferente.id,
+                                  publicacion_demandante_id=publicacion_demandante.id,
+                                  oferente_id=oferente.id,
+                                  demandante_id=demandante.id).exists():
+            return render(request, "truequeapp/post_solic_trueque_ya_realizado_oferente.html")
+        elif Trueque.objects.filter(publicacion_oferente_id=publicacion_demandante.id,
+                                    publicacion_demandante_id=publicacion_oferente.id,
+                                    oferente_id=demandante.id,
+                                    demandante_id=oferente.id).exists():
+            return render(request, "truequeapp/post_solic_trueque_ya_realizado_demandante.html")
+        else:
+            trueque = Trueque.objects.create(publicacion_oferente=publicacion_oferente, demandante=demandante,
+                                             oferente=oferente,
+                                             publicacion_demandante=publicacion_demandante)
+            return render(request, "truequeapp/post_solic_trueque.html", {"trueque": trueque})
+    else:
+        return HttpResponseRedirect('/login/')
+
 
 def notificacion(request):
     if request.user.is_authenticated:
