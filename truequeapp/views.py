@@ -210,6 +210,10 @@ def test(request):
         #publ = TruequesAbiertos.objects.filter(interesado_id=5).first()
         #publ.estado = "C"
         #publ.save(update_fields=["estado"])
+        trueque = Trueque.objects.filter(demandante_id=request.user.id).first()
+        mensaje = Mensaje.objects.create(usuario=request.user, trueque_asoc=trueque, tipo="C")
+        mensaje = Mensaje.objects.create(usuario=request.user, trueque_asoc=trueque, tipo="R")
+        mensaje = Mensaje.objects.create(usuario=request.user, trueque_asoc=trueque, tipo="A")
         return render(request, "truequeapp/test.html")
 
     if request.method == "POST":
