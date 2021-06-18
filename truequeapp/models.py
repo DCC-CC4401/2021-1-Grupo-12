@@ -9,8 +9,6 @@ from django.db.models.deletion import CASCADE
 # Puede ser que debamos ajustar un poco, quizá pedirle un nick específico al usuario
 # para que pueda crear su username único.
 class Usuario(AbstractUser):
-    # Identificación
-    id = models.IntegerField(blank=False, primary_key=True)
     rut = models.CharField(max_length=13, blank=True)
     # Contacto
     numero = models.CharField(max_length=13, blank=True)
@@ -103,7 +101,6 @@ class Publicacion(models.Model):
 
     ########################################################################################
 
-    id = models.IntegerField(blank=False, primary_key=True)
     titulo = models.CharField(max_length=200, blank=False)
     descripcion = models.TextField(blank=True)
     estado = models.CharField(max_length=2, blank=False, choices=ESTADOS)
@@ -130,7 +127,6 @@ class Trueque(models.Model):
         (FALLIDO, "Fallido"),
     ]
 
-    # id = models.IntegerField(blank=False, primary_key=True) produce un error, por mientras dejar asi
     oferente = models.ForeignKey("Usuario", on_delete=models.CASCADE, related_name='oferente')
     publicacion_oferente = models.ForeignKey("Publicacion", on_delete=models.CASCADE, related_name='publicacion_oferente')
 
