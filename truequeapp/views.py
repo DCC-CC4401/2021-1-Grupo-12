@@ -309,8 +309,6 @@ def contactar(request):
             return perfil(request, request.user.username)
 
         demandante = request.user
-        # por default da el valor del indice 0, pero será cambiado más adelante
-        # publicacion_demandante = Publicacion.objects.filter(publicador_id=demandante.id, categoria=publicacion_oferente.cambio).first()
         publicacion_demandante = Publicacion.objects.get(id=request.GET["id_d"])
         # aqui cambiar demandante por publicacion oferente
         if Trueque.objects.filter(publicacion_oferente_id=publicacion_oferente.id,
@@ -327,6 +325,7 @@ def contactar(request):
             trueque = Trueque.objects.create(publicacion_oferente=publicacion_oferente, demandante=demandante,
                                              oferente=oferente,
                                              publicacion_demandante=publicacion_demandante)
+            Mensaje.objects.create(usuario=oferente, trueque_asoc=trueque, tipo="R")
             return render(request, "truequeapp/post_solic_trueque.html", {"trueque": trueque})
     else:
         return HttpResponseRedirect('/login/')
