@@ -141,7 +141,7 @@ def publicaciones(request):
         publicaciones_totales = Publicacion.objects.all()
 
     else:
-        publicaciones_totales = Publicacion.objects.filter(categoria_in=filtros)
+        publicaciones_totales = Publicacion.objects.filter(categoria__in=filtros)
 
     request.path = "/publicaciones/?categorias=filtros'"
     return render(request, "truequeapp/publicaciones.html", {"publicaciones_totales": publicaciones_totales,
@@ -279,7 +279,29 @@ def test(request):
 # Renderiza la página de publicacion elegida.
 def publicacion_elegida(request):
     publicacion = Publicacion.objects.get(id=request.GET["id"])
-    return render(request, 'truequeapp/publicacion_elegida.html', {"publicacion": publicacion})
+    oferente = Usuario.objects.get(id=publicacion.publicador_id)
+    num_pub = len(Publicacion.objects.filter(publicador_id=oferente.id))
+    pub_act = len(Publicacion.objects.filter(publicador_id=oferente.id, completado="A"))
+
+    # se cuentan los trueques con estado abierto donde el usuario es demandante
+    trueque_ab = len(Trueque.objects.filter(estado="A", demandante_id=oferente.id))
+    # se cuentan los trueques con estado abierto donde el usuario es oferente
+    trueque_ab += len(Trueque.objects.filter(estado="A", oferente_id=oferente.id))
+
+    # análogo a lo de arriba pero con trueques concretados
+    trueque_con = len(Trueque.objects.filter(estado="C", demandante_id=oferente.id))
+    trueque_con += len(Trueque.objects.filter(estado="C", oferente_id=oferente.id))
+    
+    info_oferente = {
+        'username': oferente.username,
+        'num_pub': num_pub,
+        'pub_act': pub_act,
+        'tru_abi': trueque_ab,
+        'tru_con': trueque_con,
+        'fecha': oferente.date_joined,
+        'reputacion': "Aún no implementado" #TODO
+    }
+    return render(request, 'truequeapp/publicacion_elegida.html', {"publicacion": publicacion, 'info':info_oferente})
 
 
 def trueques_compatibles(request):
