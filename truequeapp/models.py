@@ -26,9 +26,6 @@ class Usuario(AbstractUser):
     region = models.CharField(max_length=254, choices=regiones)
     # Seguridad
     correo_respaldo = models.EmailField(max_length=254, blank=True)
-    # Calificacion
-    reputacion = models.FloatField(blank=True, default=0.0)
-
 
 class Publicacion(models.Model):
 
