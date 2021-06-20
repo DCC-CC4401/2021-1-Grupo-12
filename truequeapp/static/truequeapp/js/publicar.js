@@ -15,5 +15,10 @@ function addImageButton(i){
 
         let agregar_imagen = document.getElementById("agregar-fotos");
         agregar_imagen.setAttribute("onclick","addImageButton("+(i+1)+")");
+
+        if (i == 5){
+            let div_foto = document.getElementById("agregar-fotos-div")
+            div_foto.style.display = "none";
+        }
     }
 }
