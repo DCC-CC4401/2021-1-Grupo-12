@@ -16,10 +16,14 @@ urlpatterns = [
 	path('test/', views.test, name='test'),
 	path('publicacion/', views.publicacion_elegida, name='publicacion'),
 	path('contactar/', views.contactar, name='contactar'),
+    path('trueques_compatibles/', views.trueques_compatibles, name='trueques_compatibles'),
 	path('mis_publicaciones/', views.mis_publicaciones, name='mis_publicaciones'),
 	path('mis_trueques/', views.mis_trueques, name='mis_trueques'),
-	path('oferta_demanda/', views.vista_oferta_demanda, name='vista_oferta_demanda'),
 	url(r'^perfil/(?P<username>[\w\-]+)/$', views.perfil, name='perfil'),
+	path('notificacion/', views.notificacion, name='notificacion'),
+	path('oferta_demanda/', views.vista_oferta_demanda, name='oferta_demanda'),
+	path('trueque_finalizado/', views.trueque_finalizado, name='trueque_finalizado'),
+	path('calificar/', views.calificar, name='calificar'),
 ]
 
 if settings.DEBUG:

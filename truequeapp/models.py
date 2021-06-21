@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db.models.deletion import CASCADE
 
 
 # El modelo predeterminado de User en Django ya trae los sgtes atributos:
@@ -8,8 +9,6 @@ from django.contrib.auth.models import AbstractUser
 # Puede ser que debamos ajustar un poco, quizá pedirle un nick específico al usuario
 # para que pueda crear su username único.
 class Usuario(AbstractUser):
-    # Identificación
-    id = models.IntegerField(blank=False, primary_key=True)
     rut = models.CharField(max_length=13, blank=True)
     # Contacto
     numero = models.CharField(max_length=13, blank=True)
@@ -26,8 +25,9 @@ class Usuario(AbstractUser):
     region = models.CharField(max_length=254, choices=regiones)
     # Seguridad
     correo_respaldo = models.EmailField(max_length=254, blank=True)
-    # Calificacion
-    reputacion = models.FloatField(blank=True, default=0.0)
+
+    def get_num_mess(self):
+        return len(Mensaje.objects.filter(usuario_id=self.id, estado="N").values())
 
 
 class Publicacion(models.Model):
@@ -88,10 +88,23 @@ class Publicacion(models.Model):
     
     ########################################################################################
 
-    id = models.IntegerField(blank=False, primary_key=True)
+    # Estado de la publicación (si fue realizado el trueque entre usuarios, bajado el post, etc)
+    ACTIVO = "A"
+    ELIMINADO = "E"
+    INACTIVO = "I"
+
+    COMPLETADOS = [
+        (ACTIVO, "Activo"),
+        (ELIMINADO, "Eliminado"),
+        (INACTIVO, "Inactivo"),
+    ]
+
+    ########################################################################################
+
     titulo = models.CharField(max_length=200, blank=False)
     descripcion = models.TextField(blank=True)
     estado = models.CharField(max_length=2, blank=False, choices=ESTADOS)
+    completado = models.CharField(max_length=1, blank=False, choices=COMPLETADOS, default=ACTIVO)
     categoria = models.CharField(max_length=2, blank=False, choices=CATEGORIAS)
     foto_principal = models.ImageField(upload_to='publicaciones/%Y/%m/%d/')
     foto_2 = models.ImageField(upload_to='publicaciones/%Y/%m/%d/')
@@ -102,17 +115,65 @@ class Publicacion(models.Model):
     publicador = models.ForeignKey('Usuario', on_delete=models.CASCADE)
     fecha = models.DateField(blank=False, auto_now=True)
 
+class Trueque(models.Model):
+     # Estado del trueque (si fue realizado el trueque entre usuarios, no concretado, etc)
+    ABIERTO = "A"
+    CONCRETADO = "C"
+    FALLIDO = "F"
 
-class TruequesAbiertos(models.Model):
-    # id = models.IntegerField(blank=False, primary_key=True) produce un error, por mientras dejar asi
-    publicacion = models.ForeignKey("Publicacion", on_delete=models.CASCADE)
-    interesado = models.ForeignKey("Usuario", on_delete=models.CASCADE)
+    ESTADO = [
+        (ABIERTO, "Abierto"),
+        (CONCRETADO, "Concretado"),
+        (FALLIDO, "Fallido"),
+    ]
+
+    oferente = models.ForeignKey("Usuario", on_delete=models.CASCADE, related_name='oferente')
+    publicacion_oferente = models.ForeignKey("Publicacion", on_delete=models.CASCADE, related_name='publicacion_oferente')
+
+    demandante = models.ForeignKey("Usuario", on_delete=models.CASCADE, related_name='demandante')
+    publicacion_demandante = models.ForeignKey("Publicacion", on_delete=models.CASCADE, related_name='publicacion_demandante')
+
+    estado = models.CharField(max_length=1, blank=False, choices=ESTADO, default=ABIERTO)
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['publicacion', 'interesado'], name='no repetir trueque')
+            models.UniqueConstraint(fields=['publicacion_oferente', 'publicacion_demandante'], name='no repetir trueque')
             ]
 
     def save(self, *args, **kwargs):
-        if Publicacion.objects.filter(publicador=self.interesado, categoria=self.publicacion.cambio).count() > 0:
+        if Publicacion.objects.filter(publicador=self.demandante, categoria=self.publicacion_oferente.cambio).count() > 0:
             super().save(*args, **kwargs)
+
+class Mensaje(models.Model):
+    CALIFICAR = "C"
+    REVISAR = "R"
+    ACEPTAR = "A"
+    TIPO = [
+        (CALIFICAR, "calificar"),
+        (REVISAR, "revisar"),
+        (ACEPTAR, "aceptar"),
+    ]
+
+    VISTO = "V"
+    NOVISTO = "N"
+    ESTADO = [
+        (VISTO, "Visto"),
+        (NOVISTO, "No visto"),
+    ]
+
+    usuario = models.ForeignKey("Usuario", on_delete=CASCADE)
+    trueque_asoc = models.ForeignKey("Trueque", on_delete=CASCADE)
+    fecha_de_envio = models.DateTimeField(auto_now_add=True)
+    tipo = models.CharField(max_length=1, blank=False, choices=TIPO)
+    estado = models.CharField(max_length=1, blank=False, choices=ESTADO, default=NOVISTO)
+
+    class Meta:
+        # sort by "fecha" in descending order unless
+        # overridden in the query with order_by()
+        ordering = ['-fecha_de_envio']
+
+#modelo para la calificacion de los trueques
+class Calificacion(models.Model):
+    valor = models.FloatField(blank=True, default=0.0)
+    usuario = models.ForeignKey("Usuario", on_delete=CASCADE)
+    trueque = models.ForeignKey("Trueque", on_delete=CASCADE)

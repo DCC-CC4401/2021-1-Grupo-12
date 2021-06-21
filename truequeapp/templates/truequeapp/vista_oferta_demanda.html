@@ -80,7 +80,7 @@
                     </table>
             
                     <div class="boton">
-                        <button type="button" class="btn" onclick="location.href='/contactar?id_p={{ofrecido.id}}&id_i={{user.id}}'">Contactar Publicador</button>
+                        <button type="button" class="btn1" onclick="location.href='/trueque_finalizado?aceptado=1&id_t={{trueque.id}}&id_m={{mensaje.id}}'">Aceptar Trueque</button>
                     </div>
                 </div>
             </td>
@@ -147,15 +147,11 @@
                     </table>
             
                     <div class="boton">
-                        <button type="button" class="btn" onclick="location.href='/contactar?id_p={{demandada.id}}&id_i={{user.id}}'">Contactar Publicador</button>
+                        <button type="button" class="btn2" onclick="location.href='/trueque_finalizado?aceptado=0&id_t={{trueque.id}}&id_m={{mensaje.id}}'">Rechazar Trueque</button>
                     </div>
                 </div>
             </td>
         </tr>
     </table>
-    
-    
-    
-
 </body>
 </html> 

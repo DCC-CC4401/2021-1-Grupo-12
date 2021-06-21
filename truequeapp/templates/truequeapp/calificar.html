@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Califica tu trueque</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/general.css' %}">
+</head>
+
+<body>
+
+    {% include "barra.html" %}
+
+    <div class="centrar">
+        <h1>Califique su trueque con el usuario ... </h1>
+        <form method="POST">
+        	{% csrf_token %}
+        	<input type="radio" name="calificacion" value="1" id="uno">
+        	<label for="uno">1</label><br>
+
+        	<input type="radio" name="calificacion" value="2" id="dos">
+        	<label for="dos">2</label><br>
+
+        	<input type="radio" name="calificacion" value="3" id="tres">
+        	<label for="tres">3</label><br>
+
+        	<input type="radio" name="calificacion" value="4" id="cuatro">
+        	<label for="cuatro">4</label><br>
+
+        	<input type="radio" name="calificacion" value="5" id="cinco">
+        	<label for="cinco">5</label><br>
+
+        	<button type="submit"> Enviar </button>
+        </form>
+        <a href="/home">Volver a home</a>
+    </div>
+</body>

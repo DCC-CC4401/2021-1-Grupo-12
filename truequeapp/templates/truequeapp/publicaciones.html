@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>Publicaciones</title>
     <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/publicaciones.css' %}">
+    <script src="{% static 'truequeapp/js/filtrar.js' %}"></script>
 </head>
 
 <body>
@@ -14,20 +15,51 @@
     <div>
         <h1 class="titulo_tabla">Todas las publicaciones</h1>
 
-        <table id="publicaciones">
-            {% for publicacion in publicaciones_totales %}
-                <tr onclick="location.href='/publicacion?id={{publicacion.id}}'">
-                    <td id="imagen"><img src="{{publicacion.foto_principal.url}}" width="160px" height="160px"></td>
-                    <td><span id="titulo">{{publicacion.titulo}} </span> 
-                        <br> <span id="estado">{{publicacion.get_estado_display}} </span></td>
-                    <td><span id="categoria"> {{publicacion.get_categoria_display}} </span>
-                        <div class="linea"></div>
-                        <span id="cambio"> Busco: {{publicacion.get_cambio_display}} </span>
-                        <div class="linea"></div>
-                        <span id="fecha">{{publicacion.fecha}} </span></td>
-                </tr>
-            {% endfor %}
-        </table>
+        <div><a id="titulo_filtro" name="titulo_filtro" class="titulo_filtro" onclick="mostrarFiltro()">Filtrar</a></div>
+        <div id="filtro" name="filtro" class="filtro">
+            <form action="/publicaciones/" method="GET" enctype="multipart/form-data">
+                <div id="categorias" name="categorias" class="categorias">
+                    {% for categoria in categorias %}
+                        <div class="ctg">
+                            <input type="checkbox" id="{{categoria.0}}" name="categoria[]" value="{{categoria.0}}">
+                            <label for="{{categoria.0}}"> {{categoria.1}}</label><br>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div>
+                    <div id="boton_marcar_todo" class="boton_marcar_todo">
+                        <input id="marcar_todo" name="marcar_todo" type="checkbox" value="marcar_todo" onclick="marcarTodo(this)">
+                        <label for="marcar_todo">de/seleccionar todo</label><br>
+                    </div>
+
+                    <div id="boton_filtro" class="boton_filtro">
+                        <input id="enviar" name="enviar" type="submit" value="Filtrar">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        {% if publicaciones_totales|length != 0 %}
+            <table id="publicaciones">
+                {% for publicacion in publicaciones_totales %}
+                    <tr onclick="location.href='/publicacion?id={{publicacion.id}}'">
+                        <td id="imagen"><img src="{{publicacion.foto_principal.url}}" width="160px" height="160px"></td>
+                        <td><span id="titulo">{{publicacion.titulo}} </span>
+                            <br> <span id="estado">{{publicacion.get_estado_display}} </span></td>
+                        <td><span id="categoria"> {{publicacion.get_categoria_display}} </span>
+                            <div class="linea"></div>
+                            <span id="cambio"> Busco: {{publicacion.get_cambio_display}} </span>
+                            <div class="linea"></div>
+                            <span id="fecha">{{publicacion.fecha}} </span></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <div class="centrar">
+                <h4>No se han logrado encontrar publicaciones con la categoria(s) buscada(s).</h4>
+            </div>
+        {% endif %}
     </div>
 </body>
 </html> 

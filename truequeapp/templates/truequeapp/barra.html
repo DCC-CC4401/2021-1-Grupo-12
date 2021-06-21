@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>Barra</title>
     <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/barra.css' %}">
+    <script src="{% static 'truequeapp/js/ir_a_perfil.js' %}"></script>
 </head>
 
 <body>
@@ -16,6 +17,8 @@
                 <li><a href="/publicar/">Publicar</a></li>
                 <li><a href="/publicaciones/">Trueques</a></li>
                 <li><a href="/contacto/">Contacto</a></li>
+                <li><a href="/notificacion/">Notificacion ({{ user.get_num_mess }})</a></li>
+                <li class="last"><input id="perfil" name="perfil" onkeypress="irAPerfil(event)" value="" placeholder="Buscar usuario"></li>
                 <li class="last"><a href="/logout/">Cerrar sesión</a></li>
             </ul>
         </div>
@@ -26,6 +29,7 @@
                 <li><a href="/home/">Home</a></li>
                 <li><a href="/publicaciones/">Trueques</a></li>
                 <li><a href="/contacto/">Contacto</a></li>
+                <li class="last"><input id="perfil" name="perfil" onkeypress="irAPerfil(event)" value="" placeholder="Buscar usuario"></li>
                 <li class="last"><a href="/registro/">Registrarse</a></li>
             </ul>
         </div>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Trueque Finalizado</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/general.css' %}">
+</head>
+
+<body>
+
+    {% include "barra.html" %}
+
+    <div class="centrar">
+        <h1>{{mensaje}}</h1>
+        <a href="/home">Volver a home</a>
+    </div>
+</body>

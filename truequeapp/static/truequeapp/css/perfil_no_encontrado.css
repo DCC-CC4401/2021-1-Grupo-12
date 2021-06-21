@@ -1,11 +1,11 @@
 /* Estilo perfil_no_encontrado.html */
 
-.center{
+.centrar{
   position: relative;
   height: 150px;
 }
 
-.center h4{
+.centrar h4{
   position: absolute;
   top: 50%;
   left: 50%;
