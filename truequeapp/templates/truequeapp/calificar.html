@@ -12,7 +12,8 @@
     {% include "barra.html" %}
 
     <div class="centrar">
-        <h1>Califique su trueque con el usuario ... </h1>
+        <h1>Califique su trueque con el usuario {% if trueque.oferente.username == user.username %} {{trueque.demandante}} {% endif %} 
+			{% if trueque.demandante.username == user.username %} {{trueque.oferente}} {% endif %} </h1>
         <form method="POST">
         	{% csrf_token %}
         	<input type="radio" name="calificacion" value="1" id="uno">

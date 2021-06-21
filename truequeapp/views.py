@@ -410,7 +410,7 @@ def calificar(request):
 	mensaje = Mensaje.objects.get(id=request.GET["id_m"])
 
 	if request.method == "GET":
-		return render(request, 'truequeapp/calificar.html')
+		return render(request, 'truequeapp/calificar.html', {"trueque": trueque})
 
 	if request.method == "POST":
 		mensaje.estado = "V"
