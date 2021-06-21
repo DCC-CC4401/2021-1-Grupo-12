@@ -21,12 +21,9 @@ urlpatterns = [
 	path('mis_trueques/', views.mis_trueques, name='mis_trueques'),
 	url(r'^perfil/(?P<username>[\w\-]+)/$', views.perfil, name='perfil'),
 	path('notificacion/', views.notificacion, name='notificacion'),
-<<<<<<< HEAD
-=======
 	path('oferta_demanda/', views.vista_oferta_demanda, name='oferta_demanda'),
 	path('trueque_finalizado/', views.trueque_finalizado, name='trueque_finalizado'),
 	path('calificar/', views.calificar, name='calificar'),
->>>>>>> vista-oferta-demanda
 ]
 
 if settings.DEBUG:
