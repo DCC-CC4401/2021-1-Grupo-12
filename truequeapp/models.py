@@ -171,3 +171,12 @@ class Mensaje(models.Model):
         # sort by "fecha" in descending order unless
         # overridden in the query with order_by()
         ordering = ['-fecha_de_envio']
+<<<<<<< HEAD
+=======
+
+#modelo para la calificacion de los trueques
+class Calificacion(models.Model):
+    valor = models.FloatField(blank=True, default=0.0)
+    usuario = models.ForeignKey("Usuario", on_delete=CASCADE)
+    trueque = models.ForeignKey("Trueque", on_delete=CASCADE)
+>>>>>>> vista-oferta-demanda
