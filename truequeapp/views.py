@@ -2,18 +2,19 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth import logout as django_logout, authenticate, login as django_login
+from django.db.models import Avg
 
 from truequeapp.models import Publicacion, Usuario, Trueque, Mensaje, Calificacion
 
 
 # Renderiza la pagina de home.
 def home(request):
-	return render(request, "truequeapp/home.html")
+    return render(request, "truequeapp/home.html")
 
 
 # Renderiza la pagina de contacto.
 def contacto(request):
-	return render(request, "truequeapp/contacto.html")
+    return render(request, "truequeapp/contacto.html")
 
 
 # Renderiza la pagina de perfil del usuario si es que el parametro username que recibe y el usuario
@@ -54,11 +55,18 @@ def perfil(request, username):
         n_trueques_c = len(Trueque.objects.filter(estado="C", demandante_id=usuario.id).values())
         n_trueques_c += len(Trueque.objects.filter(estado="C", oferente_id=usuario.id).values())
 
+        # Consultar datos de reputacion y obtener el promedio
+        reputacion = Calificacion.objects.filter(usuario_id=usuario.id).aggregate(Avg('valor'))
+        reputacion_promedio = reputacion["valor__avg"]
+        if reputacion_promedio is None:
+            reputacion_promedio = "Aún no tiene reputación este usuario"
+
         datos = {"nombre": usuario.first_name, "apellido": usuario.last_name, "usuario": usuario.username,
                  "red_social": usuario.red_social, "email": usuario.email,
                  "telefono": usuario.numero, "region": usuario.region, "miembro_desde": usuario.date_joined,
-                 "n_p_activas": n_publicaciones_activas, "n_t_abiertos": n_trueques_a, "n_t_concretados": n_trueques_c}
-        datos.update({"publicaciones": Publicacion.objects.filter(publicador_id=usuario.id).values()})
+                 "n_p_activas": n_publicaciones_activas, "n_t_abiertos": n_trueques_a, "n_t_concretados": n_trueques_c,
+                 "reputacion": reputacion_promedio}
+        datos.update({"publicaciones": Publicacion.objects.filter(publicador_id=usuario.id)})
         return render(request, "truequeapp/perfil.html", datos)
 
     # Si el usuario realizando la request no ha iniciado sesión, se le redirecciona al la pagina de login.
@@ -152,104 +160,104 @@ def publicaciones(request):
 # El método devuelve el template si es requerido por GET.
 # Si es por POST (mandar info de login), loggea usuario.
 def login(request):
-	if request.method == 'GET':
-		return render(request, 'truequeapp/login.html')
+    if request.method == 'GET':
+        return render(request, 'truequeapp/login.html')
 
-	if request.method == "POST":
-		nombre_usuario = request.POST['nombre_usuario']
-		contraseña = request.POST['contraseña']
-		usuario = authenticate(
-			username=nombre_usuario,
-			password=contraseña)
+    if request.method == "POST":
+        nombre_usuario = request.POST['nombre_usuario']
+        contraseña = request.POST['contraseña']
+        usuario = authenticate(
+            username=nombre_usuario,
+            password=contraseña)
 
-		if usuario is not None:
-			django_login(request, usuario)
-			return HttpResponseRedirect('/home/')
+        if usuario is not None:
+            django_login(request, usuario)
+            return HttpResponseRedirect('/home/')
 
-		else:
-			return HttpResponseRedirect('/login/')
+        else:
+            return HttpResponseRedirect('/login/')
 
 
 # Renderiza pagina de home al hacer logout.
 def logout(request):
-	django_logout(request)
-	return HttpResponseRedirect('/home/')
+    django_logout(request)
+    return HttpResponseRedirect('/home/')
 
 
 # Renderiza la página de registro.
 # El método devuelve el template si es requerido por GET.
 # Si es por POST (mandar info de registro), crea usuario.
 def registro(request):
-	if request.method == 'GET':
-		return render(request, "truequeapp/registro.html")
+    if request.method == 'GET':
+        return render(request, "truequeapp/registro.html")
 
-	elif request.method == 'POST':
-		nombre = request.POST['nombre']
-		apellido = request.POST['apellido']
-		nombre_usuario = request.POST['nombre_usuario']
-		rut = request.POST['rut']
-		numero = request.POST['numero']
-		red_social = request.POST['red_social']
-		region = request.POST['region']
-		correo = request.POST['correo']
-		correo_respaldo = request.POST['correo_respaldo']
-		contraseña = request.POST['contraseña']
+    elif request.method == 'POST':
+        nombre = request.POST['nombre']
+        apellido = request.POST['apellido']
+        nombre_usuario = request.POST['nombre_usuario']
+        rut = request.POST['rut']
+        numero = request.POST['numero']
+        red_social = request.POST['red_social']
+        region = request.POST['region']
+        correo = request.POST['correo']
+        correo_respaldo = request.POST['correo_respaldo']
+        contraseña = request.POST['contraseña']
 
-		if Usuario.objects.filter(username=nombre_usuario).exists():
-			return render(request, "truequeapp/registro.html")
+        if Usuario.objects.filter(username=nombre_usuario).exists():
+            return render(request, "truequeapp/registro.html")
 
-		Usuario.objects.create_user(
-			username=nombre_usuario,
-			first_name=nombre,
-			last_name=apellido,
-			email=correo, rut=rut,
-			numero=numero,
-			red_social=red_social,
-			region=region,
-			correo_respaldo=correo_respaldo,
-			password=contraseña)
+        Usuario.objects.create_user(
+            username=nombre_usuario,
+            first_name=nombre,
+            last_name=apellido,
+            email=correo, rut=rut,
+            numero=numero,
+            red_social=red_social,
+            region=region,
+            correo_respaldo=correo_respaldo,
+            password=contraseña)
 
-		usuario = authenticate(
-			username=nombre_usuario,
-			password=contraseña)
+        usuario = authenticate(
+            username=nombre_usuario,
+            password=contraseña)
 
-		if usuario is not None:
-			django_login(request, usuario)
-			return HttpResponseRedirect('/home/')
+        if usuario is not None:
+            django_login(request, usuario)
+            return HttpResponseRedirect('/home/')
 
-		return HttpResponseRedirect('/registro/')
+        return HttpResponseRedirect('/registro/')
 
 
 # Renderiza la página para publicar productos.
 # El método devuelve el template si es requerido por GET.
 # Si es por POST (mandar info de publicacion), crea publicacion.
 def publicar_producto(request):
-	"""
-	Metodo encargado de la publicacion de un producto por parte de un usuario.
-	"""
-	if request.method == "GET":
-		return render(request, "truequeapp/publicar.html", {"estados": Publicacion.ESTADOS,
-															"categorias": Publicacion.CATEGORIAS})
+    """
+    Metodo encargado de la publicacion de un producto por parte de un usuario.
+    """
+    if request.method == "GET":
+        return render(request, "truequeapp/publicar.html", {"estados": Publicacion.ESTADOS,
+                                                            "categorias": Publicacion.CATEGORIAS})
 
-	if request.method == "POST":
-		if request.user.is_authenticated:
-			usuario = Usuario.objects.get(id=request.user.id)
-			Publicacion.objects.create(
-				titulo=request.POST["titulo"],
-				descripcion=request.POST["descripcion"],
-				estado=request.POST["estado"],
-				categoria=request.POST["categoria"],
-				foto_principal=request.FILES.get("foto_1") if request.FILES.get("foto_1") else None,
-				foto_2=request.FILES.get("foto_2") if request.FILES.get("foto_2") else None,
-				foto_3=request.FILES.get("foto_3") if request.FILES.get("foto_3") else None,
-				foto_4=request.FILES.get("foto_4") if request.FILES.get("foto_4") else None,
-				foto_5=request.FILES.get("foto_5") if request.FILES.get("foto_5") else None,
-				cambio=request.POST["cambio"],
-				publicador=usuario)
-			return render(request, "truequeapp/post_publicar.html")
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            usuario = Usuario.objects.get(id=request.user.id)
+            Publicacion.objects.create(
+                titulo=request.POST["titulo"],
+                descripcion=request.POST["descripcion"],
+                estado=request.POST["estado"],
+                categoria=request.POST["categoria"],
+                foto_principal=request.FILES.get("foto_1") if request.FILES.get("foto_1") else None,
+                foto_2=request.FILES.get("foto_2") if request.FILES.get("foto_2") else None,
+                foto_3=request.FILES.get("foto_3") if request.FILES.get("foto_3") else None,
+                foto_4=request.FILES.get("foto_4") if request.FILES.get("foto_4") else None,
+                foto_5=request.FILES.get("foto_5") if request.FILES.get("foto_5") else None,
+                cambio=request.POST["cambio"],
+                publicador=usuario)
+            return render(request, "truequeapp/post_publicar.html")
 
-		else:
-			return render(request, "truequeapp/post_publicar.html")
+        else:
+            return render(request, "truequeapp/post_publicar.html")
 
 
 def test(request):
@@ -291,6 +299,12 @@ def publicacion_elegida(request):
     # análogo a lo de arriba pero con trueques concretados
     trueque_con = len(Trueque.objects.filter(estado="C", demandante_id=oferente.id))
     trueque_con += len(Trueque.objects.filter(estado="C", oferente_id=oferente.id))
+
+    # Consultar datos de reputacion y obtener el promedio
+    reputacion = Calificacion.objects.filter(usuario_id=oferente.id).aggregate(Avg('valor'))
+    reputacion_promedio = reputacion["valor__avg"]
+    if reputacion_promedio is None:
+        reputacion_promedio = "Aún no tiene reputación este usuario"
     
     info_oferente = {
         'username': oferente.username,
@@ -299,7 +313,7 @@ def publicacion_elegida(request):
         'tru_abi': trueque_ab,
         'tru_con': trueque_con,
         'fecha': oferente.date_joined,
-        'reputacion': "Aún no implementado" #TODO
+        'reputacion': reputacion_promedio
     }
     return render(request, 'truequeapp/publicacion_elegida.html', {"publicacion": publicacion, 'info':info_oferente})
 
@@ -322,143 +336,143 @@ def trueques_compatibles(request):
 
 # por arreglar despues
 def contactar(request):
-	if request.user.is_authenticated:
-		publicacion_oferente = Publicacion.objects.get(id=request.GET["id_o"])
-		oferente = Usuario.objects.get(id=publicacion_oferente.publicador.id)
+    if request.user.is_authenticated:
+        publicacion_oferente = Publicacion.objects.get(id=request.GET["id_o"])
+        oferente = Usuario.objects.get(id=publicacion_oferente.publicador.id)
 
-		# en caso de tratar de intercambiar con uno mismo
-		if request.user.id == oferente.id:
-			return perfil(request, request.user.username)
+        # en caso de tratar de intercambiar con uno mismo
+        if request.user.id == oferente.id:
+            return perfil(request, request.user.username)
 
-		demandante = request.user
-		publicacion_demandante = Publicacion.objects.get(id=request.GET["id_d"])
-		# aqui cambiar demandante por publicacion oferente
-		if Trueque.objects.filter(publicacion_oferente_id=publicacion_oferente.id,
-								  publicacion_demandante_id=publicacion_demandante.id,
-								  oferente_id=oferente.id,
-								  demandante_id=demandante.id).exists():
-			return render(request, "truequeapp/post_solic_trueque_ya_realizado_oferente.html")
-		elif Trueque.objects.filter(publicacion_oferente_id=publicacion_demandante.id,
-									publicacion_demandante_id=publicacion_oferente.id,
-									oferente_id=demandante.id,
-									demandante_id=oferente.id).exists():
-			return render(request, "truequeapp/post_solic_trueque_ya_realizado_demandante.html")
-		else:
-			trueque = Trueque.objects.create(publicacion_oferente=publicacion_oferente, demandante=demandante,
-											 oferente=oferente,
-											 publicacion_demandante=publicacion_demandante)
-			Mensaje.objects.create(usuario=oferente, trueque_asoc=trueque, tipo="R")
-			return render(request, "truequeapp/post_solic_trueque.html", {"trueque": trueque})
-	else:
-		return HttpResponseRedirect('/login/')
+        demandante = request.user
+        publicacion_demandante = Publicacion.objects.get(id=request.GET["id_d"])
+        # aqui cambiar demandante por publicacion oferente
+        if Trueque.objects.filter(publicacion_oferente_id=publicacion_oferente.id,
+                                  publicacion_demandante_id=publicacion_demandante.id,
+                                  oferente_id=oferente.id,
+                                  demandante_id=demandante.id).exists():
+            return render(request, "truequeapp/post_solic_trueque_ya_realizado_oferente.html")
+        elif Trueque.objects.filter(publicacion_oferente_id=publicacion_demandante.id,
+                                    publicacion_demandante_id=publicacion_oferente.id,
+                                    oferente_id=demandante.id,
+                                    demandante_id=oferente.id).exists():
+            return render(request, "truequeapp/post_solic_trueque_ya_realizado_demandante.html")
+        else:
+            trueque = Trueque.objects.create(publicacion_oferente=publicacion_oferente, demandante=demandante,
+                                             oferente=oferente,
+                                             publicacion_demandante=publicacion_demandante)
+            Mensaje.objects.create(usuario=oferente, trueque_asoc=trueque, tipo="R")
+            return render(request, "truequeapp/post_solic_trueque.html", {"trueque": trueque})
+    else:
+        return HttpResponseRedirect('/login/')
 
 
 def vista_oferta_demanda(request):
-	mensaje = Mensaje.objects.get(id=request.GET["id_m"])
-	trueque = Trueque.objects.get(id=request.GET["id_t"])
-	demandante = trueque.demandante
-	publicacion_ofrecida = trueque.publicacion_demandante
-	publicacion_oferente = trueque.publicacion_oferente
-	oferente = trueque.oferente
-	return render(request, 'truequeapp/vista_oferta_demanda.html', {"ofrecido": publicacion_ofrecida, 
-		"oferente": oferente, "demandada": publicacion_oferente, "demandante": demandante, "trueque": trueque,
-		"mensaje": mensaje})
+    mensaje = Mensaje.objects.get(id=request.GET["id_m"])
+    trueque = Trueque.objects.get(id=request.GET["id_t"])
+    demandante = trueque.demandante
+    publicacion_ofrecida = trueque.publicacion_demandante
+    publicacion_oferente = trueque.publicacion_oferente
+    oferente = trueque.oferente
+    return render(request, 'truequeapp/vista_oferta_demanda.html', {"ofrecido": publicacion_ofrecida, 
+        "oferente": oferente, "demandada": publicacion_oferente, "demandante": demandante, "trueque": trueque,
+        "mensaje": mensaje})
 
 #vista despues de aceptar o rechazar trueque
 def trueque_finalizado(request):
-	if request.user.is_authenticated:
-		aceptado = request.GET["aceptado"]
-		trueque = Trueque.objects.get(id=request.GET["id_t"])
-		mensaje = Mensaje.objects.get(id=request.GET["id_m"])
-		if aceptado == "0":
-			#primero, procesamos los mensajes
-			mensaje.estado = "V"
-			mensaje.save(update_fields=["estado"])
-			Mensaje.objects.create(usuario=trueque.demandante, trueque_asoc=trueque, tipo="A")
+    if request.user.is_authenticated:
+        aceptado = request.GET["aceptado"]
+        trueque = Trueque.objects.get(id=request.GET["id_t"])
+        mensaje = Mensaje.objects.get(id=request.GET["id_m"])
+        if aceptado == "0":
+            #primero, procesamos los mensajes
+            mensaje.estado = "V"
+            mensaje.save(update_fields=["estado"])
+            Mensaje.objects.create(usuario=trueque.demandante, trueque_asoc=trueque, tipo="A")
 
-			#ahora el trueque
-			trueque.estado = "F"
-			trueque.save(update_fields=["estado"])
-			return render(request, 'truequeapp/trueque_finalizado.html', {"mensaje": "Usted ha rechazado el trueque"})
+            #ahora el trueque
+            trueque.estado = "F"
+            trueque.save(update_fields=["estado"])
+            return render(request, 'truequeapp/trueque_finalizado.html', {"mensaje": "Usted ha rechazado el trueque"})
 
-		else: #aceptado == "1"
-			#primero, procesamos los mensajes
-			mensaje.estado = "V"
-			mensaje.save(update_fields=["estado"])
+        else: #aceptado == "1"
+            #primero, procesamos los mensajes
+            mensaje.estado = "V"
+            mensaje.save(update_fields=["estado"])
 
-			Mensaje.objects.create(usuario=trueque.oferente, trueque_asoc=trueque, tipo="C")
-			Mensaje.objects.create(usuario=trueque.demandante, trueque_asoc=trueque, tipo="C")
+            Mensaje.objects.create(usuario=trueque.oferente, trueque_asoc=trueque, tipo="C")
+            Mensaje.objects.create(usuario=trueque.demandante, trueque_asoc=trueque, tipo="C")
 
-			#ahora el trueque y las publicaciones
-			trueque.estado = "C"
-			trueque.save(update_fields=["estado"])
-			publicacion_ofrecida = trueque.publicacion_demandante
-			publicacion_oferente = trueque.publicacion_oferente
-			publicacion_ofrecida.completado = "E"
-			publicacion_oferente.completado = "E"
-			publicacion_ofrecida.save(update_fields=["completado"])
-			publicacion_oferente.save(update_fields=["completado"])
+            #ahora el trueque y las publicaciones
+            trueque.estado = "C"
+            trueque.save(update_fields=["estado"])
+            publicacion_ofrecida = trueque.publicacion_demandante
+            publicacion_oferente = trueque.publicacion_oferente
+            publicacion_ofrecida.completado = "E"
+            publicacion_oferente.completado = "E"
+            publicacion_ofrecida.save(update_fields=["completado"])
+            publicacion_oferente.save(update_fields=["completado"])
 
-			return render(request, 'truequeapp/trueque_finalizado.html', {"mensaje": "Usted ha aceptado el trueque"})
+            return render(request, 'truequeapp/trueque_finalizado.html', {"mensaje": "Usted ha aceptado el trueque"})
 
-	else:
-		return HttpResponseRedirect('/login')
+    else:
+        return HttpResponseRedirect('/login')
 
 #vista al momento de calificar al otro usuario después de un trueque concretado
 def calificar(request):
-	trueque = Trueque.objects.get(id=request.GET["id_t"])
-	mensaje = Mensaje.objects.get(id=request.GET["id_m"])
+    trueque = Trueque.objects.get(id=request.GET["id_t"])
+    mensaje = Mensaje.objects.get(id=request.GET["id_m"])
 
-	if request.method == "GET":
-		return render(request, 'truequeapp/calificar.html', {"trueque": trueque})
+    if request.method == "GET":
+        return render(request, 'truequeapp/calificar.html', {"trueque": trueque})
 
-	if request.method == "POST":
-		mensaje.estado = "V"
-		mensaje.save(update_fields=["estado"])
-		valor = request.POST["calificacion"]
+    if request.method == "POST":
+        mensaje.estado = "V"
+        mensaje.save(update_fields=["estado"])
+        valor = request.POST["calificacion"]
 
-		if request.user == trueque.demandante:
-			Calificacion.objects.create(usuario=trueque.oferente, trueque=trueque, valor= valor)
-			return HttpResponseRedirect('/home/')
+        if request.user == trueque.demandante:
+            Calificacion.objects.create(usuario=trueque.oferente, trueque=trueque, valor= valor)
+            return HttpResponseRedirect('/home/')
 
-		else:
-			Calificacion.objects.create(usuario=trueque.demandante, trueque=trueque, valor=valor)
-			return HttpResponseRedirect('/home/')
+        else:
+            Calificacion.objects.create(usuario=trueque.demandante, trueque=trueque, valor=valor)
+            return HttpResponseRedirect('/home/')
 
-	else:
-		HttpResponseRedirect('/login')
+    else:
+        HttpResponseRedirect('/login')
 
 
 def notificacion(request):
-	if request.user.is_authenticated:
+    if request.user.is_authenticated:
 
-		if "id_m" in request.GET:
-			mensaje = Mensaje.objects.get(id=request.GET["id_m"])
-			mensaje.estado = "V"
-			mensaje.save(update_fields=["estado"])
+        if "id_m" in request.GET:
+            mensaje = Mensaje.objects.get(id=request.GET["id_m"])
+            mensaje.estado = "V"
+            mensaje.save(update_fields=["estado"])
 
-		mensajes = Mensaje.objects.filter(usuario_id=request.user.id, estado='N')
-		mensajes_html = []
-		for mensaje in mensajes:
-			trueque = Trueque.objects.get(id=mensaje.trueque_asoc_id)
-			demandante = Usuario.objects.get(id=trueque.demandante_id)
-			oferente = Usuario.objects.get(id=trueque.oferente_id)
-			if mensaje.tipo == "C":
-				link = f"/calificar?id_t={trueque.id}&id_m={mensaje.id}"
-				if demandante.id == request.user.id:
-					informacion = f"Trueque aceptado por {oferente.username}, califica el intercambio"
-				else:
-					informacion = f"Haz aceptado el trueque con {demandante.username}, califica el intercambio"
-			elif mensaje.tipo == "R":
-				link = f"/oferta_demanda?id_t={trueque.id}&id_m={mensaje.id}"
-				informacion = f"El usuario {demandante.username} quiere intercambiar un producto contigo, revisalo"
-			else: # tipo = "A"
-				link = f"/notificacion?id_m={mensaje.id}"
-				informacion = f"Trueque rechazado por {oferente.username}, lo sentimos"
-			tipo = mensaje.get_tipo_display()
-			
-			mensajes_html += [{'informacion': informacion,'link': link, 'tipo': tipo}]
+        mensajes = Mensaje.objects.filter(usuario_id=request.user.id, estado='N')
+        mensajes_html = []
+        for mensaje in mensajes:
+            trueque = Trueque.objects.get(id=mensaje.trueque_asoc_id)
+            demandante = Usuario.objects.get(id=trueque.demandante_id)
+            oferente = Usuario.objects.get(id=trueque.oferente_id)
+            if mensaje.tipo == "C":
+                link = f"/calificar?id_t={trueque.id}&id_m={mensaje.id}"
+                if demandante.id == request.user.id:
+                    informacion = f"Trueque aceptado por {oferente.username}, califica el intercambio"
+                else:
+                    informacion = f"Haz aceptado el trueque con {demandante.username}, califica el intercambio"
+            elif mensaje.tipo == "R":
+                link = f"/oferta_demanda?id_t={trueque.id}&id_m={mensaje.id}"
+                informacion = f"El usuario {demandante.username} quiere intercambiar un producto contigo, revisalo"
+            else: # tipo = "A"
+                link = f"/notificacion?id_m={mensaje.id}"
+                informacion = f"Trueque rechazado por {oferente.username}, lo sentimos"
+            tipo = mensaje.get_tipo_display()
+            
+            mensajes_html += [{'informacion': informacion,'link': link, 'tipo': tipo}]
 
-		return render(request, "truequeapp/notificacion.html", {"mensajes": mensajes_html})
-	else:
-		return HttpResponseRedirect('/login/')
+        return render(request, "truequeapp/notificacion.html", {"mensajes": mensajes_html})
+    else:
+        return HttpResponseRedirect('/login/')
