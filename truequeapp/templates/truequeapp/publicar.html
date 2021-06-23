@@ -15,13 +15,17 @@
         <h1>Publicar Producto</h1>
         {% if user.is_authenticated %}
 
+        <div style="text-align: center;">
+            <h2>Los campos marcados con <span style="color: red;">*</span> son obligatorios</h2>
+        </div>
+
         <div id="formulario">
 
             <form action="/publicar/" method="POST" enctype="multipart/form-data"> {% csrf_token %}
 
                 <div id="titulo-div" class="form-div">
                     <div class="left-col">
-                        <label for="titulo">Titulo</label>
+                        <label for="titulo">Titulo<span style="color: red;">*</span></label>
                     </div>
                     <div class="right-col">
                         <input id="titulo" name="titulo" type="text" maxlength="200" required>
@@ -39,7 +43,7 @@
 
                 <div id="estado-div" class="form-div">
                     <div class="left-col">
-                        <label for="estado">Estado</label>
+                        <label for="estado">Estado<span style="color: red;">*</span></label>
                     </div>
                     <div class="right-col">
                         <select id="estado" name="estado" required>
@@ -53,7 +57,7 @@
 
                 <div id="categoria-div" class="form-div">
                     <div class="left-col">
-                        <label for="categoria">Categoria</label>
+                        <label for="categoria">Categoria<span style="color: red;">*</span></label>
                     </div>
                     <div class="right-col">
                         <select id="categoria" name="categoria" required>
@@ -67,7 +71,7 @@
 
                 <div id="fotos-div" class="form-div">
                     <div class="left-col">
-                        <label for="fotos">Fotos</label>
+                        <label for="fotos">Fotos<span style="color: red;">*</span> (solo 1 obligatoria)</label>
                     </div>
                     <div id="input-fotos" class="right-col">
                         <input id="foto_1" name="foto_1" type="file" required>
@@ -80,7 +84,7 @@
 
                 <div id="cambio-div" class="form-div">
                     <div class="left-col">
-                        <label for="cambio">Cambio</label>
+                        <label for="cambio">Cambio<span style="color: red;">*</span></label>
                     </div>
                     <div class="right-col">
                         <select id="cambio" name="cambio" required>
