@@ -58,7 +58,7 @@ def perfil(request, username):
                  "red_social": usuario.red_social, "email": usuario.email,
                  "telefono": usuario.numero, "region": usuario.region, "miembro_desde": usuario.date_joined,
                  "n_p_activas": n_publicaciones_activas, "n_t_abiertos": n_trueques_a, "n_t_concretados": n_trueques_c}
-        datos.update({"publicaciones": Publicacion.objects.filter(publicador_id=usuario.id).values()})
+        datos.update({"publicaciones": Publicacion.objects.filter(publicador_id=usuario.id, completado="A").values()})
         return render(request, "truequeapp/perfil.html", datos)
 
     # Si el usuario realizando la request no ha iniciado sesión, se le redirecciona al la pagina de login.
@@ -68,7 +68,7 @@ def perfil(request, username):
 
 # Renderiza las publicaciones del usuario.
 def mis_publicaciones(request):
-    publicaciones_usuario = Publicacion.objects.filter(publicador_id=request.user.id)
+    publicaciones_usuario = Publicacion.objects.filter(publicador_id=request.user.id, completado="A")
     return render(request, "truequeapp/mis_publicaciones.html", {"publicaciones": publicaciones_usuario})
 
 
@@ -81,54 +81,56 @@ def mis_trueques(request):
 
     for trueque in trueques_usuario_of:
         publicacion_oferente = Publicacion.objects.get(id=trueque.publicacion_oferente.id)
-        publicacion_oferente_id = publicacion_oferente.id
-        publicacion_oferente_foto = publicacion_oferente.foto_principal.url
-        publicacion_oferente_titulo = publicacion_oferente.titulo
-        publicacion_oferente_estado = publicacion_oferente.get_estado_display
-        oferente = Usuario.objects.get(id=trueque.oferente.id).username
-        publicacion_demandante = Publicacion.objects.get(id=trueque.publicacion_demandante.id)
-        publicacion_demandante_id = publicacion_demandante.id
-        publicacion_demandante_foto = publicacion_demandante.foto_principal.url
-        publicacion_demandante_titulo = publicacion_demandante.titulo
-        publicacion_demandante_estado = publicacion_demandante.get_estado_display
-        demandante = Usuario.objects.get(id=trueque.demandante.id).username
-        trueque_como_oferente += [{'publicacion_oferente_id': publicacion_oferente_id,
-                                   'publicacion_oferente_foto': publicacion_oferente_foto,
-                                   'publicacion_oferente_titulo': publicacion_oferente_titulo,
-                                   'publicacion_oferente_estado': publicacion_oferente_estado,
-                                   'oferente': oferente,
-                                   'publicacion_demandante_id': publicacion_demandante_id,
-                                   'publicacion_demandante_foto': publicacion_demandante_foto,
-                                   'publicacion_demandante_titulo': publicacion_demandante_titulo,
-                                   'publicacion_demandante_estado': publicacion_demandante_estado,
-                                   'demandante': demandante,
-                                   }]
+        if publicacion_oferente.completado == "A":
+	        publicacion_oferente_id = publicacion_oferente.id
+	        publicacion_oferente_foto = publicacion_oferente.foto_principal.url
+	        publicacion_oferente_titulo = publicacion_oferente.titulo
+	        publicacion_oferente_estado = publicacion_oferente.get_estado_display
+	        oferente = Usuario.objects.get(id=trueque.oferente.id).username
+	        publicacion_demandante = Publicacion.objects.get(id=trueque.publicacion_demandante.id)
+	        publicacion_demandante_id = publicacion_demandante.id
+	        publicacion_demandante_foto = publicacion_demandante.foto_principal.url
+	        publicacion_demandante_titulo = publicacion_demandante.titulo
+	        publicacion_demandante_estado = publicacion_demandante.get_estado_display
+	        demandante = Usuario.objects.get(id=trueque.demandante.id).username
+	        trueque_como_oferente += [{'publicacion_oferente_id': publicacion_oferente_id,
+	                                   'publicacion_oferente_foto': publicacion_oferente_foto,
+	                                   'publicacion_oferente_titulo': publicacion_oferente_titulo,
+	                                   'publicacion_oferente_estado': publicacion_oferente_estado,
+	                                   'oferente': oferente,
+	                                   'publicacion_demandante_id': publicacion_demandante_id,
+	                                   'publicacion_demandante_foto': publicacion_demandante_foto,
+	                                   'publicacion_demandante_titulo': publicacion_demandante_titulo,
+	                                   'publicacion_demandante_estado': publicacion_demandante_estado,
+	                                   'demandante': demandante,
+	                                   }]
 
     for trueque in trueques_usuario_de:
         publicacion_oferente = Publicacion.objects.get(id=trueque.publicacion_oferente.id)
-        publicacion_oferente_id = publicacion_oferente.id
-        publicacion_oferente_foto = publicacion_oferente.foto_principal.url
-        publicacion_oferente_titulo = publicacion_oferente.titulo
-        publicacion_oferente_estado = publicacion_oferente.get_estado_display
-        oferente = Usuario.objects.get(id=trueque.oferente.id).username
-        publicacion_demandante = Publicacion.objects.get(id=trueque.publicacion_demandante.id)
-        publicacion_demandante_id = publicacion_demandante.id
-        publicacion_demandante_foto = publicacion_demandante.foto_principal.url
-        publicacion_demandante_titulo = publicacion_demandante.titulo
-        publicacion_demandante_estado = publicacion_demandante.get_estado_display
-        demandante = Usuario.objects.get(id=trueque.demandante.id).username
-        trueque_como_demandante += [{'publicacion_oferente_id': publicacion_oferente_id,
-                                   'publicacion_oferente_foto': publicacion_oferente_foto,
-                                   'publicacion_oferente_titulo': publicacion_oferente_titulo,
-                                   'publicacion_oferente_estado': publicacion_oferente_estado,
-                                   'oferente': oferente,
-                                   'publicacion_demandante_id': publicacion_demandante_id,
-                                   'publicacion_demandante_foto': publicacion_demandante_foto,
-                                   'publicacion_demandante_titulo': publicacion_demandante_titulo,
-                                   'publicacion_demandante_estado': publicacion_demandante_estado,
-                                   'demandante': demandante,
-                                   }]
-
+        if publicacion_oferente.completado == "A":
+        	publicacion_oferente_id = publicacion_oferente.id
+	        publicacion_oferente_foto = publicacion_oferente.foto_principal.url
+	        publicacion_oferente_titulo = publicacion_oferente.titulo
+	        publicacion_oferente_estado = publicacion_oferente.get_estado_display
+	        oferente = Usuario.objects.get(id=trueque.oferente.id).username
+	        publicacion_demandante = Publicacion.objects.get(id=trueque.publicacion_demandante.id)
+	        publicacion_demandante_id = publicacion_demandante.id
+	        publicacion_demandante_foto = publicacion_demandante.foto_principal.url
+	        publicacion_demandante_titulo = publicacion_demandante.titulo
+	        publicacion_demandante_estado = publicacion_demandante.get_estado_display
+	        demandante = Usuario.objects.get(id=trueque.demandante.id).username
+	        trueque_como_demandante += [{'publicacion_oferente_id': publicacion_oferente_id,
+	                                   'publicacion_oferente_foto': publicacion_oferente_foto,
+	                                   'publicacion_oferente_titulo': publicacion_oferente_titulo,
+	                                   'publicacion_oferente_estado': publicacion_oferente_estado,
+	                                   'oferente': oferente,
+	                                   'publicacion_demandante_id': publicacion_demandante_id,
+	                                   'publicacion_demandante_foto': publicacion_demandante_foto,
+	                                   'publicacion_demandante_titulo': publicacion_demandante_titulo,
+	                                   'publicacion_demandante_estado': publicacion_demandante_estado,
+	                                   'demandante': demandante,
+	                                   }]
+        
     return render(request, "truequeapp/mis_trueques.html", {'trueque_como_oferente': trueque_como_oferente, 'trueque_como_demandante': trueque_como_demandante})
 
 
@@ -156,10 +158,10 @@ def publicaciones(request):
             if Trueque.objects.get(publicacion_demandante_id = publicacion.id).estado == "A" or \
                 Trueque.objects.get(publicacion_demandante_id = publicacion.id).estado == "A":
                 publicaciones_existentes += [publicacion]
-        # si no esta asociada a ningun trueque
+        # si no esta asociada a ningun trueque, solamente debe estar activa
         else:
-            publicaciones_existentes += [publicacion]
-       
+        	publicaciones_existentes += [publicacion]
+            
     request.path = "/publicaciones/?categorias=filtros'"
     return render(request, "truequeapp/publicaciones.html", {"publicaciones_totales": publicaciones_existentes,
                                                              "categorias": todas_las_categorias})
@@ -383,7 +385,7 @@ def trueque_finalizado(request):
         aceptado = request.GET["aceptado"]
         trueque = Trueque.objects.get(id=request.GET["id_t"])
         mensaje = Mensaje.objects.get(id=request.GET["id_m"])
-        if aceptado == "0":
+        if aceptado == "0": #aceptado == "0", o sea trueque rechazado
             #primero, procesamos los mensajes
             mensaje.estado = "V"
             mensaje.save(update_fields=["estado"])
