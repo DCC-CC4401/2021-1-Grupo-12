@@ -121,7 +121,7 @@ def mis_publicaciones(request):
     # Si el usuario realizando la request es el mismo que el username entregado, renderiza su perfil.
     if request.user.is_authenticated:
         usuario = Usuario.objects.get(username=request.user.username)
-        publicaciones_usuario = Publicacion.objects.filter(publicador_id=request.user.id)
+        publicaciones_usuario = Publicacion.objects.filter(publicador_id=request.user.id, completado="A")
         datos = {"nombre": usuario.first_name, "apellido": usuario.last_name, "usuario": usuario.username,
                  "rut": usuario.rut, "red_social": usuario.red_social, "email": usuario.email,
                  "email_respaldo": usuario.correo_respaldo,
@@ -140,28 +140,26 @@ def mis_trueques(request):
 
     # Si el usuario realizando la request es el mismo que el username entregado, renderiza su perfil.
     if request.user.is_authenticated:
-        trueques = Trueque.objects.filter(Q(oferente_id=request.user.id) | Q(demandante_id=request.user.id))
+        trueques_usuario_of = Trueque.objects.filter(oferente_id=request.user.id)
+        trueques_usuario_de = Trueque.objects.filter(demandante_id=request.user.id)
         trueque_como_oferente = []
         trueque_como_demandante = []
-        usuario = request.user.id
+        trueques = []
 
-        for trueque in trueques:
+        for trueque in trueques_usuario_of:
             publicacion_oferente = Publicacion.objects.get(id=trueque.publicacion_oferente.id)
-            publicacion_oferente_id = publicacion_oferente.id
-            publicacion_oferente_foto = publicacion_oferente.foto_principal.url
-            publicacion_oferente_titulo = publicacion_oferente.titulo
-            publicacion_oferente_estado = publicacion_oferente.get_estado_display
-            oferente = Usuario.objects.get(id=trueque.oferente.id)
-            publicacion_demandante = Publicacion.objects.get(id=trueque.publicacion_demandante.id)
-            publicacion_demandante_id = publicacion_demandante.id
-            publicacion_demandante_foto = publicacion_demandante.foto_principal.url
-            publicacion_demandante_titulo = publicacion_demandante.titulo
-            publicacion_demandante_estado = publicacion_demandante.get_estado_display
-            demandante = Usuario.objects.get(id=trueque.demandante.id)
-            estado = trueque.get_estado_display
-            if oferente.id == usuario:
-                oferente = oferente.username
-                demandante = demandante.username
+            if publicacion_oferente.completado == "A":
+                publicacion_oferente_id = publicacion_oferente.id
+                publicacion_oferente_foto = publicacion_oferente.foto_principal.url
+                publicacion_oferente_titulo = publicacion_oferente.titulo
+                publicacion_oferente_estado = publicacion_oferente.get_estado_display
+                oferente = Usuario.objects.get(id=trueque.oferente.id).username
+                publicacion_demandante = Publicacion.objects.get(id=trueque.publicacion_demandante.id)
+                publicacion_demandante_id = publicacion_demandante.id
+                publicacion_demandante_foto = publicacion_demandante.foto_principal.url
+                publicacion_demandante_titulo = publicacion_demandante.titulo
+                publicacion_demandante_estado = publicacion_demandante.get_estado_display
+                demandante = Usuario.objects.get(id=trueque.demandante.id).username
                 trueque_como_oferente += [{'publicacion_oferente_id': publicacion_oferente_id,
                                            'publicacion_oferente_foto': publicacion_oferente_foto,
                                            'publicacion_oferente_titulo': publicacion_oferente_titulo,
@@ -172,11 +170,22 @@ def mis_trueques(request):
                                            'publicacion_demandante_titulo': publicacion_demandante_titulo,
                                            'publicacion_demandante_estado': publicacion_demandante_estado,
                                            'demandante': demandante,
-                                           'estado': estado,
                                            }]
-            else:  # demandante_id == usuario
-                oferente = oferente.username
-                demandante = demandante.username
+
+        for trueque in trueques_usuario_de:
+            publicacion_oferente = Publicacion.objects.get(id=trueque.publicacion_oferente.id)
+            if publicacion_oferente.completado == "A":
+                publicacion_oferente_id = publicacion_oferente.id
+                publicacion_oferente_foto = publicacion_oferente.foto_principal.url
+                publicacion_oferente_titulo = publicacion_oferente.titulo
+                publicacion_oferente_estado = publicacion_oferente.get_estado_display
+                oferente = Usuario.objects.get(id=trueque.oferente.id).username
+                publicacion_demandante = Publicacion.objects.get(id=trueque.publicacion_demandante.id)
+                publicacion_demandante_id = publicacion_demandante.id
+                publicacion_demandante_foto = publicacion_demandante.foto_principal.url
+                publicacion_demandante_titulo = publicacion_demandante.titulo
+                publicacion_demandante_estado = publicacion_demandante.get_estado_display
+                demandante = Usuario.objects.get(id=trueque.demandante.id).username
                 trueque_como_demandante += [{'publicacion_oferente_id': publicacion_oferente_id,
                                              'publicacion_oferente_foto': publicacion_oferente_foto,
                                              'publicacion_oferente_titulo': publicacion_oferente_titulo,
@@ -187,7 +196,6 @@ def mis_trueques(request):
                                              'publicacion_demandante_titulo': publicacion_demandante_titulo,
                                              'publicacion_demandante_estado': publicacion_demandante_estado,
                                              'demandante': demandante,
-                                             'estado': estado,
                                              }]
 
         usuario_objeto = Usuario.objects.get(id=usuario)
@@ -229,10 +237,10 @@ def publicaciones(request):
             if Trueque.objects.get(publicacion_demandante_id = publicacion.id).estado == "A" or \
                 Trueque.objects.get(publicacion_demandante_id = publicacion.id).estado == "A":
                 publicaciones_existentes += [publicacion]
-        # si no esta asociada a ningun trueque
+        # si no esta asociada a ningun trueque, solamente debe estar activa
         else:
-            publicaciones_existentes += [publicacion]
-       
+        	publicaciones_existentes += [publicacion]
+            
     request.path = "/publicaciones/?categorias=filtros'"
     return render(request, "truequeapp/publicaciones.html", {"publicaciones_totales": publicaciones_existentes,
                                                              "categorias": todas_las_categorias})
