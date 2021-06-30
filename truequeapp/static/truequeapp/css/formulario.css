@@ -7,82 +7,140 @@ Rojo: #D64920
 Amarillo: #FAE34A
 Blanco crema: #efefef
 */
-body {
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
-    background-color: #efefef;
-    color: #000000;
+
+* {
+    box-sizing: border-box; margin: 0; padding:0;
 }
 
-#formulario{
-    display: flex;
-    justify-content: center;
-}
-
-button{
-    border: 2px solid black;
-    padding: 5px;
-    margin-left: 30%;
-    margin-top: 8%;
-}
-
-#agregar-fotos{
-    margin-top:5px;
-    margin-left: 50%;
-}
-
-button:hover{
-    font-weight: 400;
-    cursor: pointer;
-    color: #D64920;
-}
-
-input, select, textarea {
+#formulario {
+    position: relative;
+    top: -120px;
+    margin: 0 auto;
+    background: #ecf0f1;
+    width: 350px;
     border-radius: 5px;
-    border: 1px solid black;
+    box-shadow: 3px 3px 10px #333;
+    padding: 15px;
+    padding-top: 100px;
 }
 
-.form-group{
-    margin-top: 1%;
-    margin-bottom: 1%;
+#imagen{
+    position: relative;
+    margin: 0 auto;
+    width: 250px;
+    top: -30px;
+    z-index: 1;
 }
 
-h1 {
+#formulario h1 {
     text-align: center;
-    font-size: 250%;
-    color: #20BED6
+    font-weight: 200;
+    font-size: 200%;
+    color: #20BED6;
+    margin-top: 5px;
+    margin-bottom: 40px;
+    }
+
+#formulario .form {
+    padding-top: 20px;
 }
 
-.left-col{
-    display: inline-block;
-    width: 100px;
-    text-align: left;
-    margin: 0px 10px 0px 15px;
-    vertical-align: top;
-    position: relative;
-    right: 10px;
+#formulario input[type="text"],
+#formulario input[type="password"],
+#formulario input[type="url"],
+#formulario input[type="email"],
+#formulario textarea,
+#formulario input[type="submit"],
+#formulario button,
+#formulario select {
+    width: 80%;
+    margin-left: 10%;
+    margin-bottom: 25px;
+    height: 40px;
+    border-radius: 5px;
+    outline: 0;
 }
 
-.right-col{
-    display: inline-block;
-    width: 400px;
-    position: relative;
-    left: 10px;
+#formulario textarea{
+    height: 128px;
 }
 
-.form-div{
-    margin: 0px 0px 10px 0px;
+#input-fotos input[type="file"] {
+    width: 80%;
+    margin-left: 10%;
+    margin-bottom: 10px;
+    height: 25px;
+    border-radius: 5px;
+    outline: 0;
 }
 
-#enviar-div{
-    text-align: right;
+#formulario input[type="text"],
+#formulario input[type="password"],
+#formulario input[type="url"],
+#formulario input[type="email"],
+#formulario textarea,
+#formulario input[type="submit"],
+#formulario select {
+    border: 1px solid #bbb;
+    padding: 0 0 0 10px;
+    font-size: 14px;
 }
 
-#enviar{
-    padding: 10px;
-    font-weight: 550;
-    font-size: 20px;
-    color: #000000;
-    background-color: #20BED6;
-    border-radius: 3px;
+#formulario select {
+    background: #ddd;
+    color: #373737;
+    border: 1px solid #bbb;
+    padding: 0 0 0 10px;
+    font-size: 14px;
 }
 
+#formulario input[type="text"]:focus ,
+#formulario input[type="password"]:focus,
+#formulario input[type="url"]:focus,
+#formulario input[type="email"]:focus,
+#formulario textarea:focus,
+#formulario input[type="submit"]:focus,
+#formulario select:focus {
+     border: 1px solid #3498db;
+}
+
+#formulario a {
+    text-align: center;
+    font-size: 10px;
+    color: #3498db;
+}
+
+#formulario p{
+    padding-bottom: 10px;
+}
+
+#formulario button,
+#formulario input[type="submit"] {
+    margin-top: 20px;
+    background: #2ab2c7;
+    border: none;
+    color: #373737;
+    font-size: 18px;
+    font-weight: 200;
+    cursor: pointer;
+    transition: box-shadow .4s ease;
+}
+
+#agregar-fotos-div button {
+    margin-top: 20px;
+    background: #9e323c;
+    border: none;
+    color: #ebeff0;
+    font-size: 18px;
+    font-weight: 200;
+    cursor: pointer;
+    transition: box-shadow .4s ease;
+}
+
+#formulario button:hover{
+    box-shadow: 1px 1px 5px #555;
+}
+
+#formulario button:active {
+    box-shadow: 1px 1px 7px #222;
+}

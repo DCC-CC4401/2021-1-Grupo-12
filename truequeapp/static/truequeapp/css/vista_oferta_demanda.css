@@ -1,90 +1,229 @@
- /* Estilo barra.hmtl */
-/*Paleta de colores
-Verde: #81FA25
-Celeste/Azul: #20BED6
-Morado: #952FED
-Rojo: #D64920
-Amarillo: #FAE34A
-Blanco crema: #efefef
-*/
-body {
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
-    background-color: #efefef;
-    color: #000000;
+/* Estilo mi_perfil.html */
+@import "estilo_tablas.css";
+
+
+
+ *{
+    margin: 0;
+    padding: 0;
+    outline: none;
+    box-sizing: border-box;
+    font-family: sans-serif;
 }
 
-h1{
-    font-size: 250%;
+#titulo{
+    font-size: 20px;
 }
 
-h3{
-    font-size: 22px;
+#usuario{
+    margin-top: 5px;
+    font-size:18px;
+    color: #4a4b4b;
+    text-align: center;
 }
 
-#izq{
-    float: left;
-    margin: 0px 50px;
-}
-#der {
-    margin-left: 50px;
-    float: left;   
-}
-
-p{
-    font-size: 17px;
-}
-
-table{
-    border: 2px solid black;
-    border-collapse: collapse;
-}
-
-.etiq{
-    font-weight: 200;
-    padding-right: 15px;
-}
-
-td{
-    border-top: 1px solid gray;
-    border-bottom: 1px solid gray;
-    padding: 5px;
-    font-size: 18px;
-}
-
-.boton{
+#imagen {
     text-align: left;
 }
 
-.btn1{
-    position: relative;
-    left: 25px;
-    border: 1px solid black;
-    padding: 10px;
-    font-weight: 550;
-    font-size: 20px;
-    color: #FFFFFF;
-    background-color: #006d18;
-    border-radius: 3px;
-    margin-top: 30px;
-}
-
-.btn2{
-    position: relative;
-    left: 25px;
-    border: 1px solid black;
-    padding: 10px;
-    font-weight: 550;
-    font-size: 20px;
-    color: #FFFFFF;
-    background-color: #FF0000;
-    border-radius: 3px;
-    margin-top: 30px;
-}
-
-#user{
-    font-size: 150%;
+.imagen_grande {
+    border-radius: 5px;
+    border:solid #b2b2aa 1px;
     text-align: center;
 }
-#cal{
+
+#datos{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin: 5px;
+    padding: 10px;
+    flex-grow: 100;
+    height: auto;
+}
+
+#datos0{
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+    background: #e1e1d9;
+    border-radius: 2px;
+    border: solid #b2b2aa 1px;
+    box-shadow: 0px 0px 5px #e1e1d9;
+    padding: 10px;
+    width: auto;
+    height: auto;
+}
+
+#opciones{
+    display: flex;
+    flex: 1;
+    justify-content: left;
+}
+
+#opciones li{
+    list-style: none;
+}
+
+#opciones li a{
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 8px 12px;
+    border: solid #b2b2aa 1px;
+    background: #ddd;
+    font-size: 17px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+#opciones li a:hover{
+    background: #b4b4ac;
+    text-shadow:0px 0px 3px #ffe500;
+    color: #ffe500;
+    cursor: pointer;
+}
+
+#opciones li a.active{
+    background: #9e9e97;
+    font-weight: bold;
+}
+
+#datos1{
+    margin: 5px;
+    background: #e1e1d9;
+    display: inline;
+    border-radius: 2px;
+    border: solid #b2b2aa 1px;
+    box-shadow: 0px 0px 5px #e1e1d9;
+    padding: 10px;
+    width: auto;
+    height: auto;
+}
+
+#datos0 .boton,
+#datos1 .boton{
     text-align: center;
 }
+
+#datos0 button,
+#datos1 button{
+    width: 80%;
+    margin-bottom: 25px;
+    height: 40px;
+    border-radius: 5px;
+    outline: 0;
+}
+
+#datos0 button,
+#datos1 button {
+    border: 1px solid #bbb;
+    padding: 0 0 0 10px;
+    font-size: 14px;
+}
+
+#datos0 button:focus {
+     border: 1px solid #3498db;
+}
+
+#datos1 button:focus {
+     border: 1px solid #6b242d;
+}
+
+#datos1 button {
+    margin-top: 20px;
+    background: #9e323c;
+    border: none;
+    color: #ebeff0;
+    font-size: 18px;
+    font-weight: 200;
+    cursor: pointer;
+    transition: box-shadow .4s ease;
+}
+
+#datos0 button {
+    margin-top: 20px;
+    background: #2ab2c7;
+    border: none;
+    color: #373737;
+    font-size: 18px;
+    font-weight: 200;
+    cursor: pointer;
+    transition: box-shadow .4s ease;
+}
+
+#datos0 button:hover,
+#datos1 button:hover{
+    box-shadow: 1px 1px 5px #555;
+}
+
+.descripcion_publicacion{
+    margin: 10px;
+    max-width: 600px;
+    overflow: hidden;
+    white-space: normal; /* Don't forget this one */
+    text-overflow: ellipsis;
+    min-height: 80px;
+    max-height: 800px;
+    line-height:20px;
+}
+
+#info{
+    text-align: left;
+    display: inline;
+    color: #4a4b4b;
+    margin-right: 10px;
+    padding: 5px;
+}
+
+#info li{
+    list-style: none;
+    margin: 5px;
+    padding: 0 15px;
+}
+
+#row{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: left;
+    margin: 10px;
+}
+
+#datos_trueque{
+    text-align: center;
+    color: #4a4b4b;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 5px;
+}
+
+.titulo {
+    text-align: left;
+    margin-left: 5px;
+    margin-top: 40px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    font-size: 200%;
+    color: #20BED6;
+}
+
+.tgrande {
+    margin-left: 30px;
+    margin-bottom: 30px;
+    font-weight: bold;
+    font-size: 250%;
+    color: #20BED6
+}
+
+table {}
+
+th, td {}
+
+tr:nth-child(even){}
+
+th {}
+
+tr {}

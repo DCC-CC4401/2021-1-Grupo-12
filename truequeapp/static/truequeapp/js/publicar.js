@@ -3,7 +3,6 @@
 function addImageButton(i){
 
     if (i < 6){
-
         let input_nuevo = document.createElement("input");
         input_nuevo.setAttribute("id","foto_"+i);
         input_nuevo.setAttribute("name","foto_"+i);
