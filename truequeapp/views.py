@@ -216,8 +216,25 @@ def publicaciones(request):
     else:
         publicaciones_totales = Publicacion.objects.filter(categoria__in=filtros)
 
+    # generamos una lista con sola las publicaciones actualmente abiertas
+    publicaciones_existentes = []
+    for publicacion in publicaciones_totales:
+        # si es publicacion oferente y esta abierta
+        if Trueque.objects.filter(publicacion_oferente_id = publicacion.id).exists():
+            if Trueque.objects.get(publicacion_oferente_id = publicacion.id).estado == "A" or \
+                Trueque.objects.get(publicacion_oferente_id = publicacion.id).estado == "R":
+                publicaciones_existentes += [publicacion]
+        # si es publicacion demandante y esta abierta
+        elif Trueque.objects.filter(publicacion_demandante_id = publicacion.id).exists():
+            if Trueque.objects.get(publicacion_demandante_id = publicacion.id).estado == "A" or \
+                Trueque.objects.get(publicacion_demandante_id = publicacion.id).estado == "A":
+                publicaciones_existentes += [publicacion]
+        # si no esta asociada a ningun trueque
+        else:
+            publicaciones_existentes += [publicacion]
+       
     request.path = "/publicaciones/?categorias=filtros'"
-    return render(request, "truequeapp/publicaciones.html", {"publicaciones_totales": publicaciones_totales,
+    return render(request, "truequeapp/publicaciones.html", {"publicaciones_totales": publicaciones_existentes,
                                                              "categorias": todas_las_categorias})
 
 
@@ -339,7 +356,7 @@ def test(request):
         mensaje = Mensaje.objects.create(usuario=request.user, trueque_asoc=trueque, tipo="A")
 
         return render(request, "truequeapp/test.html")
-
+    
     if request.method == "POST":
         foo = Trueque.objects.create(publicacion_demandante=Publicacion.objects.filter(categoria="AF").first(),
                                      demandante=request.user)
@@ -440,6 +457,7 @@ def vista_oferta_demanda(request):
     publicacion_ofrecida = trueque.publicacion_demandante
     publicacion_oferente = trueque.publicacion_oferente
     oferente = trueque.oferente
+
     usuario = request.user
 
     # se cuentan las publicaciones asociadas al usuario cuyo estado se haya completado
@@ -475,7 +493,7 @@ def vista_oferta_demanda(request):
                                                                     "reputacion": reputacion_promedio})
 
 
-# vista despues de aceptar o rechazar trueque
+#vista despues de aceptar o rechazar trueque
 def trueque_finalizado(request):
     if request.user.is_authenticated:
         aceptado = request.GET["aceptado"]
@@ -494,6 +512,7 @@ def trueque_finalizado(request):
 
         else:  # aceptado == "1"
             # primero, procesamos los mensajes
+
             mensaje.estado = "V"
             mensaje.save(update_fields=["estado"])
 
@@ -514,7 +533,6 @@ def trueque_finalizado(request):
 
     else:
         return HttpResponseRedirect('/login')
-
 
 # vista al momento de calificar al otro usuario después de un trueque concretado
 def calificar(request):
@@ -564,6 +582,7 @@ def notificacion(request):
             elif mensaje.tipo == "R":
                 link = f"/oferta_demanda?id_t={trueque.id}&id_m={mensaje.id}"
                 informacion = f"El usuario {demandante.username} quiere intercambiar un producto contigo, revisalo"
+
             else:  # tipo = "A"
                 link = f"/notificacion?id_m={mensaje.id}"
                 informacion = f"Trueque rechazado por {oferente.username}, lo sentimos"

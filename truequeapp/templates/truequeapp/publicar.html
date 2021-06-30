@@ -16,9 +16,11 @@
             <a><img id="imagen_logo1" src="../media/pagina/truequeapp1.png" alt="Logo1" width="250" height="250"></a>
         </div>
 
+
         <div id="formulario">
 
             <h1 style="text-align: center">Publicar</h1>
+            <h4 style="text-align: center">Los campos marcados con <span style="color: red;">*</span> son obligatorios</h4><br>
 
             {% if user.is_authenticated %}
 
@@ -26,10 +28,12 @@
 
                     <div>
                         <input id="titulo" name="titulo" type="text" maxlength="200" placeholder="Titulo" required>
+                        <span style="color: red;">*</span>
                     </div>
 
                     <div>
                         <textarea id="descripcion" name="descripcion" placeholder="Describa aquí su producto."></textarea>
+
                     </div>
 
                     <div>
@@ -39,6 +43,7 @@
                                 <option value="{{estado.0}}">{{estado.1}}</option>
                             {% endfor %}
                         </select>
+                        <span style="color: red;">*</span>
                     </div>
 
                     <div>
@@ -48,11 +53,13 @@
                                 <option value="{{categoria.0}}">{{categoria.1}}</option>
                             {% endfor %}
                         </select>
+                        <span style="color: red;">*</span>
                     </div>
 
                     <div id="fotos-div">
                         <div id="input-fotos">
                             <input id="foto_1" name="foto_1" type="file" required>
+                            <span style="color: red;">*</span>
                         </div>
                     </div>
 
@@ -67,6 +74,7 @@
                                 <option value="{{categoria.0}}">{{categoria.1}}</option>
                             {% endfor %}
                         </select>
+                        <span style="color: red;">*</span>
                     </div>
 
                     <div id="enviar-div">

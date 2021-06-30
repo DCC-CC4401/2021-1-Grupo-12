@@ -7,7 +7,6 @@ function addImageButton(i){
         input_nuevo.setAttribute("id","foto_"+i);
         input_nuevo.setAttribute("name","foto_"+i);
         input_nuevo.setAttribute("type","file");
-        input_nuevo.setAttribute("required","");
         document.getElementById("input-fotos").appendChild(input_nuevo);
         input_nuevo.insertAdjacentHTML('beforebegin', '<div>');
         input_nuevo.insertAdjacentHTML('afterend', '</div>');
