@@ -19,17 +19,21 @@
                 {% csrf_token %}
 
                 <h1 style="text-align: center"> Registro de usuario </h1>
+                <h4 style="text-align: center">Los campos marcados con <span style="color: red">*</span> son obligatorios</h4><br>
 
                 <div class="form-group">
                     <input type="text" class="form-control" id="nombre_usuario" name="nombre_usuario" placeholder="Nombre de Usuario" required>
+                    <span style="color: red">*</span>
                 </div>
 
                 <div class="form-group">
                     <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required>
+                    <span style="color: red">*</span>
                 </div>
 
                 <div class="form-group">
                     <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Apellido" required>
+                    <span style="color: red">*</span>
                 </div>
 
                 <div class="form-group">
@@ -62,10 +66,12 @@
                         <option value="Región de Magallanes y de la Antártíca Chilena">Región de Magallanes y de la Antártíca Chilena</option>
                         <option value="Región Metropolitana de Santiago">Región Metropolitana de Santiago</option>
                     </select>
+                    <span style="color: red">*</span>
                 </div>
 
                 <div class="form-group">
                     <input type="email" class="form-control" id="correo" name="correo" placeholder="Correo" required>
+                    <span style="color: red">*</span>
                 </div>
 
                 <div class="form-group">
@@ -74,6 +80,7 @@
 
                 <div class="form-group">
                         <input type="password" class="form-control" id="contraseña" name="contraseña" placeholder="Contraseña" required>
+                    <span style="color: red">*</span>
                 </div>
 
                 <button type="submit">Crear usuario</button>

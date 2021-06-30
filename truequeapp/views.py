@@ -35,10 +35,39 @@ def perfil(request, username):
 
     # Si el usuario realizando la request es el mismo que el username entregado, renderiza su perfil.
     if request.user.is_authenticated and request.user == usuario:
+        # se cuentan las publicaciones asociadas al usuario cuyo estado se haya completado
+        n_publicaciones_activas = len(Publicacion.objects.filter(publicador_id=usuario.id, completado="A").values())
+
+        # se cuentan los trueques con estado abierto donde el usuario es demandante
+        n_trueques_a = len(Trueque.objects.filter(estado="A", demandante_id=usuario.id).values())
+
+        # se cuentan los trueques con estado abierto donde el usuario es oferente
+        n_trueques_a += len(Trueque.objects.filter(estado="A", oferente_id=usuario.id).values())
+
+        # análogo a lo de arriba pero con trueques concretados
+        n_trueques_c = len(Trueque.objects.filter(estado="C", demandante_id=usuario.id).values())
+        n_trueques_c += len(Trueque.objects.filter(estado="C", oferente_id=usuario.id).values())
+
+        # Consultar datos de reputacion y obtener el promedio
+        reputacion = Calificacion.objects.filter(usuario_id=usuario.id).aggregate(Avg('valor'))
+        reputacion_promedio = reputacion["valor__avg"]
+        if reputacion_promedio is None:
+            reputacion_promedio = "Aún no tienes reputación"
+
         datos = {"nombre": usuario.first_name, "apellido": usuario.last_name, "usuario": usuario.username,
                  "rut": usuario.rut, "red_social": usuario.red_social, "email": usuario.email,
                  "email_respaldo": usuario.correo_respaldo,
-                 "telefono": usuario.numero, "region": usuario.region}
+                 "telefono": usuario.numero, "region": usuario.region,
+                 "miembro_desde": usuario.date_joined,
+                 "n_p_activas": n_publicaciones_activas, "n_t_abiertos": n_trueques_a,
+                 "n_t_concretados": n_trueques_c, "reputacion": reputacion_promedio}
+
+        # Generar un mensaje default si es que el usuario no tiene telefono
+        telefono = usuario.numero
+        if telefono == "":
+            telefono = "Aún no haz registrado ningún teléfono"
+        datos["telefono"] = telefono
+
         return render(request, "truequeapp/mi_perfil.html", datos)
 
     # Si el usuario realizando la request no es el mismo que el username entregado, renderiza el perfil.
@@ -63,10 +92,22 @@ def perfil(request, username):
             reputacion_promedio = "Aún no tiene reputación este usuario"
 
         datos = {"nombre": usuario.first_name, "apellido": usuario.last_name, "usuario": usuario.username,
-                 "red_social": usuario.red_social, "email": usuario.email,
-                 "telefono": usuario.numero, "region": usuario.region, "miembro_desde": usuario.date_joined,
+                 "email": usuario.email, "region": usuario.region, "miembro_desde": usuario.date_joined,
                  "n_p_activas": n_publicaciones_activas, "n_t_abiertos": n_trueques_a, "n_t_concretados": n_trueques_c,
                  "reputacion": reputacion_promedio}
+
+        # Generar un mensaje default si es que el usuario no tiene redes sociales
+        red_social = usuario.red_social
+        if red_social == "":
+            red_social = "El usuario no ha registrado ninguna red social"
+        datos["red_social"] = red_social
+
+        # Generar un mensaje default si es que el usuario no tiene telefono
+        telefono = usuario.numero
+        if telefono == "":
+            telefono = "El usuario no ha registrado ningún teléfono"
+        datos["telefono"] = telefono
+
         datos.update({"publicaciones": Publicacion.objects.filter(publicador_id=usuario.id)})
         return render(request, "truequeapp/perfil.html", datos)
 
