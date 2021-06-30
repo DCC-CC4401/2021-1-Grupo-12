@@ -198,7 +198,7 @@ def mis_trueques(request):
                                              'demandante': demandante,
                                              }]
 
-        usuario_objeto = Usuario.objects.get(id=usuario)
+        usuario_objeto = Usuario.objects.get(id=request.user.id)
         datos = {"nombre": usuario_objeto.first_name, "apellido": usuario_objeto.last_name,
                  "usuario": usuario_objeto.username, "rut": usuario_objeto.rut,
                  "red_social": usuario_objeto.red_social, "email": usuario_objeto.email,
