@@ -11,47 +11,64 @@
 
     {% include "barra.html" %}
 
-    <div>
-        <h1>Perfil: {{usuario}}</h1>
+    <div id="contenedor-pagina">
+        <h1 class="tgrande">Perfil: {{usuario}}</h1>
 
-        <div class="row">
+        <div id="row">
+            <div id="datos1">
+                <div id="imagen_perfil">
+                    <a><img id="perfil_imagen" src="../../media/pagina/perfil.png" alt="perfil_imagen" width="250" height="250"></a>
+                </div>
 
-            <div class="titulo">Datos</div><br><br>
+                <div id="usuario">
+                    {{usuario}} <br>
+                    {{email}}
+                </div>
 
-            <div class="column left">
-                Nombre: {{nombre}}<br>
-                Apellido: {{apellido}}<br>
-                Redes: {{red_social}}<br>
-                Correo: {{email}}<br>
-                Teléfono: {{telefono}}<br>
-                Región: {{region}}
+                <div id="info">
+                    <div class="titulo">Datos</div>
+                    <li><a>Nombre Completo: {{nombre}} {{apellido}}</a></li>
+                    <li><a>Teléfono: {{telefono}}</a></li>
+                    <li><a>Región: {{region}}</a></li>
+                    {% if red_social != "" %}
+                        <li>Redes: <a href="{{red_social}}">Link</a></li>
+                    {% endif %}
+                </div>
             </div>
 
-            <div class="column right">
-                N° de publicaciones: {{publicaciones|length}}<br>
-                N° Publicaciones Activas: {{n_p_activas}}<br>
-                N° de trueques abiertos: {{n_t_abiertos}}<br>
-                N° de trueques concretados: {{n_t_concretados}}<br>
-                Miembro desde: {{miembro_desde}}<br>
-                Reputacion: {{reputacion}}
-            </div>
-        </div>
+            <div id="datos0">
+                <div id="info">
+                    <div class="titulo">Información</div>
+                    <li><a>N° de publicaciones: {{publicaciones|length}}</a></li>
+                    <li><a>N° Publicaciones Activas: {{n_p_activas}}</a></li>
+                    <li><a>N° de trueques abiertos: {{n_t_abiertos}}</a></li>
+                    <li><a>N° de trueques concretados: {{n_t_concretados}}</a></li>
+                    <li><a>Miembro desde: {{miembro_desde}}</a></li>
+                    <li><a>Reputacion: {{reputacion}}</a></li>
+                </div>
 
-        <div><br><br>
-            <div class="titulo">Publicaciones</div><br><br>
+                <div class="titulo">Publicaciones</div>
 
-            <div>
-                <table>
-                    {% for publicacion in publicaciones %}
-                        <tr onclick="location.href='/publicacion?id={{publicacion.id}}'">
-                            <td><img src="{{publicacion.foto_principal.url}}" width="100px" height="100px"></td>
-                            <td>{{publicacion.titulo}} <br> {{publicacion.get_estado_display}}</td>
-                            <td>{{publicacion.get_categoria_display}} <br> {{publicacion.get_cambio_display}} <br> {{publicacion.fecha}}</td>
-                        </tr>
-                    {% endfor %}
-                </table>
+                    <div class="mostrar_publicaciones">
+                        <table>
+                            {% for publicacion in publicaciones %}
+                                <tr onclick="location.href='/publicacion?id={{publicacion.id}}'">
+                                    <td><img src="{{publicacion.foto_principal.url}}" width="100px" height="100px"></td>
+                                    <td><span id="titulo">{{publicacion.titulo}} </span>
+                                        <br> <span id="estado">{{publicacion.get_estado_display}} </span></td>
+                                    <td><span id="categoria"> {{publicacion.get_categoria_display}} </span>
+                                        <div class="linea"></div>
+                                        <span id="cambio"> Busco: {{publicacion.get_cambio_display}} </span>
+                                        <div class="linea"></div>
+                                        <span id="fecha">{{publicacion.fecha}} </span></td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
             </div>
         </div>
     </div>
+
+    {% include "pie.html" %}
 </body>
 </html>

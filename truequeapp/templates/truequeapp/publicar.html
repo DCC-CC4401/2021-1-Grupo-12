@@ -11,96 +11,76 @@
 
     {% include "barra.html" %}
 
-    <div>
-        <h1>Publicar Producto</h1>
-        {% if user.is_authenticated %}
+    <div id="contenedor-pagina">
+        <div id="imagen">
+            <a><img id="imagen_logo1" src="../media/pagina/truequeapp1.png" alt="Logo1" width="250" height="250"></a>
+        </div>
 
         <div id="formulario">
 
-            <form action="/publicar/" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+            <h1 style="text-align: center">Publicar</h1>
 
-                <div id="titulo-div" class="form-div">
-                    <div class="left-col">
-                        <label for="titulo">Titulo</label>
-                    </div>
-                    <div class="right-col">
-                        <input id="titulo" name="titulo" type="text" maxlength="200" required>
-                    </div>
-                </div>
+            {% if user.is_authenticated %}
 
-                <div id="descripcion-div" class="form-div">
-                    <div class="left-col">
-                        <label for="descripcion">Descripcion</label>
-                    </div>
-                    <div class="right-col">
-                        <textarea id="descripcion" name="descripcion" cols="20" rows="10"></textarea>
-                    </div>
-                </div>
+                <form action="/publicar/" method="POST" enctype="multipart/form-data"> {% csrf_token %}
 
-                <div id="estado-div" class="form-div">
-                    <div class="left-col">
-                        <label for="estado">Estado</label>
+                    <div>
+                        <input id="titulo" name="titulo" type="text" maxlength="200" placeholder="Titulo" required>
                     </div>
-                    <div class="right-col">
+
+                    <div>
+                        <textarea id="descripcion" name="descripcion" placeholder="Describa aquí su producto."></textarea>
+                    </div>
+
+                    <div>
                         <select id="estado" name="estado" required>
-                            <option value="" selected>Elija un estado</option>
+                            <option value="" selected>Elija el estado de su producto</option>
                             {% for estado in estados %}
                                 <option value="{{estado.0}}">{{estado.1}}</option>
                             {% endfor %}
                         </select>
                     </div>
-                </div>
 
-                <div id="categoria-div" class="form-div">
-                    <div class="left-col">
-                        <label for="categoria">Categoria</label>
-                    </div>
-                    <div class="right-col">
+                    <div>
                         <select id="categoria" name="categoria" required>
-                            <option value="" selected>Elija una categoria</option>
+                            <option value="" selected>Elija la categoria de su producto</option>
                             {% for categoria in categorias %}
                                 <option value="{{categoria.0}}">{{categoria.1}}</option>
                             {% endfor %}
                         </select>
                     </div>
-                </div>
 
-                <div id="fotos-div" class="form-div">
-                    <div class="left-col">
-                        <label for="fotos">Fotos</label>
+                    <div id="fotos-div">
+                        <div id="input-fotos">
+                            <input id="foto_1" name="foto_1" type="file" required>
+                        </div>
                     </div>
-                    <div id="input-fotos" class="right-col">
-                        <input id="foto_1" name="foto_1" type="file" required>
-                    </div>
-                </div>
 
-                <div id="agregar-fotos-div" class="form-div">
-                    <button id="agregar-fotos" type="button" onclick="addImageButton(2)">Agregar mas fotos</button>
-                </div>
-
-                <div id="cambio-div" class="form-div">
-                    <div class="left-col">
-                        <label for="cambio">Cambio</label>
+                    <div id="agregar-fotos-div" class="form-div">
+                        <button id="agregar-fotos" type="button" onclick="addImageButton(2)">Agregar mas fotos</button>
                     </div>
-                    <div class="right-col">
+
+                    <div>
                         <select id="cambio" name="cambio" required>
-                            <option value="" selected>Elija una categoria</option>
+                            <option value="" selected>Elija la categoria que desea</option>
                             {% for categoria in categorias %}
                                 <option value="{{categoria.0}}">{{categoria.1}}</option>
                             {% endfor %}
-                        </select>                    
+                        </select>
                     </div>
-                </div>
 
-                <div id="enviar-div" class="form-div">
-                    <input id="enviar" name="enviar" type="submit" value="Publicar">
-                </div>
-            </form>
+                    <div id="enviar-div">
+                        <input id="enviar" name="enviar" type="submit" value="Publicar">
+                    </div>
+                </form>
 
+            </div>
+            {% else %}
+                <h3>Por favor inicie sesion para publicar sus productos</h3>
+            {% endif %}
         </div>
-        {% else %}
-            <h3>Por favor inicie sesion para publicar sus productos</h3>
-        {% endif %}
     </div>
+
+    {% include "pie.html" %}
 </body>
 </html>

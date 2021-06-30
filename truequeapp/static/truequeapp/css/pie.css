@@ -1,0 +1,15 @@
+ /* Estilo barra.hmtl */
+
+#contenedor-pagina {
+  position: relative;
+  min-height: 100vh;
+}
+
+#footer {
+    position: relative;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 10px;
+    background-color:  #ffcf00;
+}

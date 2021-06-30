@@ -4,27 +4,33 @@
 <head>
 	<meta charset="utf-8">
 	<title>Notificación Usuario</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/publicaciones.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/mi_perfil.css' %}">
 </head>
 
 <body>
     {% include "barra.html" %}
 
-        <h1 style="text-align: center"> Notificaciones ({{ mensajes|length }})</h1>
-        {% if mensajes|length == 0 %}
-            <h4>No tienes mensajes nuevos</h4>
-        {% else %}
-        <table id="publicaciones">
-            {% for mensaje in mensajes %}
-                <tr>
-                    <td>
-                        <h3>{{ mensaje.informacion }}</h3>
-                    </td>
-                    <td><button onclick="location.href='{{mensaje.link}}'">{{mensaje.tipo}}</button></td>
-                </tr>
-            {% endfor %}
-        </table>
-        {% endif %}
+    <div id="contenedor-pagina">
+        <h1 class="notificaciones"> Notificaciones ({{ mensajes|length }})</h1>
 
+        <div id="datos0">
+            {% if mensajes|length == 0 %}
+                <h4>No tienes mensajes nuevos</h4>
+            {% else %}
+                <table id="publicaciones">
+                    {% for mensaje in mensajes %}
+                        <tr>
+                            <td>
+                                <h3>{{ mensaje.informacion }}</h3>
+                            </td>
+                            <td><button onclick="location.href='{{mensaje.link}}'">{{mensaje.tipo}}</button></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endif %}
+        </div>
+    </div>
+
+    {% include "pie.html" %}
 </body>
 </html>

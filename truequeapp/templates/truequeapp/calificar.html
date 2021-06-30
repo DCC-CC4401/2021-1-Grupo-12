@@ -4,35 +4,48 @@
 <head>
     <meta charset="UTF-8">
     <title>Califica tu trueque</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/general.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/calificar.css' %}">
 </head>
 
 <body>
 
     {% include "barra.html" %}
 
-    <div class="centrar">
-        <h1>Califique su trueque con el usuario {% if trueque.oferente.username == user.username %} {{trueque.demandante}} {% endif %} 
-			{% if trueque.demandante.username == user.username %} {{trueque.oferente}} {% endif %} </h1>
-        <form method="POST">
-        	{% csrf_token %}
-        	<input type="radio" name="calificacion" value="1" id="uno">
-        	<label for="uno">1</label><br>
+    <div id="contenedor-pagina">
+        <div class="calificar_contenedor">
+            <h1>Califique su trueque con el usuario
+                {% if trueque.oferente.username == user.username %} {{trueque.demandante}}
+                {% elif trueque.demandante.username == user.username %} {{trueque.oferente}} {% endif %}
+            </h1>
+            <form method="POST">
 
-        	<input type="radio" name="calificacion" value="2" id="dos">
-        	<label for="dos">2</label><br>
+                {% csrf_token %}
 
-        	<input type="radio" name="calificacion" value="3" id="tres">
-        	<label for="tres">3</label><br>
+                <div class="calificar">
+                    <span class="calificacion-estrella">
+                        <input type="radio" name="calificacion" value="1" id="uno" required><i></i>
+                        <input type="radio" name="calificacion" value="2" id="dos"><i></i>
+                        <input type="radio" name="calificacion" value="3" id="tres"><i></i>
+                        <input type="radio" name="calificacion" value="4" id="cuatro"><i></i>
+                        <input type="radio" name="calificacion" value="5" id="cinco"><i></i>
+                    </span>
+                </div>
 
-        	<input type="radio" name="calificacion" value="4" id="cuatro">
-        	<label for="cuatro">4</label><br>
+                <div>
+                    <button type="submit"> Enviar </button>
+                </div>
+            </form>
+            <a href="/home">Volver a home</a>
+        </div>
 
-        	<input type="radio" name="calificacion" value="5" id="cinco">
-        	<label for="cinco">5</label><br>
+        <div id="imagen1">
+            <a><img id="imagen_logo1" src="../media/pagina/truequeapp1.png" alt="Logo1" width="150" height="150"></a>
+        </div>
 
-        	<button type="submit"> Enviar </button>
-        </form>
-        <a href="/home">Volver a home</a>
+        <div id="imagen2">
+            <a><img id="imagen_logo1" src="../media/pagina/truequeapp1.png" alt="Logo1" width="150" height="150"></a>
+        </div>
     </div>
+
+    {% include "pie.html" %}
 </body>

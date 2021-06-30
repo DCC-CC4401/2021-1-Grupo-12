@@ -12,94 +12,103 @@
 
     {% include "barra.html" %}
 
-    <h1>{{publicacion.titulo}}</h1>
+    <div id="contenedor-pagina">
 
-    <div id="izq">
+    <h1 class="tgrande">{{publicacion.titulo}}</h1>
 
-        <div id="imagenes">
-            <div>
-                <img name="imagen_grande" src="" width="400px" height="400px">
-            </div>
+         <div id="row">
+                <div id="datos1">
+                    <div id="imagen">
+                        <div>
+                            <img name="imagen_grande" class="imagen_grande" src="{{publicacion.foto_principal.url}}" width="400px" height="400px">
+                        </div>
 
-            <div>
-                <input type="image" name="foto_principal" src="{{publicacion.foto_principal.url}}" width="40px" height="40px"
-                    onclick="cambiarImagen(this)" onload="cambiarImagen(this)">
+                        <div>
+                            <input type="image" name="foto_principal" src="{{publicacion.foto_principal.url}}" width="40px" height="40px"
+                                onclick="cambiarImagen(this)">
 
-                {% if publicacion.foto_2 %}
-                    <input type="image" name="foto_2" src="{{publicacion.foto_2.url}}" width="40px" height="40px"
-                    onclick="cambiarImagen(this)">
-                {% endif %}
+                            {% if publicacion.foto_2 %}
+                                <input type="image" name="foto_2" src="{{publicacion.foto_2.url}}" width="40px" height="40px"
+                                onclick="cambiarImagen(this)">
+                            {% endif %}
 
-                {% if publicacion.foto_3 %}
-                    <input type="image" name="foto_3" src="{{publicacion.foto_3.url}}" width="40px" height="40px"
-                    onclick="cambiarImagen(this)">
-                {% endif %}
+                            {% if publicacion.foto_3 %}
+                                <input type="image" name="foto_3" src="{{publicacion.foto_3.url}}" width="40px" height="40px"
+                                onclick="cambiarImagen(this)">
+                            {% endif %}
 
-                {% if publicacion.foto_4 %}
-                    <input type="image" name="foto_4" src="{{publicacion.foto_4.url}}" width="40px" height="40px"
-                    onclick="cambiarImagen(this)">
-                {% endif %}
+                            {% if publicacion.foto_4 %}
+                                <input type="image" name="foto_4" src="{{publicacion.foto_4.url}}" width="40px" height="40px"
+                                onclick="cambiarImagen(this)">
+                            {% endif %}
 
-                {% if publicacion.foto_5 %}
-                    <input type="image" name="foto_5" src="{{publicacion.foto_5.url}}" width="40px" height="40px"
-                    onclick="cambiarImagen(this)">
-                {% endif %}
+                            {% if publicacion.foto_5 %}
+                                <input type="image" name="foto_5" src="{{publicacion.foto_5.url}}" width="40px" height="40px"
+                                onclick="cambiarImagen(this)">
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="boton">
+                        <button type="button" class="btn" onclick="location.href='/trueques_compatibles?id_p={{publicacion.id}}'">
+                            Contactar Publicador</button>
+                    </div>
+                </div>
+
+                <div id="datos0">
+                    <div>
+                        <div class="titulo">Descripción: </div>
+
+                        <div class="descripcion_publicacion">{{publicacion.descripcion}}</div>
+
+                        <table>
+                            <tr>
+                                <td class= "etiq">Estado:</td><td>{{publicacion.get_estado_display}}</td>
+                            </tr>
+                            <tr>
+                                <td class= "etiq">Categoria:</td><td> {{publicacion.get_categoria_display}}</td>
+                            </tr>
+                            <tr>
+                                <td class= "etiq">Busco:</td><td>{{publicacion.get_cambio_display}}</td>
+                            </tr>
+                            <tr>
+                                <td class= "etiq">Publicador:</td><td> {{publicacion.publicador.username}}</td>
+                            </tr>
+                            <tr>
+                                <td class= "etiq">Fecha:</td><td> {{publicacion.fecha}}</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div>
+                        <div class="titulo">Información usuario {{info.username}}:</div>
+
+                        <table>
+                            <tr>
+                                <td class="etiq">N° publicaciones:</td><td> {{info.num_pub}}</td>
+                            </tr>
+                            <tr>
+                                <td class="etiq">N° publicaciones activas:</td><td> {{info.pub_act}}</td>
+                            </tr>
+                            <tr>
+                                <td class="etiq">N° trueques activos:</td><td> {{info.tru_abi}}</td>
+                            </tr>
+                            <tr>
+                                <td class="etiq">N° trueques concretados:</td><td> {{info.tru_con}}</td>
+                            </tr>
+                            <tr>
+                                <td class="etiq">Miembro desde:</td><td> {{info.fecha}}</td>
+                            </tr>
+                            <tr>
+                                <td class="etiq">Reputación:</td><td> {{info.reputacion}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <div id="der">
-        <h3>Descripción: </h3>
-
-        <p>{{publicacion.descripcion}}</p>
-
-        <table>
-            <tr>
-                <td class= "etiq">Estado:</td><td>{{publicacion.get_estado_display}}</td>
-            </tr>
-            <tr>
-                <td class= "etiq">Categoria:</td><td> {{publicacion.get_categoria_display}}</td>
-            </tr>
-            <tr>
-                <td class= "etiq">Busco:</td><td>{{publicacion.get_cambio_display}}</td>
-            </tr>
-            <tr>
-                <td class= "etiq">Publicador:</td><td> {{publicacion.publicador.username}}</td>
-            </tr>
-            <tr>
-                <td class= "etiq">Fecha:</td><td> {{publicacion.fecha}}</td>
-            </tr>    
-        </table>
-        <div class="boton">
-            <button type="button" class="btn" onclick="location.href='/trueques_compatibles?id_p={{publicacion.id}}'">
-            Contactar Publicador</button>
-        </div>
-
-    </div>
-
-    <div id='der'>
-        <h3>Información usuario {{info.username}}:</h3>
-        <table>
-            <tr>
-                <td class="etiq">N° publicaciones:</td><td> {{info.num_pub}}</td>
-            </tr>
-            <tr>
-                <td class="etiq">N° publicaciones activas:</td><td> {{info.pub_act}}</td>
-            </tr>
-            <tr>
-                <td class="etiq">N° trueques activos:</td><td> {{info.tru_abi}}</td>
-            </tr>
-            <tr>
-                <td class="etiq">N° trueques concretados:</td><td> {{info.tru_con}}</td>
-            </tr>
-            <tr>
-                <td class="etiq">Miembro desde:</td><td> {{info.fecha}}</td>
-            </tr>
-            <tr>
-                <td class="etiq">Reputación:</td><td> {{info.reputacion}}</td>
-            </tr>
-        </table>
-    </div>
-
+    {% include "pie.html" %}
 </body>
 </html> 

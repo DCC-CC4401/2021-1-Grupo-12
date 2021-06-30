@@ -11,147 +11,142 @@
 <body>
 
     {% include "barra.html" %}
-    <table>
-        <tr>
-            <td>
-                <p id="user">El usuario: <b>{{demandante.username}}</b> quiere hacer un trueque.</p>
-                <h2 id="cal">{{demandante.reputacion}}/5.0</h2>
-            </td>
-            <td>
-                <div id="ofrecido">
-                    <h1>Te ofrecen:</h1>
-                    <h3>{{ofrecido.titulo}}</h3>
-                </div>
-                <div id="izq">
 
+    <div id="contenedor-pagina">
+            <div id="datos_trueque">
+                <p>El usuario "<b>{{demandante.username}}</b>" quiere hacer un trueque. Su reputación es: {{reputacion}}</p>
+            </div>
+
+            <div id="datos">
+                <div id="datos0">
+                    <div id="ofrecido">
+                        <h1>Te ofrecen:</h1>
+                        <h3>{{ofrecido.titulo}}</h3>
+                    </div>
                     <div id="imagenes">
                         <div>
                             <img name="imagen_grande" src="{{ofrecido.foto_principal.url}}" width="200px" height="200px">
                         </div>
-            
+
                         <div>
                             <input type="image" name="foto_principal" src="{{ofrecido.foto_principal.url}}" width="40px" height="40px"
-                                onclick="cambiarImagen(this)" onload="cambiarImagen(this)">
-            
+                                onclick="cambiarImagen(this)">
+
                             {% if ofrecido.foto_2 %}
                                 <input type="image" name="foto_2" src="{{ofrecido.foto_2.url}}" width="40px" height="40px"
                                 onclick="cambiarImagen(this)">
                             {% endif %}
-            
+
                             {% if ofrecido.foto_3 %}
                                 <input type="image" name="foto_3" src="{{ofrecido.foto_3.url}}" width="40px" height="40px"
                                 onclick="cambiarImagen(this)">
                             {% endif %}
-            
+
                             {% if ofrecido.foto_4 %}
                                 <input type="image" name="foto_4" src="{{ofrecido.foto_4.url}}" width="40px" height="40px"
                                 onclick="cambiarImagen(this)">
                             {% endif %}
-            
+
                             {% if ofrecido.foto_5 %}
                                 <input type="image" name="foto_5" src="{{ofrecido.foto_5.url}}" width="40px" height="40px"
                                 onclick="cambiarImagen(this)">
                             {% endif %}
                         </div>
                     </div>
-                </div>
-            
-                <div id="der">
-                    <h3>Descripción: </h3>
-            
-                    <p>{{ofrecido.descripcion}}</p>
-            
-                    <table>
-                        <tr>
-                            <td class= "etiq">Estado:</td><td>{{ofrecido.get_estado_display}}</td>
-                        </tr>
-                        <tr>
-                            <td class= "etiq">Categoria:</td><td> {{ofrecido.get_categoria_display}}</td>
-                        </tr>
-                        <tr>
-                            <td class= "etiq">Busco:</td><td>{{ofrecido.get_cambio_display}}</td>
-                        </tr>
-                        <tr>
-                            <td class= "etiq">Publicador:</td><td> {{ofrecido.publicador.username}}</td>
-                        </tr>
-                        <tr>
-                            <td class= "etiq">Fecha:</td><td> {{ofrecido.fecha}}</td>
-                        </tr>    
-                    </table>
-            
-                    <div class="boton">
-                        <button type="button" class="btn1" onclick="location.href='/trueque_finalizado?aceptado=1&id_t={{trueque.id}}&id_m={{mensaje.id}}'">Aceptar Trueque</button>
+
+                    <div>
+                        <h3>Descripción: </h3>
+                        <p>{{ofrecido.descripcion}}</p>
+                            <table>
+                                <tr>
+                                    <td class= "etiq">Estado:</td><td>{{ofrecido.get_estado_display}}</td>
+                                </tr>
+                                <tr>
+                                    <td class= "etiq">Categoria:</td><td> {{ofrecido.get_categoria_display}}</td>
+                                </tr>
+                                <tr>
+                                    <td class= "etiq">Busco:</td><td>{{ofrecido.get_cambio_display}}</td>
+                                </tr>
+                                <tr>
+                                    <td class= "etiq">Publicador:</td><td> {{ofrecido.publicador.username}}</td>
+                                </tr>
+                                <tr>
+                                    <td class= "etiq">Fecha:</td><td> {{ofrecido.fecha}}</td>
+                                </tr>
+                            </table>
+
+                            <div class="boton">
+                                <button type="button" class="btn1" onclick="location.href='/trueque_finalizado?aceptado=1&id_t={{trueque.id}}&id_m={{mensaje.id}}'">Aceptar Trueque</button>
+                            </div>
                     </div>
                 </div>
-            </td>
-            <td>
-                <div id="demandado">
-                    <h1>A cambio de tu:</h1>
-                    <h3>{{demandada.titulo}}</h3>
-                </div>
-                <div id="izq">
 
+                <div id="datos1">
+                    <div id="demandado">
+                        <h1>A cambio de tu:</h1>
+                        <h3>{{demandada.titulo}}</h3>
+                    </div>
                     <div id="imagenes">
                         <div>
                             <img name="imagen_grande" src="" width="200px" height="200px">
                         </div>
-            
+
                         <div>
                             <input type="image" name="foto_principal" src="{{demandada.foto_principal.url}}" width="40px" height="40px"
                                 onclick="cambiarImagen(this)" onload="cambiarImagen(this)">
-            
+
                             {% if demandada.foto_2 %}
                                 <input type="image" name="foto_2" src="{{demandada.foto_2.url}}" width="40px" height="40px"
                                 onclick="cambiarImagen(this)">
                             {% endif %}
-            
+
                             {% if demandada.foto_3 %}
                                 <input type="image" name="foto_3" src="{{demandada.foto_3.url}}" width="40px" height="40px"
                                 onclick="cambiarImagen(this)">
                             {% endif %}
-            
+
                             {% if demandada.foto_4 %}
                                 <input type="image" name="foto_4" src="{{demandada.foto_4.url}}" width="40px" height="40px"
                                 onclick="cambiarImagen(this)">
                             {% endif %}
-            
+
                             {% if demandada.foto_5 %}
                                 <input type="image" name="foto_5" src="{{demandada.foto_5.url}}" width="40px" height="40px"
                                 onclick="cambiarImagen(this)">
                             {% endif %}
                         </div>
                     </div>
-                </div>
-            
-                <div id="der">
-                    <h3>Descripción: </h3>
-            
-                    <p>{{demandada.descripcion}}</p>
-            
-                    <table>
-                        <tr>
-                            <td class= "etiq">Estado:</td><td>{{demandada.get_estado_display}}</td>
-                        </tr>
-                        <tr>
-                            <td class= "etiq">Categoria:</td><td> {{demandada.get_categoria_display}}</td>
-                        </tr>
-                        <tr>
-                            <td class= "etiq">Busco:</td><td>{{demandada.get_cambio_display}}</td>
-                        </tr>
-                        <tr>
-                            <td class= "etiq">Publicador:</td><td> {{demandada.publicador.username}}</td>
-                        </tr>
-                        <tr>
-                            <td class= "etiq">Fecha:</td><td> {{demandada.fecha}}</td>
-                        </tr>    
-                    </table>
-            
-                    <div class="boton">
-                        <button type="button" class="btn2" onclick="location.href='/trueque_finalizado?aceptado=0&id_t={{trueque.id}}&id_m={{mensaje.id}}'">Rechazar Trueque</button>
+                    <div>
+                        <h3>Descripción: </h3>
+                        <p>{{demandada.descripcion}}</p>
+
+                        <table>
+                            <tr>
+                                <td class= "etiq">Estado:</td><td>{{demandada.get_estado_display}}</td>
+                            </tr>
+                            <tr>
+                                <td class= "etiq">Categoria:</td><td> {{demandada.get_categoria_display}}</td>
+                            </tr>
+                            <tr>
+                                <td class= "etiq">Busco:</td><td>{{demandada.get_cambio_display}}</td>
+                            </tr>
+                            <tr>
+                                <td class= "etiq">Publicador:</td><td> {{demandada.publicador.username}}</td>
+                            </tr>
+                            <tr>
+                                <td class= "etiq">Fecha:</td><td> {{demandada.fecha}}</td>
+                            </tr>
+                        </table>
+
+                        <div class="boton">
+                            <button type="button" class="btn2" onclick="location.href='/trueque_finalizado?aceptado=0&id_t={{trueque.id}}&id_m={{mensaje.id}}'">Rechazar Trueque</button>
+                        </div>
                     </div>
                 </div>
-            </td>
-        </tr>
-    </table>
+            </div>
+        </div>
+    </div>
+
+    {% include "pie.html" %}
 </body>
 </html> 

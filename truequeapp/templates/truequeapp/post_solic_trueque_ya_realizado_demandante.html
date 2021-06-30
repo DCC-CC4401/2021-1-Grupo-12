@@ -10,13 +10,17 @@
 
     {% include "barra.html" %}
 
-    <div class="centrar">
-        <h1>Revisa tus notificaciones.</h1>
-        <h2>El usuario de esta publicación te ha solicitado realizar este mismo trueque.</h2>
-        <h2>Debes estar atento a tus notificaciones.</h2>
-        <a href="/home/">
-            <button type="button">Volver a la portada</button>
-        </a>
+    <div id="contenedor-pagina">
+        <div class="centrar">
+            <h1>Revisa tus notificaciones.</h1><br>
+            <h2>El usuario de esta publicación te ha solicitado realizar este mismo trueque.</h2><br>
+            <h2>Debes estar atento a tus notificaciones.</h2><br><br>
+            <a href="/home/">
+                <button type="button">Volver a la portada</button>
+            </a>
+        </div>
     </div>
+
+    {% include "pie.html" %}
 </body>
 </html>

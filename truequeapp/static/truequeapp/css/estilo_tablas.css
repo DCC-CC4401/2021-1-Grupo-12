@@ -3,49 +3,50 @@
 
 table {
     border-collapse: collapse;
-    border: 1px solid darkgoldenrod;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    border: 1px solid #946e07;
+    border-top-left-radius: 10px;
     width: 100%;
     overflow: auto;
 }
 
 
 tr:hover {
-    border: 1px solid darkgoldenrod;
-    text-align: left;
-    padding: 8px;
-    background-color: darkgray;
+    text-decoration-color: #b49019;
+    background-color: #b2b2aa;
 }
 
 tr:nth-child(even):hover{
-    border: 1px solid darkgoldenrod;
-    background-color: darkgray
+    text-decoration-color: #b49019;
+    background-color: #b2b2aa;
 }
 
 tr {
-    background-color: honeydew;
-    border: 1px solid darkgoldenrod;
+    border-bottom: 1px solid #946e07;
+    background-color: #ddddd4;
 }
 
 th, td {
-    border: 1px solid ;
     text-align: left;
     padding: 8px;
 }
 
 tr:nth-child(even){
-    background-color: lightgray;
-    border: 1px solid darkgoldenrod;
+    background-color: #ebebe2;
 }
 
-
 th {
-    border: 1px solid darkgoldenrod;
-    background-color: darkgoldenrod;
+    border-bottom: 1px solid #946e07;
+    background-color: #b49019;
     color: white;
 }
 
 .titulo_tabla {
     text-align: center;
     font-size: 250%;
-    color: #20BED6
+    color: #20BED6;
 }

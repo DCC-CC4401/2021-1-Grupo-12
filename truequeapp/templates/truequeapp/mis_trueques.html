@@ -3,74 +3,110 @@
 {% load static %}
 <head>
     <meta charset="UTF-8">
-    <title>Mi perfil</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/trueques_perfil.css' %}">
+    <title>Mis trueques</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/mi_perfil.css' %}">
 </head>
 
 <body>
 
     {% include "barra.html" %}
 
-    <div>
+    <div id="contenedor-pagina">
         <h1 class="tgrande">Mi perfil</h1>
 
-        <div class="row">
-            <div class="column left">
-                <a href="/perfil/{{ user.username }}"> Mis datos </a><br>
-                <a href="/mis_publicaciones/">Mis publicaciones </a><br>
-                <a>Trueques</a>
-            </div>
-
-            <div class="column right">
-                <div class="titulo">Trueques ofrecidos</div><br><br>
-
-                <div>
-                    <table>
-                        <tr>
-                            <th>Tu Publicación</th>
-                            <th>...</th>
-                            <th>Demandante</th>
-                            <th>Publicación ofrecida</th>
-                            <th>...</th>
-                        </tr>
-                        {% for trueques in trueque_como_oferente %}
-                            <tr>
-                                <td onclick="location.href='/publicacion?id={{trueques.publicacion_oferente_id}}'"><img src="{{trueques.publicacion_oferente_foto}}" width="100px" height="100px"></td>
-                                <td onclick="location.href='/publicacion?id={{trueques.publicacion_oferente_id}}'">{{trueques.publicacion_oferente_titulo}} <br> {{trueques.publicacion_oferente_estado}}</td>
-                                <td onclick="location.href='/perfil/{{trueques.demandante}}/'">{{trueques.demandante}}</td>
-                                <td onclick="location.href='/publicacion?id={{trueques.publicacion_demandante_id}}'"><img src="{{trueques.publicacion_demandante_foto}}" width="100px" height="100px"></td>
-                                <td onclick="location.href='/publicacion?id={{trueques.publicacion_demandante_id}}'">{{trueques.publicacion_demandante_titulo}} <br> {{trueques.publicacion_demandante_estado}}</td>
-                            </tr>
-                        {% endfor %}
-                    </table>
+        <div id="row">
+            <div id="datos1">
+                <div id="imagen_perfil">
+                    <a><img id="perfil_imagen" src="../../media/pagina/perfil.png" alt="perfil_imagen" width="250" height="250"></a>
                 </div>
 
-            <br><br><br>
+                <div id="usuario">
+                    {{usuario}} <br>
+                    {{email}} <br>
+                    {% if email_respaldo != "" %}
+                        {{email_respaldo}}
+                    {% endif %}
+                </div>
 
-            <div class="titulo">Trueques demandados</div><br><br>
+                <div id="info">
+                    <div class="titulo">Datos</div>
+                    <li><a>Nombre Completo: {{nombre}} {{apellido}}</a></li>
+                    <li><a>Teléfono: {{telefono}}</a></li>
+                    <li><a>Rut: {{rut}}</a></li>
+                    <li><a>Región: {{region}}</a></li>
+                </div>
+            </div>
 
-                <div>
-                    <table>
-                        <tr>
-                            <th>Tu Publicación</th>
-                            <th>...</th>
-                            <th>Oferente</th>
-                            <th>Publicación ofrecida</th>
-                            <th>...</th>
-                        </tr>
-                        {% for trueques in trueque_como_demandante  %}
+            <div id="datos0">
+                <div id="opciones">
+                    <div id="boton_opcion" class="boton_opcion">
+                        <li><a class="publicaiones_boton" href="/mis_publicaciones/">Mis publicaciones</a></li>
+                    </div>
+
+                    <div id="boton_opcion" class="boton_opcion">
+                        <li><a class="active" href="/mis_trueques/">Mis trueques</a></li>
+                    </div>
+                </div>
+
+                <div id="mostrar">
+                    <div class="titulo">Trueques ofrecidos</div>
+
+                    <div class="mostrar_trueques">
+                        <table>
                             <tr>
-                                <td onclick="location.href='/publicacion?id={{trueques.publicacion_demandante_id}}'"><img src="{{trueques.publicacion_demandante_foto}}" width="100px" height="100px"></td>
-                                <td onclick="location.href='/publicacion?id={{trueques.publicacion_demandante_id}}'">{{trueques.publicacion_demandante_titulo}} <br> {{trueques.publicacion_demandante_estado}}</td>
-                                <td onclick="location.href='/perfil/{{trueques.oferente}}/'">{{trueques.oferente}}</td>
-                                <td onclick="location.href='/publicacion?id={{trueques.publicacion_oferente_id}}'"><img src="{{trueques.publicacion_oferente_foto}}" width="100px" height="100px"></td>
-                                <td onclick="location.href='/publicacion?id={{trueques.publicacion_oferente_id}}'">{{trueques.publicacion_oferente_titulo}} <br> {{trueques.publicacion_oferente_estado}}</td>
+                                <th colspan="2">Tu Publicación</th>
+                                <th>Demandante</th>
+                                <th colspan="2">Publicación ofrecida</th>
+                                <th>Estado del Trueque</th>
                             </tr>
-                        {% endfor %}
-                    </table>
+                            {% for trueques in trueque_como_oferente %}
+                                <tr>
+                                    <td><img src="{{trueques.publicacion_oferente_foto}}" width="100px" height="100px"></td>
+                                    <td onclick="location.href='/publicacion?id={{trueques.publicacion_oferente_id}}'">
+                                        <span id="titulo">{{trueques.publicacion_oferente_titulo}}</span>
+                                            <br> <span id="estado">{{trueques.publicacion_oferente_estado}}</span></td>
+                                    <td onclick="location.href='/perfil/{{trueques.demandante}}/'">{{trueques.demandante}}</td>
+                                    <td><img src="{{trueques.publicacion_demandante_foto}}" width="100px" height="100px"></td>
+                                    <td onclick="location.href='/publicacion?id={{trueques.publicacion_demandante_id}}'">
+                                        <span id="titulo">{{trueques.publicacion_demandante_titulo}}</span>
+                                        <br> <span id="estado">{{trueques.publicacion_demandante_estado}}</span></td>
+                                    <td id="estado_trueque">{{trueques.estado}}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+
+                <div class="titulo">Trueques demandados</div>
+
+                    <div class="mostrar_trueques">
+                        <table>
+                            <tr>
+                                <th colspan="2">Tu Publicación</th>
+                                <th>Oferente</th>
+                                <th colspan="2">Publicación ofrecida</th>
+                                <th>Estado del Trueque</th>
+                            </tr>
+                            {% for trueques in trueque_como_demandante  %}
+                                <tr>
+                                    <td><img src="{{trueques.publicacion_demandante_foto}}" width="100px" height="100px"></td>
+                                    <td onclick="location.href='/publicacion?id={{trueques.publicacion_demandante_id}}'">
+                                        <span id="titulo">{{trueques.publicacion_demandante_titulo}}</span>
+                                            <br> <span id="estado">{{trueques.publicacion_demandante_estado}}</span></td>
+                                    <td onclick="location.href='/perfil/{{trueques.oferente}}/'">{{trueques.oferente}}</td>
+                                    <td><img src="{{trueques.publicacion_oferente_foto}}" width="100px" height="100px"></td>
+                                    <td onclick="location.href='/publicacion?id={{trueques.publicacion_oferente_id}}'">
+                                        <span id="titulo"> {{trueques.publicacion_oferente_titulo}}</span>
+                                            <br> <span id="estado">{{trueques.publicacion_oferente_estado}}</span></td>
+                                    <td id="estado_trueque">{{trueques.estado}}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    {% include "pie.html" %}
 </body>
 </html>

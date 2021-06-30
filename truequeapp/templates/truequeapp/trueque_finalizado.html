@@ -11,8 +11,12 @@
 
     {% include "barra.html" %}
 
-    <div class="centrar">
-        <h1>{{mensaje}}</h1>
-        <a href="/home">Volver a home</a>
+    <div id="contenedor-pagina">
+        <div class="centrar">
+            <h1>{{mensaje}}</h1><br><br>
+            <a href="/home">Volver a home</a>
+        </div>
     </div>
+
+    {% include "pie.html" %}
 </body>

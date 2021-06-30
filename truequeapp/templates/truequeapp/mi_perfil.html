@@ -11,26 +11,49 @@
 
     {% include "barra.html" %}
 
-    <div>
+    <div id="contenedor-pagina">
         <h1 class="tgrande">Mi perfil</h1>
 
-        <div class="row">
-            <div class="column left">
-                Mis datos<br>
-                <a href="/mis_publicaciones/">Mis publicaciones </a><br>
-                <a href="/mis_trueques/">Trueques</a>
+        <div id="row">
+            <div id="datos1">
+                <div id="imagen_perfil">
+                    <a><img id="perfil_imagen" src="../../media/pagina/perfil.png" alt="perfil_imagen" width="250" height="250"></a>
+                </div>
+
+                <div id="usuario">
+                    {{usuario}} <br>
+                    {{email}} <br>
+                    {% if email_respaldo != "" %}
+                        {{email_respaldo}}
+                    {% endif %}
+                </div>
+
+                <div id="info">
+                    <div class="titulo">Datos</div>
+                    <li><a>Nombre Completo: {{nombre}} {{apellido}}</a></li>
+                    <li><a>Teléfono: {{telefono}}</a></li>
+                    <li><a>Rut: {{rut}}</a></li>
+                    <li><a>Región: {{region}}</a></li>
+                </div>
             </div>
 
-            <div  class="column right">
-                <div class="titulo">Datos</div><br><br>
-                Nombre: {{nombre}}<br>
-                Apellido: {{apellido}}<br>
-                Nombre de usuario: {{usuario}}<br>
-                Teléfono: {{telefono}}<br>
-                Rut: {{rut}}<br>
-                Región: {{region}}
+            <div id="datos0">
+                <div id="opciones">
+                    <div id="boton_opcion" class="boton_opcion">
+                        <li><a class="publicaciones_boton" href="/mis_publicaciones/">Mis publicaciones</a></li>
+                    </div>
+
+                    <div id="boton_opcion" class="boton_opcion">
+                        <li><a class="trueques_boton" href="/mis_trueques/">Mis trueques</a></li>
+                    </div>
+                </div>
+
+                <div id="mostrar"></div>
             </div>
+
         </div>
     </div>
+
+    {% include "pie.html" %}
 </body>
 </html>

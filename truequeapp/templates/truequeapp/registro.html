@@ -7,84 +7,80 @@
     <link rel="stylesheet" type="text/css" href="{% static 'truequeapp/css/formulario.css' %}">
 </head>
 
-<body>
-
 	{% include "barra.html" %}
 
-        <h1 style="text-align: center"> Registro de usuario </h1>
-        <div id="formulario">
-        <form method="post">
-            {% csrf_token %}
-
-            <div class="form-group">
-                <label for="nombre_usuario">Nombre de Usuario</label>
-                <input type="text" class="form-control" id="nombre_usuario" name="nombre_usuario" required>
-            </div>
-
-            <div class="form-group">
-                <label for="nombre">Nombre</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" required>
-            </div>
-
-            <div class="form-group">
-                <label for="apellido">Apellido</label>
-                <input type="text" class="form-control" id="apellido" name="apellido" required>
-            </div>
-
-            <div class="form-group">
-                <label for="rut">Rut (sin puntos y con guión)</label>
-                <input type="text" class="form-control" id="rut" name="rut">
-            </div>
-
-            <div class="form-group">
-                <label for="numero">Número de teléfono</label>
-                <input type="text" class="form-control" id="numero" name="numero">
-            </div>
-
-            <div class="form-group">
-                <label for="red_social">Red social (Ejemplos: Facebook, Instagram)</label>
-                <input type="url" class="form-control" id="red_social" name="red_social">
-            </div>
-
-            <div class="form-group">
-                <label for="region">Región (Chile)</label>
-                <select id="region" class="form-control" name="region" required>
-                    <option selected disabled value="">Seleccione una región</option>
-                    <option value="Antofagasta">Antofagasta</option>
-                    <option value="Tarapacá">Tarapacá</option>
-                    <option value="Atacama">Atacama</option>
-                    <option value="Coquimbo">Coquimbo</option>
-                    <option value="Valparaíso">Valparaíso</option>
-                    <option value="Región del Libertador Gral. Bernardo O’Higgins">Región del Libertador Gral. Bernardo O’Higgins</option>
-                    <option value="Región del Maule">Región del Maule</option>
-                    <option value="Región del Biobío">Región del Biobío</option>
-                    <option value="Región de la Araucanía">Región de la Araucanía</option>
-                    <option value="Región de Los Ríos">Región de Los Ríos</option>
-                    <option value="Región de Los Lagos">Región de Los Lagos</option>
-                    <option value="Región Aisén del Gral. Carlos Ibáñez del Campo">Región Aisén del Gral. Carlos Ibáñez del Campo</option>
-                    <option value="Región de Magallanes y de la Antártíca Chilena">Región de Magallanes y de la Antártíca Chilena</option>
-                    <option value="Región Metropolitana de Santiago">Región Metropolitana de Santiago</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="correo">Correo</label>
-                <input type="email" class="form-control" id="correo" name="correo" required>
-            </div>
-
-            <div class="form-group">
-                <label for="correo_respaldo">Correo de respaldo</label>
-                <input type="email" class="form-control" id="correo_respaldo" name="correo_respaldo">
-            </div>
-
-            <div class="form-group">
-                    <label for="contraseña">Contraseña</label>
-                    <input type="password" class="form-control" id="contraseña" name="contraseña" required>
-            </div>
-
-            <button type="submit">Crear usuario</button>
-        </form>
+    <div id="contenedor-pagina">
+        <div id="imagen">
+            <a><img id="imagen_logo1" src="../media/pagina/truequeapp1.png" alt="Logo1" width="250" height="250"></a>
         </div>
 
+        <div id="formulario">
+            <form method="post">
+                {% csrf_token %}
+
+                <h1 style="text-align: center"> Registro de usuario </h1>
+
+                <div class="form-group">
+                    <input type="text" class="form-control" id="nombre_usuario" name="nombre_usuario" placeholder="Nombre de Usuario" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Apellido" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" class="form-control" id="rut" name="rut" placeholder="Rut (sin puntos y con guión)">
+                </div>
+
+                <div class="form-group">
+                    <input type="text" class="form-control" id="numero" name="numero" placeholder="Número de teléfono">
+                </div>
+
+                <div class="form-group">
+                    <input type="url" class="form-control" id="red_social" name="red_social" placeholder="Red social (Facebook, Instagram)">
+                </div>
+
+                <div class="form-group">
+                    <select id="region" class="form-control" name="region" required>
+                        <option selected disabled value="">Seleccione una región</option>
+                        <option value="Antofagasta">Antofagasta</option>
+                        <option value="Tarapacá">Tarapacá</option>
+                        <option value="Atacama">Atacama</option>
+                        <option value="Coquimbo">Coquimbo</option>
+                        <option value="Valparaíso">Valparaíso</option>
+                        <option value="Región del Libertador Gral. Bernardo O’Higgins">Región del Libertador Gral. Bernardo O’Higgins</option>
+                        <option value="Región del Maule">Región del Maule</option>
+                        <option value="Región del Biobío">Región del Biobío</option>
+                        <option value="Región de la Araucanía">Región de la Araucanía</option>
+                        <option value="Región de Los Ríos">Región de Los Ríos</option>
+                        <option value="Región de Los Lagos">Región de Los Lagos</option>
+                        <option value="Región Aisén del Gral. Carlos Ibáñez del Campo">Región Aisén del Gral. Carlos Ibáñez del Campo</option>
+                        <option value="Región de Magallanes y de la Antártíca Chilena">Región de Magallanes y de la Antártíca Chilena</option>
+                        <option value="Región Metropolitana de Santiago">Región Metropolitana de Santiago</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <input type="email" class="form-control" id="correo" name="correo" placeholder="Correo" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="email" class="form-control" id="correo_respaldo" name="correo_respaldo" placeholder="Correo de Respaldo">
+                </div>
+
+                <div class="form-group">
+                        <input type="password" class="form-control" id="contraseña" name="contraseña" placeholder="Contraseña" required>
+                </div>
+
+                <button type="submit">Crear usuario</button>
+            </form>
+        </div>
+    </div>
+
+    {% include "pie.html" %}
 </body>
 </html>
