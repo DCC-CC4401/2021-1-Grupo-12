@@ -121,11 +121,35 @@ def mis_publicaciones(request):
     # Si el usuario realizando la request es el mismo que el username entregado, renderiza su perfil.
     if request.user.is_authenticated:
         usuario = Usuario.objects.get(username=request.user.username)
+
+        # se cuentan las publicaciones asociadas al usuario cuyo estado se haya completado
+        n_publicaciones_activas = len(Publicacion.objects.filter(publicador_id=usuario.id, completado="A").values())
+
+        # se cuentan los trueques con estado abierto donde el usuario es demandante
+        n_trueques_a = len(Trueque.objects.filter(estado="A", demandante_id=usuario.id).values())
+
+        # se cuentan los trueques con estado abierto donde el usuario es oferente
+        n_trueques_a += len(Trueque.objects.filter(estado="A", oferente_id=usuario.id).values())
+
+        # análogo a lo de arriba pero con trueques concretados
+        n_trueques_c = len(Trueque.objects.filter(estado="C", demandante_id=usuario.id).values())
+        n_trueques_c += len(Trueque.objects.filter(estado="C", oferente_id=usuario.id).values())
+
+        # Consultar datos de reputacion y obtener el promedio
+        reputacion = Calificacion.objects.filter(usuario_id=usuario.id).aggregate(Avg('valor'))
+        reputacion_promedio = reputacion["valor__avg"]
+        if reputacion_promedio is None:
+            reputacion_promedio = "Aún no tienes reputación"
+
         publicaciones_usuario = Publicacion.objects.filter(publicador_id=request.user.id, completado="A")
         datos = {"nombre": usuario.first_name, "apellido": usuario.last_name, "usuario": usuario.username,
                  "rut": usuario.rut, "red_social": usuario.red_social, "email": usuario.email,
                  "email_respaldo": usuario.correo_respaldo,
-                 "telefono": usuario.numero, "region": usuario.region, "publicaciones": publicaciones_usuario}
+                 "telefono": usuario.numero, "region": usuario.region,
+                 "miembro_desde": usuario.date_joined,
+                 "n_p_activas": n_publicaciones_activas, "n_t_abiertos": n_trueques_a,
+                 "n_t_concretados": n_trueques_c, "reputacion": reputacion_promedio,
+                 "publicaciones": publicaciones_usuario}
 
         return render(request, "truequeapp/mis_publicaciones.html", datos)
 
@@ -198,12 +222,34 @@ def mis_trueques(request):
                                              'demandante': demandante,
                                              }]
 
-        usuario_objeto = Usuario.objects.get(id=request.user.id)
-        datos = {"nombre": usuario_objeto.first_name, "apellido": usuario_objeto.last_name,
-                 "usuario": usuario_objeto.username, "rut": usuario_objeto.rut,
-                 "red_social": usuario_objeto.red_social, "email": usuario_objeto.email,
-                 "email_respaldo": usuario_objeto.correo_respaldo, "telefono": usuario_objeto.numero,
-                 "region": usuario_objeto.region,
+        usuario = Usuario.objects.get(id=request.user.id)
+
+        # se cuentan las publicaciones asociadas al usuario cuyo estado se haya completado
+        n_publicaciones_activas = len(Publicacion.objects.filter(publicador_id=usuario.id, completado="A").values())
+
+        # se cuentan los trueques con estado abierto donde el usuario es demandante
+        n_trueques_a = len(Trueque.objects.filter(estado="A", demandante_id=usuario.id).values())
+
+        # se cuentan los trueques con estado abierto donde el usuario es oferente
+        n_trueques_a += len(Trueque.objects.filter(estado="A", oferente_id=usuario.id).values())
+
+        # análogo a lo de arriba pero con trueques concretados
+        n_trueques_c = len(Trueque.objects.filter(estado="C", demandante_id=usuario.id).values())
+        n_trueques_c += len(Trueque.objects.filter(estado="C", oferente_id=usuario.id).values())
+
+        # Consultar datos de reputacion y obtener el promedio
+        reputacion = Calificacion.objects.filter(usuario_id=usuario.id).aggregate(Avg('valor'))
+        reputacion_promedio = reputacion["valor__avg"]
+        if reputacion_promedio is None:
+            reputacion_promedio = "Aún no tienes reputación"
+
+        datos = {"nombre": usuario.first_name, "apellido": usuario.last_name,
+                 "usuario": usuario.username, "rut": usuario.rut,
+                 "red_social": usuario.red_social, "email": usuario.email,
+                 "email_respaldo": usuario.correo_respaldo, "telefono": usuario.numero,
+                 "region": usuario.region, "miembro_desde": usuario.date_joined,
+                 "n_p_activas": n_publicaciones_activas, "n_t_abiertos": n_trueques_a,
+                 "n_t_concretados": n_trueques_c, "reputacion": reputacion_promedio,
                  'trueque_como_oferente': trueque_como_oferente, 'trueque_como_demandante': trueque_como_demandante}
 
         return render(request, "truequeapp/mis_trueques.html", datos)
