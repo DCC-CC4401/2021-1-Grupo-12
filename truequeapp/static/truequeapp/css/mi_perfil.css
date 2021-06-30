@@ -3,58 +3,205 @@
 
 
 
-* {
-  box-sizing: border-box;
+ *{
+    margin: 0;
+    padding: 0;
+    outline: none;
+    box-sizing: border-box;
+    font-family: sans-serif;
 }
 
-.column {
-      float: left;
-      padding: 10px;
-      height: available;
+#encabezado{
+    text-align: center;
+    font-size: 300%;
 }
 
-.left {
-    text-align: left;
-    display: inline;
-    border-left: 1px solid gray;
-    border-top: 1px solid gray;
-    border-collapse: collapse;
-    border-radius: 5px;
-    width: 20%;
+#imagen{
+    padding: 5px;
+    padding-right: 30px;
+    height: 160px;
+    width: 160px;
+    text-align: center;
+}
+
+#cambio{
+  font-weight: bold;
+}
+
+#fecha{
+  font-style: italic;
+}
+
+#titulo{
+    font-size: 20px;
+}
+
+#estado{
+    font-size: 15px;
+    font-style: italic;
+}
+
+#estado_truque{
+    font-size: 15px;
+    text-align: center;
+}
+
+#usuario{
+    margin-top: 5px;
+    font-size:18px;
+    color: #4a4b4b;
+    text-align: center;
+}
+
+#imagen_perfil {
+    text-align: center;
+}
+
+#perfil_imagen {
+    border-radius: 50%;
+    border:solid #b2b2aa 1px;
+    text-align: center;
+}
+
+#datos0{
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+    background: #e1e1d9;
+    border-radius: 2px;
+    border: solid #b2b2aa 1px;
+    box-shadow: 0px 0px 5px #e1e1d9;
+    padding: 10px;
+    flex-grow: 100;
     height: auto;
 }
 
-.right {
-    border-left: 1px solid gray;
-    border-top: 1px solid gray;
-    border-collapse: collapse;
-    border-radius: 5px;
-    text-align: left;
-    width: 80%;
-    height: available;
+#opciones{
+    display: flex;
+    flex: 1;
+    justify-content: left;
 }
 
-.row:after {
-      content: "";
-      display: table;
-      clear: both;
+#opciones li{
+    list-style: none;
+}
+
+#opciones li a{
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 8px 12px;
+    border: solid #b2b2aa 1px;
+    background: #ddd;
+    font-size: 17px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+#opciones li a:hover{
+    background: #b4b4ac;
+    text-shadow:0px 0px 3px #ffe500;
+    color: #ffe500;
+    cursor: pointer;
+}
+
+#opciones li a.active{
+    background: #9e9e97;
+    font-weight: bold;
+}
+
+#datos1{
+    margin: 5px;
+    background: #e1e1d9;
+    display: inline;
+    border-radius: 2px;
+    border: solid #b2b2aa 1px;
+    box-shadow: 0px 0px 5px #e1e1d9;
+    padding: 10px;
+    width: 290px;
+    height: auto;
+}
+
+#info{
+    text-align: left;
+    display: inline;
+    color: #4a4b4b;
+    margin-right: 10px;
+    padding: 5px;
+}
+
+#info li{
+    list-style: none;
+    margin: 5px;
+    padding: 0 15px;
+}
+
+#row{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: left;
+    margin: 10px;
 }
 
 .titulo {
+    text-align: left;
+    margin-left: 5px;
+    margin-top: 40px;
+    margin-bottom: 15px;
     font-weight: bold;
-    font-size: 150%;
+    font-size: 200%;
     color: #20BED6;
 }
 
 .tgrande {
+    margin-left: 30px;
+    margin-bottom: 30px;
     font-weight: bold;
     font-size: 250%;
     color: #20BED6
 }
 
+.notificaciones {
+    margin-left: 30px;
+    margin-bottom: 30px;
+    font-weight: bold;
+    font-size: 250%;
+    color: #20BED6;
+    text-align: center;
+}
+
+.linea{
+    border: 1px dashed gray ;
+    margin: 5px 2px;
+}
+
 table {}
 
-tr:hover {}
+.mostrar_publicaciones tr:hover{
+    text-shadow:0px 0px 3px #ffe500;
+    color: #ffe500;
+    cursor: pointer;
+}
+
+.mostrar_trueques td[onclick]:hover{
+    text-shadow:0px 0px 3px #ffe500;
+    color: #ffe500;
+    cursor: pointer;
+}
+
+.trueques_compatibles{
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+    background: #e1e1d9;
+    border-radius: 2px;
+    border: solid #b2b2aa 1px;
+    box-shadow: 0px 0px 5px #e1e1d9;
+    padding: 10px;
+    flex-grow: 100;
+    height: auto;
+}
 
 th, td {}
 
@@ -64,4 +211,35 @@ th {}
 
 tr {}
 
-.titulo_tabla {}
+.titulo_tabla {
+    margin-bottom: 10px;
+    margin-top: 30px;
+}
+
+#datos0 button{
+    width: 80%;
+    margin-left: 10%;
+    margin-bottom: 25px;
+    height: 40px;
+    border-radius: 5px;
+    outline: 0;
+}
+
+#datos0 button{
+    margin-top: 20px;
+    background: #bbb;
+    border: solid 1px #373737;
+    color: #373737;
+    font-size: 18px;
+    font-weight: 200;
+    cursor: pointer;
+    transition: box-shadow .4s ease;
+}
+
+#datos0 button:hover{
+    box-shadow: 1px 1px 5px #555;
+}
+
+#datos0 button:active {
+    box-shadow: 1px 1px 7px #222;
+}

@@ -2,56 +2,6 @@
 @import "estilo_tablas.css";
 
 
-
-* {
-  box-sizing: border-box;
-}
-
-.column {
-      float: left;
-      padding: 10px;
-      height: available;
-}
-
-.left {
-    text-align: left;
-    display: inline;
-    border-left: 1px solid gray;
-    border-top: 1px solid gray;
-    border-collapse: collapse;
-    border-radius: 5px;
-    width: 20%;
-    height: auto;
-}
-
-.right {
-    border-left: 1px solid gray;
-    border-top: 1px solid gray;
-    border-collapse: collapse;
-    border-radius: 5px;
-    text-align: left;
-    width: 80%;
-    height: available;
-}
-
-.row:after {
-      content: "";
-      display: table;
-      clear: both;
-}
-
-.titulo {
-    font-weight: bold;
-    font-size: 150%;
-    color: #20BED6;
-}
-
-.tgrande {
-    font-weight: bold;
-    font-size: 250%;
-    color: #20BED6
-}
-
 table {}
 
 tr:hover {}
@@ -66,6 +16,8 @@ tr {}
 
 .titulo_tabla {}
 
-td:hover{
-    background-color: gray;
+td[onclick]:hover{
+    text-shadow:0px 0px 3px #ffe500;
+    color: #ffe500;
+    cursor: pointer;
 }

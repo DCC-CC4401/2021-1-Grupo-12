@@ -10,13 +10,17 @@
 
     {% include "barra.html" %}
 
-    <div class="centrar">
-        <h1>Ya has solicitado realizar este trueque antes.</h1>
-        <h2>Ahora debes esperar a que el publicador lo acepte o rechaze.</h2>
-        <h2>Debes estar atento a tus notificaciones.</h2>
-        <a href="/home/">
-            <button type="button">Volver a la portada</button>
-        </a>
+    <div id="contenedor-pagina">
+        <div class="centrar">
+            <h1>Ya has solicitado realizar este trueque antes.</h1><br>
+            <h2>Ahora debes esperar a que el publicador lo acepte o rechaze.</h2><br>
+            <h2>Debes estar atento a tus notificaciones.</h2><br><br>
+            <a href="/home/">
+                <button type="button">Volver a la portada</button>
+            </a>
+        </div>
     </div>
+
+    {% include "pie.html" %}
 </body>
 </html>

@@ -30,8 +30,7 @@
     border-collapse: collapse;
     border-radius: 5px;
     text-align: left;
-    width: 80%;
-    height: available;
+    width: 40%;
 }
 
 .row:after {
