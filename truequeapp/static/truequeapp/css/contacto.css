@@ -1,0 +1,29 @@
+ /* Estilo contacto.hmtl */
+
+* {
+    box-sizing: border-box; margin: 0; padding:0;
+}
+
+.tgrande {
+    margin-left: 30px;
+    margin-bottom: 30px;
+    font-weight: bold;
+    font-size: 250%;
+    color: #20BED6
+}
+
+#contacto{
+    margin: 5px;
+    padding: 10px;
+    width: auto;
+    height: auto;
+    justify-content: center;
+    text-align: center;
+}
+
+#video{
+    background: lightgray;
+    border: gray solid 1px;
+    padding: 5px;
+    border-radius: 5px;
+}

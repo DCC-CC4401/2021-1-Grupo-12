@@ -61,6 +61,20 @@ Blanco crema: #efefef
     outline: 0;
 }
 
+#formulario .texto{
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    height: 40px;
+    border-radius: 5px;
+    outline: 0;
+    padding: 0 0 0 10px;
+    font-size: 18px;
+    align-content: center;
+    vertical-align: bottom;
+}
+
 #formulario textarea{
     height: 128px;
 }
