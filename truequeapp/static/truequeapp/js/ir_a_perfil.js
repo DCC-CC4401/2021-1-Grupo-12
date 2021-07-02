@@ -18,6 +18,14 @@ function irAPerfilClick(event) {
     }
 }
 
+function irAPerfilEnlace(event, perfil) {
+    regex = /[a-zA-Z]+[\w\-.]*/
+    nombre_usuario = perfil;
+    if (regex.test(nombre_usuario)) {
+        window.location = "/perfil/" + nombre_usuario + "/";
+    }
+}
+
 function activar() {
     var url = location.href.split("/");
     var navLinks = document.getElementsByTagName("barra-items")[0].getElementsByTagName("li");

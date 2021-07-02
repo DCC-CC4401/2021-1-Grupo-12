@@ -14,7 +14,7 @@
 
     <div id="contenedor-pagina">
             <div id="datos_trueque">
-                <p>El usuario "<b>{{demandante.username}}</b>" quiere hacer un trueque. Su reputación es: {{reputacion}}</p>
+                <p>El usuario <a href="javascript:irAPerfilEnlace(event, '{{demandante.username}}')")">"<b>{{demandante.username}}</b>"</a> quiere hacer un trueque. Su reputación es: {{reputacion}}</p>
             </div>
 
             <div id="datos">
@@ -88,7 +88,7 @@
                     </div>
                     <div id="imagenes">
                         <div>
-                            <img name="imagen_grande" src="" width="200px" height="200px">
+                            <img name="imagen_grande" src="{{demandada.foto_principal.url}}" width="200px" height="200px">
                         </div>
 
                         <div>
