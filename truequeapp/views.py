@@ -276,12 +276,12 @@ def publicaciones(request):
         # si es publicacion oferente y esta abierta
         if Trueque.objects.filter(publicacion_oferente_id = publicacion.id).exists():
             if Trueque.objects.get(publicacion_oferente_id = publicacion.id).estado == "A" or \
-                Trueque.objects.get(publicacion_oferente_id = publicacion.id).estado == "R":
+                Trueque.objects.get(publicacion_oferente_id = publicacion.id).estado == "F":
                 publicaciones_existentes += [publicacion]
         # si es publicacion demandante y esta abierta
         elif Trueque.objects.filter(publicacion_demandante_id = publicacion.id).exists():
             if Trueque.objects.get(publicacion_demandante_id = publicacion.id).estado == "A" or \
-                Trueque.objects.get(publicacion_demandante_id = publicacion.id).estado == "A":
+                Trueque.objects.get(publicacion_demandante_id = publicacion.id).estado == "F":
                 publicaciones_existentes += [publicacion]
         # si no esta asociada a ningun trueque, solamente debe estar activa
         else:
